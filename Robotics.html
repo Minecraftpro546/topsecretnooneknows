@@ -1,0 +1,2788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Byte to Bite — 2026 BEST Robotics Classic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Porcelain & enamel — a restaurant service line */
+  --porcelain:#EEF1EF;
+  --porcelain-deep:#E2E7E4;
+  --enamel:#12211D;
+  --enamel-soft:#1D3129;
+  --steel:#7C8A85;
+  --steel-line:#C7D0CB;
+  --white:#FFFFFF;
+  --brass:#C8892F;
+  --brass-bright:#E8A93F;
+
+  /* Quadrant colors are set by the game, not by taste */
+  --q-yellow:#D9A81C;
+  --q-blue:#2C6BB0;
+  --q-red:#BE3A2E;
+  --q-green:#2C8659;
+
+  --sans:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --cond:'Barlow Condensed','Barlow',system-ui,sans-serif;
+
+  --r-s:3px; --r-m:6px; --r-l:10px;
+  --shadow:0 1px 2px rgba(18,33,29,.06), 0 8px 24px -12px rgba(18,33,29,.18);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+body{
+  margin:0; overflow-x:hidden; background:var(--porcelain); color:var(--enamel);
+  font-family:var(--sans); font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--cond); font-weight:700; line-height:1.06; margin:0; letter-spacing:-.005em}
+h1{font-size:clamp(2.8rem,7vw,5.2rem)}
+h2{font-size:clamp(1.9rem,3.6vw,2.9rem); margin-bottom:.5rem}
+h3{font-size:1.45rem; margin-bottom:.35rem}
+h4{font-size:1.12rem; font-weight:600; margin-bottom:.25rem}
+p{margin:0 0 1rem}
+a{color:var(--enamel); text-decoration-color:var(--brass); text-underline-offset:3px}
+ul,ol{margin:0 0 1rem; padding-left:1.15rem}
+li{margin-bottom:.4rem}
+strong{font-weight:600}
+:focus-visible{outline:3px solid var(--brass); outline-offset:2px; border-radius:2px}
+
+.wrap{max-width:1120px; margin:0 auto; padding:0 24px}
+.lede{font-size:1.12rem; color:#33463F; max-width:66ch}
+.muted{color:var(--steel)}
+.mono-num{font-variant-numeric:tabular-nums}
+
+/* ---------- Header / hero ---------- */
+.hero{position:relative; background:var(--enamel); color:#E9EFEB; overflow:hidden; border-bottom:5px solid var(--brass)}
+#heroCanvas{position:absolute; inset:0; width:100%; height:100%; display:block}
+.hero-shade{position:absolute; inset:0; background:linear-gradient(100deg,rgba(18,33,29,.95) 0%,rgba(18,33,29,.85) 34%,rgba(18,33,29,.25) 62%,rgba(18,33,29,.05) 100%); pointer-events:none}
+.hero-inner{position:relative; padding:74px 0 62px; pointer-events:none}
+.hero-kicker{font-family:var(--cond); font-size:1.05rem; font-weight:600; letter-spacing:.14em; color:var(--brass-bright); margin-bottom:.6rem}
+.hero h1{color:#FFF; max-width:12ch}
+.hero h1 em{font-style:normal; display:block; color:var(--brass-bright)}
+.hero p{max-width:46ch; color:#C3CFC9; margin-top:1.1rem; font-size:1.1rem}
+.hero-stats{display:flex; flex-wrap:wrap; gap:34px; margin-top:2.2rem; padding-top:1.6rem; border-top:1px solid rgba(255,255,255,.16); max-width:46ch}
+.hero-stats div span{display:block; font-family:var(--cond); font-size:2.3rem; font-weight:700; color:#FFF; line-height:1}
+.hero-stats div small{color:#93A39C; font-size:.85rem}
+.hero-hint{position:absolute; right:22px; bottom:16px; font-size:.78rem; color:#8FA098; background:rgba(18,33,29,.6); padding:5px 11px; border-radius:20px; pointer-events:none}
+
+/* ---------- Tabs ---------- */
+.tabbar{position:sticky; top:0; z-index:60; background:var(--white); border-bottom:1px solid var(--steel-line); box-shadow:0 1px 0 rgba(18,33,29,.04)}
+.tabbar-inner{max-width:1120px; margin:0 auto; display:flex; gap:2px; overflow-x:auto; padding:0 12px;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain}
+.tabbar-inner::-webkit-scrollbar{display:none}
+/* fades tell you the strip keeps going */
+.tabbar::before,.tabbar::after{content:''; position:absolute; top:0; bottom:3px; width:30px; pointer-events:none; transition:opacity .15s}
+.tabbar::before{left:0; background:linear-gradient(90deg,var(--white),rgba(255,255,255,0))}
+.tabbar::after{right:0; background:linear-gradient(270deg,var(--white),rgba(255,255,255,0))}
+.tabbar.at-start::before{opacity:0}
+.tabbar.at-end::after{opacity:0}
+.tabbtn{
+  flex:0 0 auto; background:none; border:0; border-bottom:3px solid transparent;
+  font-family:var(--cond); font-size:1.06rem; font-weight:600; color:#5D6E68;
+  padding:15px 15px 12px; cursor:pointer; white-space:nowrap; letter-spacing:.01em;
+  min-height:48px; touch-action:manipulation; -webkit-tap-highlight-color:transparent;
+}
+.tabbtn:hover{color:var(--enamel); background:#F5F8F6}
+.tabbtn[aria-selected="true"]{color:var(--enamel); border-bottom-color:var(--brass)}
+.panel{display:none; padding:52px 0 84px; animation:fade .22s ease-out}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.panel{animation:none}}
+
+/* ---------- Building blocks ---------- */
+.sec{margin-bottom:56px}
+.sec-head{border-bottom:2px solid var(--enamel); padding-bottom:.5rem; margin-bottom:1.5rem}
+.sec-head p{margin:.5rem 0 0; color:#42544D; max-width:70ch}
+.grid{display:grid; gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(310px,100%),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(232px,100%),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(178px,100%),1fr))}
+
+.card{background:var(--white); border:1px solid var(--steel-line); border-radius:var(--r-m); padding:20px 22px}
+.card h4{font-family:var(--cond); font-size:1.2rem; font-weight:700}
+.card p:last-child,.card ul:last-child{margin-bottom:0}
+
+.stat{background:var(--white); border:1px solid var(--steel-line); border-left:4px solid var(--brass); border-radius:var(--r-s); padding:16px 18px}
+.stat b{display:block; font-family:var(--cond); font-size:2.5rem; font-weight:700; line-height:1; margin-bottom:.15rem}
+.stat span{font-size:.9rem; color:#4C5D57}
+
+.note{background:#FBF6EC; border:1px solid #E7D5B0; border-left:4px solid var(--brass); border-radius:var(--r-s); padding:14px 18px; margin:18px 0}
+.note strong{font-family:var(--cond); font-size:1.08rem}
+.note p:last-child{margin-bottom:0}
+.danger{background:#FBEFEE; border-color:#E9C3BE; border-left-color:var(--q-red)}
+
+table{width:100%; border-collapse:collapse; background:var(--white); font-size:.94rem}
+caption{text-align:left; font-family:var(--cond); font-size:1.25rem; font-weight:700;
+  padding:14px 16px 12px; background:var(--white); border-bottom:1px solid var(--steel-line)}
+th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--steel-line); vertical-align:top}
+th:first-child,td:first-child{padding-left:16px}
+th:last-child,td:last-child{padding-right:16px}
+thead th{background:var(--enamel); color:#EAF0EC; font-family:var(--cond); font-weight:600; font-size:1rem; border-bottom:0}
+tbody tr:nth-child(even){background:#F7F9F8}
+tbody tr:last-child td{border-bottom:0}          /* the wrapper already draws that line */
+td.num,th.num{text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+.tablescroll{margin:0 0 22px; overflow-x:auto; background:var(--white);
+  border:1px solid var(--steel-line); border-radius:var(--r-m)}
+.tablescroll:last-child{margin-bottom:0}
+
+.pill{display:inline-block; font-family:var(--cond); font-weight:600; font-size:.88rem; padding:2px 9px; border-radius:20px; border:1px solid currentColor}
+.pill.dq{color:var(--q-red); background:#FBEFEE}
+.pill.pen{color:#9A6B12; background:#FBF4E6}
+.pill.ok{color:var(--q-green); background:#EDF6F1}
+
+.q-y{color:var(--q-yellow)} .q-b{color:var(--q-blue)} .q-r{color:var(--q-red)} .q-g{color:var(--q-green)}
+
+/* ---------- Field explorer ---------- */
+.field-lab{display:grid; grid-template-columns:minmax(0,1.55fr) minmax(min(280px,100%),1fr); gap:20px; align-items:start}
+@media(max-width:900px){.field-lab{grid-template-columns:1fr}}
+.viewport{position:relative; background:linear-gradient(170deg,#1B302A,#0E1B17); border:1px solid var(--steel-line); border-radius:var(--r-m); overflow:hidden; min-height:440px}
+#fieldCanvas{display:block; width:100%; height:520px}
+.vp-tools{position:absolute; left:12px; top:12px; display:flex; gap:6px; flex-wrap:wrap}
+.vp-btn{background:rgba(255,255,255,.9); border:1px solid var(--steel-line); border-radius:20px; font-family:var(--cond); font-weight:600; font-size:.86rem; padding:5px 12px; cursor:pointer; color:var(--enamel)}
+.vp-btn:hover{background:#FFF}
+.vp-btn.on{background:var(--brass); border-color:var(--brass); color:#241703}
+.vp-legend{position:absolute; right:12px; bottom:12px; background:rgba(18,33,29,.72); color:#D6DFDA; border-radius:var(--r-s); padding:9px 12px; font-size:.78rem; line-height:1.6}
+.vp-legend b{display:block; font-family:var(--cond); color:#FFF; font-size:.9rem; margin-bottom:2px}
+.swatch{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:6px; vertical-align:middle}
+.vp-iso{position:absolute; left:12px; bottom:12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  background:rgba(18,33,29,.85); color:#D6DFDA; border-radius:var(--r-s); padding:8px 10px; font-size:.85rem; max-width:calc(100% - 24px)}
+.vp-iso b{color:#FFF; font-family:var(--cond); font-size:1rem; font-weight:600}
+.vp-iso[hidden]{display:none}
+.viewport.isolated .vp-legend{display:none}
+.readout{background:var(--white); border:1px solid var(--steel-line); border-radius:var(--r-m); padding:20px 22px; position:sticky; top:76px}
+.readout h3{font-size:1.5rem}
+.readout .tag{font-family:var(--cond); font-weight:600; font-size:.85rem; letter-spacing:.1em; color:var(--brass); margin-bottom:.3rem}
+.readout dl{margin:14px 0 0; font-size:.93rem}
+.readout dt{font-family:var(--cond); font-weight:600; color:var(--steel); font-size:.95rem}
+.readout dd{margin:0 0 10px}
+.station-nav{display:flex; flex-wrap:wrap; gap:7px; margin-top:20px}
+.station-nav button{background:#F2F5F3; border:1px solid var(--steel-line); border-radius:20px; padding:5px 12px; font-family:var(--cond); font-weight:600; font-size:.9rem; cursor:pointer; color:#3A4B45}
+.station-nav button:hover{background:var(--white)}
+.station-nav button.on{background:var(--enamel); border-color:var(--enamel); color:#FFF}
+
+/* ---------- Meal builder ---------- */
+.builder{display:grid; grid-template-columns:minmax(0,1fr) minmax(min(290px,100%),.85fr); gap:20px; align-items:start}
+@media(max-width:860px){.builder{grid-template-columns:1fr}}
+.plate-stage{--pw:290px; background:linear-gradient(175deg,#F9FBFA,#E6ECE8); border:1px solid var(--steel-line); border-radius:var(--r-m); padding:26px 20px 20px; text-align:center; position:relative; min-height:430px; display:flex; flex-direction:column; justify-content:flex-end}
+.stack{display:flex; flex-direction:column-reverse; align-items:center; gap:3px; min-height:250px; justify-content:flex-end}
+.ing{
+  width:calc(var(--pw)*.724); height:30px; border-radius:50%/58%; position:relative; z-index:2; cursor:pointer;
+  border:1.5px solid rgba(18,33,29,.28); display:flex; align-items:center; justify-content:center;
+  font-family:var(--cond); font-weight:600; font-size:.92rem; color:rgba(18,33,29,.75);
+  transition:transform .16s ease, box-shadow .16s ease;
+  box-shadow:0 3px 0 rgba(18,33,29,.14);
+}
+.ing:hover{transform:translateY(-3px)}
+.ing::after{content:''; position:absolute; width:16px; height:100%; background:rgba(18,33,29,.16); border-radius:40%; box-shadow:inset 0 0 0 1px rgba(18,33,29,.12)}
+.ing.grain{background:#F4F2E9; width:calc(var(--pw)*.641); border-radius:12px/44%}
+.ing.dairy{background:#F0D264; width:calc(var(--pw)*.607); border-radius:10px/40%}
+.ing.protein{background:#B98A5E}
+.ing.vegetable{background:#77B571; width:calc(var(--pw)*.676)}
+.ing.fruit{background:#D4564C; height:34px; width:calc(var(--pw)*.517)}
+.plate-base{width:var(--pw); height:44px; margin:0 auto; background:linear-gradient(180deg,#D3D9D6,#AFB8B4); border:1.5px solid #97A19C; border-radius:50%/40%; position:relative; box-shadow:0 6px 14px -6px rgba(18,33,29,.4)}
+.stem{width:16px; height:132px; background:linear-gradient(90deg,#8C9994,#B9C3BF 45%,#7E8B86); border:1px solid #6F7B77; border-radius:3px; position:absolute; left:50%; transform:translateX(-50%); bottom:22px; z-index:1}
+.stem.tint{background:linear-gradient(90deg,#8E2C22,#D4564C 45%,#8E2C22); border-color:#7A251C}
+.plate-wrap{position:relative}
+.cup-on-plate{position:absolute; right:calc(var(--pw)*.117); bottom:26px; z-index:3; width:calc(var(--pw)*.214); height:calc(var(--pw)*.255); background:linear-gradient(90deg,#B6BFBB,#E4E9E7 40%,#AAB4AF); border:1.5px solid #8C9793; border-radius:6px 6px 16px 16px/6px 6px 22px 22px; position:relative; display:flex; align-items:flex-end; justify-content:center}
+.cup-on-plate i{display:block; width:44px; height:44px; border-radius:50%; background:#4F8FD1; border:1px solid #35699F; margin-bottom:8px}
+.verdict{font-family:var(--cond); font-size:1.9rem; font-weight:700; margin-top:14px}
+.verdict small{display:block; font-family:var(--sans); font-size:.92rem; font-weight:400; color:#4C5D57; line-height:1.5; margin-top:.3rem}
+.tray{background:var(--white); border:1px solid var(--steel-line); border-radius:var(--r-m); padding:20px 22px}
+.ing-btns{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px}
+.ing-btn{border:1px solid var(--steel-line); background:#F7F9F8; border-radius:var(--r-s); padding:9px 10px; cursor:pointer; font-family:var(--cond); font-weight:600; font-size:1rem; display:flex; align-items:center; gap:8px; color:var(--enamel)}
+.ing-btn:hover{background:var(--white); border-color:var(--steel)}
+.chip{width:16px; height:16px; border-radius:4px; border:1px solid rgba(18,33,29,.25); flex:0 0 auto}
+.rowline{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 0; border-top:1px solid var(--steel-line); font-size:.95rem}
+select,input[type=number]{font-family:var(--sans); font-size:.95rem; padding:6px 9px; border:1px solid var(--steel-line); border-radius:var(--r-s); background:var(--white); color:var(--enamel)}
+.ghost{background:none; border:1px solid var(--steel-line); border-radius:var(--r-s); padding:7px 14px; font-family:var(--cond); font-weight:600; font-size:.95rem; cursor:pointer; color:#455750}
+.ghost:hover{background:#F2F5F3}
+.total{font-family:var(--cond); font-size:3rem; font-weight:700; line-height:1; color:var(--enamel)}
+
+/* ---------- Balance buffet toy ---------- */
+.balance-toy{background:var(--white); border:1px solid var(--steel-line); border-radius:var(--r-m); padding:22px}
+.balance-toy input[type=range]{width:100%; accent-color:var(--brass)}
+
+/* ---------- Materials ---------- */
+.filters{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:16px}
+.filters input[type=search]{flex:1 1 220px; padding:9px 12px; border:1px solid var(--steel-line); border-radius:var(--r-s); font-family:var(--sans); font-size:.95rem; background:var(--white)}
+.chipbtn{background:var(--white); border:1px solid var(--steel-line); border-radius:20px; padding:6px 14px; font-family:var(--cond); font-weight:600; font-size:.95rem; cursor:pointer; color:#42544D}
+.chipbtn.on{background:var(--enamel); border-color:var(--enamel); color:#FFF}
+.badge{font-family:var(--cond); font-weight:600; font-size:.8rem; padding:1px 8px; border-radius:3px; white-space:nowrap}
+.b-return{background:#E9F0F7; color:#1F4E7F; border:1px solid #BBD2E6}
+.b-consume{background:#EDF6F1; color:#1F6042; border:1px solid #BEDCCB}
+.b-buy{background:#FBF3E4; color:#8A5D0E; border:1px solid #E7D2A6}
+.legend-3{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr)); gap:14px; margin-bottom:22px}
+.legend-3 div{background:var(--white); border:1px solid var(--steel-line); border-left-width:4px; border-radius:var(--r-s); padding:14px 16px; font-size:.92rem}
+.legend-3 div h4{margin-bottom:.2rem}
+.lg-r{border-left-color:#2C6BB0} .lg-c{border-left-color:#2C8659} .lg-b{border-left-color:var(--brass)}
+
+/* ---------- Timeline ---------- */
+.timeline{position:relative; padding-left:30px}
+.timeline::before{content:''; position:absolute; left:8px; top:6px; bottom:6px; width:2px; background:var(--steel-line)}
+.tl-item{position:relative; margin-bottom:22px}
+.tl-item::before{content:''; position:absolute; left:-30px; top:7px; width:14px; height:14px; border-radius:50%; background:var(--white); border:3px solid var(--brass)}
+.tl-item.req::before{background:var(--brass)}
+.tl-week{font-family:var(--cond); font-weight:600; color:var(--brass); font-size:.95rem; letter-spacing:.06em}
+
+/* ---------- Bracket ---------- */
+.phase{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr)); gap:0; border:1px solid var(--steel-line); border-radius:var(--r-m); overflow:hidden; background:var(--white)}
+.phase>div{padding:18px 20px; border-right:1px solid var(--steel-line)}
+.phase>div:last-child{border-right:0}
+.phase b{display:block; font-family:var(--cond); font-size:1.25rem; margin-bottom:.2rem}
+.phase span{font-size:.9rem; color:#4C5D57}
+@media(max-width:760px){.phase>div{border-right:0; border-bottom:1px solid var(--steel-line)}}
+
+/* ---------- Rules list ---------- */
+.rule{display:grid; grid-template-columns:88px 1fr; gap:14px; padding:12px 0; border-bottom:1px solid var(--steel-line); align-items:start}
+.rule:last-child{border-bottom:0}
+.rule p{margin:0; font-size:.96rem}
+@media(max-width:560px){.rule{grid-template-columns:1fr; gap:6px}}
+
+footer{background:var(--enamel); color:#95A69F; padding:40px 0; font-size:.88rem}
+footer a{color:#D6DFDA}
+footer strong{color:#FFF}
+
+/* ---------- narrow screens ---------- */
+@media(max-width:900px){
+  .readout{position:static}
+}
+@media(max-width:760px){
+  body{font-size:16px}
+  .wrap{padding:0 18px}
+  .hero-inner{padding:44px 0 40px}
+  .hero p{font-size:1.02rem; margin-top:.9rem}
+  .hero-stats{gap:20px 26px; margin-top:1.5rem; padding-top:1.2rem}
+  .hero-stats div span{font-size:1.85rem}
+  .hero-hint{display:none}
+  #heroCanvas{pointer-events:none}      /* the hero is scenery; let swipes scroll */
+  .tabbtn{font-size:1rem; padding:14px 13px 11px}
+  .panel{padding:34px 0 60px}
+  .sec{margin-bottom:42px}
+  .card{padding:18px}
+  .grid{gap:14px}
+  .vp-btn{padding:7px 13px}
+  table{font-size:.9rem}
+  th,td{padding:8px 10px}
+  .total{font-size:2.5rem}
+}
+@media(max-width:640px){
+  #fieldCanvas{height:330px}
+  .viewport{min-height:0}
+  .vp-legend{position:static; padding:10px 14px; border-radius:0; background:rgba(18,33,29,.9)}
+  .field-lab{gap:14px}
+  .stat b{font-size:2.1rem}
+  .g3,.g4{grid-template-columns:1fr}
+}
+@media(max-width:430px){
+  .plate-stage{--pw:224px; min-height:376px; padding:20px 12px 16px}
+  .ing-btns{grid-template-columns:1fr}
+  .filters input[type=search]{flex-basis:100%}
+  .hero-stats div span{font-size:1.6rem}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-shade"></div>
+  <div class="hero-inner">
+    <div class="wrap">
+      <div class="hero-kicker">2026 BEST Robotics Classic &middot; Rules v3.2</div>
+      <h1>Byte to<em>Bite</em></h1>
+      <p>Eight weeks to build a robot that tends a garden, harvests ingredients, plates a meal, and serves it to a dining room it has to navigate on its own.</p>
+      <div class="hero-stats">
+        <div><span>3:00</span><small>match length</small></div>
+        <div><span>4</span><small>teams per match</small></div>
+        <div><span>24&Prime;</span><small>starting cube</small></div>
+        <div><span>24 lb</span><small>weight limit</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-hint">Drag to spin the field</div>
+</header>
+
+<nav class="tabbar" aria-label="Sections">
+  <div class="tabbar-inner" role="tablist">
+    <button class="tabbtn" role="tab" aria-selected="true" data-tab="overview">Overview</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="field">The Field</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="meals">Meals &amp; Scoring</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="play">Match Play</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="rules">Rules &amp; Penalties</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="robot">Robot Limits</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="materials">Materials &amp; Kits</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="awards">Awards &amp; Judging</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="advance">Season &amp; Advancement</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ================= OVERVIEW ================= -->
+<section class="panel active" id="tab-overview" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The job</h2>
+      <p>BEST Robotics is opening a restaurant. Your team is the vendor that pitched a robot to run it, and Game Day is the demo. Everything on this page comes from the official v3.2 rulebook released 2 September 2026.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <p>The field is the <strong>Byte to Bite Restaurant</strong>: four mirrored quadrants around a shared central dining room. Each quadrant belongs to one team, colored yellow, blue, red or green. The two quadrants on a half of the field share their gardens and compete for the ingredients in them. The two quadrants on <em>opposite</em> halves share a Balance Buffet and have to cooperate to score on it.</p>
+        <p>Across three minutes your robot has to do five things:</p>
+        <ul>
+          <li>Gather ingredients and build meals on a plate</li>
+          <li>Carry meals safely to one of the scoring areas</li>
+          <li>Spin the water valve to irrigate your garden</li>
+          <li>Twist a handle to send the crop-tending drone across the garden</li>
+          <li>Enter the dining room <strong>under its own control</strong> and place a meal on a table</li>
+        </ul>
+        <p>Meanwhile a second student — the spotter — can build meals by hand from whatever the robot ferries back to the start area. It's a two-person game.</p>
+      </div>
+      <div>
+        <div class="grid g2" style="gap:12px">
+          <div class="stat"><b>1,000</b><span>points available for the BEST Award, of which 250 come from robot performance</span></div>
+          <div class="stat"><b>176</b><span>ingredient and water pieces on the field at the start of a match</span></div>
+          <div class="stat"><b>50</b><span>points for a sandwich, the highest-value meal you can plate</span></div>
+          <div class="stat"><b>+50</b><span>bonus for an autonomous delivery to a dining room table</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>How a match works</h2>
+      <p>Four robots, one field, three minutes. Points are counted at the end, not as you go.</p>
+    </div>
+    <div class="grid g4">
+      <div class="card"><h4>Harvest</h4><p>Pull ingredients from the five garden stations. Every ingredient has a hole in the middle — that hole is how meals get built.</p></div>
+      <div class="card"><h4>Plate</h4><p>Thread ingredients down the stem of your team-colored plate. What you stack, and in what order, decides whether it's a salad, a pizza or a sandwich.</p></div>
+      <div class="card"><h4>Deliver</h4><p>Warming shelf, balance buffet, dining room table, quality check area, or just hold it. Each spot is worth a different bonus.</p></div>
+      <div class="card"><h4>Tend</h4><p>Open the irrigation valve, run the drone down its rope, and empty every station for the harvest bonuses.</p></div>
+    </div>
+    <div class="note">
+      <strong>The rule everyone forgets</strong>
+      <p>Ingredients score nothing on their own. A pile of eight vegetables on your robot at the buzzer is worth zero. Only completed meals, filled drinks and field tasks put points on the card.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Where the points are</h2>
+      <p>Two ways to score a meal, and they pay differently. The robot route is worth roughly double the spotter route — but the spotter can work while the robot is still out on the field.</p>
+    </div>
+    <div class="tablescroll">
+      <table>
+        <thead><tr><th>Meal</th><th>What it takes</th><th class="num">Robot / in field</th><th class="num">Quality Check Area</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Salad</strong></td><td>Any 2 different ingredient types, any order</td><td class="num">10</td><td class="num">5</td></tr>
+          <tr><td><strong>Pizza</strong></td><td>Grain on the bottom, then 3+ different other types above</td><td class="num">30</td><td class="num">15</td></tr>
+          <tr><td><strong>Sandwich</strong></td><td>Grain top and bottom, 4 different types in between</td><td class="num">50</td><td class="num">25</td></tr>
+          <tr><td><strong>Drink</strong></td><td>Cup, upright, with at least one water ball in it</td><td class="num">4</td><td class="num">2</td></tr>
+          <tr><td><strong>Drink on a meal</strong></td><td>Matching-color cup resting on the meal's plate</td><td class="num">+12</td><td class="num">+6</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:10px; font-size:.9rem">Location bonuses stack on top of the robot/in-field value: +5 warming shelf, +15 balance buffet, +50 autonomous dining room. Full table and a live calculator are in Meals &amp; Scoring.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The season</h2>
+      <p>Eight weeks from kickoff to Game Day. Two of these events are required; the rest depend on your hub.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item req"><div class="tl-week">Week 0 &middot; required</div><h4>Kickoff</h4><p>Kits are handed out, the game is revealed, and the eight-week clock starts. No robot part may be built before this day, and no parts may be reused from a previous season.</p></div>
+      <div class="tl-item"><div class="tl-week">Week 2 &middot; optional</div><h4>Preliminary Design Review</h4><p>A two-way conversation with hub mentors once you've digested the requirements, brainstormed, drafted a schedule and picked your subsystems. Check whether your hub offers it.</p></div>
+      <div class="tl-item req"><div class="tl-week">Week 5 &middot; required</div><h4>Critical Design Review</h4><p>Mandatory for hubs to offer. An overview of the design so far, focused on risks, alternatives and opportunities while there's still time to recover. Worth <strong>5 points</strong> on the engineering notebook scoresheet.</p></div>
+      <div class="tl-item"><div class="tl-week">Week 6 &middot; hub's call</div><h4>Practice Day</h4><p>Time on the actual physical field you'll compete on. Hubs set the requirements and may exempt a team.</p></div>
+      <div class="tl-item req"><div class="tl-week">Week 8 &middot; required</div><h4>Game Day</h4><p>One or two days of head-to-head competition, judging, presentations and exhibition.</p></div>
+    </div>
+    <div class="note">
+      <strong>Two deadlines that sit before Game Day</strong>
+      <p>The engineering notebook is due <strong>one week before</strong> the game competition — miss it and the team is ineligible to compete. The digital marketing video is due at least <strong>seven days before</strong> Game Day. Every student on the roster must also complete the Student Participation Survey, which is verified at the robot compliance check.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Where rules come from</h2>
+      <p>Four sources, in a fixed order of authority.</p>
+    </div>
+    <div class="grid g4">
+      <div class="card"><h4>Section 1</h4><p>General rules — safety, robot constraints, drivers and spotters, penalties, competition protocol.</p></div>
+      <div class="card"><h4>Section 2</h4><p>Official game kits. Returnable and consumable lists define exactly what may go on the machine.</p></div>
+      <div class="card"><h4>Section 3</h4><p>Game-specific rules for Byte to Bite. These may supersede the general rules.</p></div>
+      <div class="card"><h4>Online Q&amp;A</h4><p>Answers posted at game.bestrobotics.org/qna are an extension of the rules and go to every team.</p></div>
+    </div>
+    <p style="margin-top:14px">Where the rules and a Q&amp;A answer contradict each other, <strong>the rules win</strong>. Game-specific rules and Q&amp;A answers may supersede the general rules. A Q&amp;A answer can trigger a rule revision, which gets published within three days.</p>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ================= FIELD ================= -->
+<section class="panel" id="tab-field" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Walk the restaurant</h2>
+      <p>Spin the model, or pick a station below it. Every area on the field belongs to a rule — this shows you which one.</p>
+    </div>
+
+    <div class="field-lab">
+      <div>
+        <div class="viewport">
+          <canvas id="fieldCanvas"></canvas>
+          <div class="vp-tools">
+            <button class="vp-btn on" id="btnSpin">Auto-spin</button>
+            <button class="vp-btn" id="btnTop">Top view</button>
+            <button class="vp-btn" id="btnCorner">Corner view</button>
+          </div>
+          <div class="vp-legend">
+            <b>Quadrants</b>
+            <span class="swatch" style="background:#D9A81C"></span>Yellow &nbsp;
+            <span class="swatch" style="background:#2C6BB0"></span>Blue<br>
+            <span class="swatch" style="background:#BE3A2E"></span>Red &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="swatch" style="background:#2C8659"></span>Green
+          </div>
+          <div class="vp-iso" id="vpIso" hidden>
+            <span>Showing <b id="vpIsoName"></b> on its own</span>
+            <button class="vp-btn" id="vpIsoBack">Whole field</button>
+          </div>
+        </div>
+        <p class="muted" style="font-size:.88rem; margin-top:8px">Pick a part to see it on its own. Each station is modelled on its figure in the rulebook &mdash; but for exact sizes, fiducial IDs and placements, work from the official Byte to Bite Field Drawings.</p>
+      </div>
+
+      <div class="readout" id="readout">
+        <div class="tag" id="roTag">START HERE</div>
+        <h3 id="roTitle">The Byte to Bite field</h3>
+        <p id="roBody">Four quadrants mirrored around a central dining room. Each half of the field is shared by two neighbouring teams who compete for the same garden ingredients. Teams in opposite halves share a Balance Buffet and only score it if both sides cooperate.</p>
+        <dl id="roMeta"></dl>
+        <div class="station-nav" id="stationNav"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The garden, station by station</h2>
+      <p>The field splits into two halves along the line running through the warming shelves and balance buffets. Each half has one Garden Area, running along a dining room wall and divided into two mirrored halves — one designated to each of that half&rsquo;s two teams. A garden half holds 44 game pieces; the whole Garden Area holds 88, and every one of them is fair game for either team on that half of the field, regardless of colour.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h4><span class="q-g">Vegetable Tray</span></h4>
+        <p>A slanted hydroponic flood tray holding green disks, loaded vertically in three rows of two. Release them with the button at the bottom of the tray, or just pull them straight out — both count.</p>
+        <p class="muted" style="font-size:.9rem">6 per garden half &middot; 24 per field &middot; harvest bonus 4 pts</p>
+      </div>
+      <div class="card">
+        <h4><span class="q-r">Fruit Vines</span></h4>
+        <p>Red balls hung on three velcro vines strung across a PVC frame. Three start in a row low on the vines, one starts higher on the centre vine, and two start on the floor in front, touching tape markers.</p>
+        <p class="muted" style="font-size:.9rem">6 per garden half &middot; 24 per field &middot; harvest bonus 4 pts</p>
+      </div>
+      <div class="card">
+        <h4>Cold Food Storage Fridge</h4>
+        <p>Dairy — yellow square slabs — sit in stacks of three on the handle side. Protein — brown round disks — sit in stacks of three on the hinge side. Open the door, then pull them out.</p>
+        <p class="muted" style="font-size:.9rem">6 dairy + 6 protein per garden half &middot; harvest bonus 8 pts for clearing both</p>
+      </div>
+      <div class="card">
+        <h4>Breadbox</h4>
+        <p>White bread-shaped grain squares, stored along the dining room wall at the outer end of the garden. Two slices start on top of the box. Grain resting <em>on</em> the breadbox does not score, and the harvest bonus needs those top slices gone too.</p>
+        <p class="muted" style="font-size:.9rem">12 per garden half &middot; 48 per field &middot; harvest bonus 8 pts</p>
+      </div>
+      <div class="card">
+        <h4>Water Station</h4>
+        <p>Eight blue tennis balls sit in an angled track above the fruit vines. Rotate the T-handle a quarter turn — either direction, horizontal to vertical — and the water rolls out the front. Reaching into the station or the irrigation pipe to grab water is a disqualification.</p>
+        <p class="muted" style="font-size:.9rem">8 per garden half &middot; valve release 4 pts to the owning team</p>
+      </div>
+      <div class="card">
+        <h4>Crop-Tending Drone</h4>
+        <p>Rotate the T-handle on the drone post — either direction — to drag the drone along its support rope. It scores once the front edge of the wooden body crosses the line marked on top of the garden wall. Touching the drone, the support rope or the pull rope directly is not allowed.</p>
+        <p class="muted" style="font-size:.9rem">1 per team &middot; 8 pts, the biggest single field task</p>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Garden tasks are owned, not earned</strong>
+      <p>The drone, the irrigation valve and all four harvest bonuses score for the team that <em>owns</em> that field structure — the one whose Robot Start Area is closest — no matter which of the two robots on that half actually does the work. Your neighbour can empty the breadbox and hand you 8 points, and you can do the same for them.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The dining room is the only autonomous zone</h2>
+      <p>Nine tables in a 3&times;3 array behind four pinwheeled walls, with a doorway at each corner and a strict rule about who&rsquo;s driving.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <p>The four walls are offset in a pinwheel so the way in is at each corner of the room. Two of those four doorways lead to your half of the field, and those are the only two you may leave through. A robot may only enter the dining room <strong>under autonomous control while the driver is hands-free</strong> — meaning the V5 Controller is out of the driver's hands and they have no manual control of the machine. Every scoring task inside the room has to be done autonomously. Placing a meal on a table under remote control is a disqualification.</p>
+        <p>To help, printed fiducials from the <strong>AprilTag Circle21h7</strong> family are placed on the unpainted dining room walls and on the table tops. The V5 AI Vision Sensor can read them, and each unique pattern of black and white modules encodes a different numeric ID so the robot knows which one it's looking at.</p>
+        <p>A meal counts as scored the moment the autonomous robot has placed the dish and is no longer touching it. The plate must completely cover the centre 4&frac14;&Prime; white square of the table's fiducial. One meal per table — a second meal on an occupied table earns a 20-second penalty and scores nothing.</p>
+      </div>
+      <div>
+        <div class="card" style="border-left:4px solid var(--brass)">
+          <h4>Four ways to end an autonomous run</h4>
+          <ul style="margin-bottom:0">
+            <li>Place the meal, back off, and drive out manually once you're clear</li>
+            <li>Abandon the attempt at any time and drive out manually</li>
+            <li>Exit through one of the two doorways leading to <strong>your half</strong> of the field — the other two are a DQ</li>
+            <li>Leave it there. Nothing forces you to retrieve the robot</li>
+          </ul>
+        </div>
+        <div class="card danger" style="margin-top:16px; background:#FBEFEE; border-color:#E9C3BE">
+          <h4>Never touch what's already served</h4>
+          <p style="margin-bottom:0">Robots may not remove, dislodge or control any game piece in the dining room. Pieces that were in a scoring position before a violation still count as scored — but nothing on the field is ever reset mid-match, and each game piece can score only once.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The Balance Buffet</h2>
+      <p>The one scoring area you cannot win alone. Drag the slider to see what the referee is looking at.</p>
+    </div>
+    <div class="grid g2">
+      <div class="balance-toy">
+        <svg viewBox="0 0 420 190" width="100%" role="img" aria-label="Balance buffet tilt demonstration">
+          <rect x="0" y="0" width="420" height="190" fill="#F7F9F8"/>
+          <!-- post -->
+          <rect x="200" y="70" width="20" height="105" fill="#B08A5C" stroke="#8A6A42"/>
+          <!-- tape indicators -->
+          <rect x="196" y="88" width="28" height="5" fill="#12211D"/>
+          <rect x="196" y="112" width="28" height="5" fill="#12211D"/>
+          <g id="beam">
+            <rect x="60" y="92" width="300" height="14" rx="2" fill="#C9A273" stroke="#9C7A4E"/>
+            <rect x="70" y="70" width="110" height="22" fill="#E4E9E7" stroke="#A9B3AF"/>
+            <rect x="240" y="70" width="110" height="22" fill="#E4E9E7" stroke="#A9B3AF"/>
+            <text x="125" y="85" font-family="Barlow Condensed, sans-serif" font-size="13" text-anchor="middle" fill="#3A4B45">your side</text>
+            <text x="295" y="85" font-family="Barlow Condensed, sans-serif" font-size="13" text-anchor="middle" fill="#3A4B45">their side</text>
+          </g>
+          <!-- divider marker -->
+          <rect x="205" y="52" width="10" height="46" id="divider" fill="#BE3A2E"/>
+          <rect x="30" y="175" width="360" height="6" fill="#D4DBD8"/>
+        </svg>
+        <label for="tilt" style="display:block; font-family:var(--cond); font-weight:600; margin:14px 0 4px">Tilt the buffet</label>
+        <input type="range" id="tilt" min="-14" max="14" value="0" step="1">
+        <div id="balanceVerdict" style="margin-top:10px; font-family:var(--cond); font-size:1.3rem; font-weight:700; color:var(--q-green)">In balance — meals on both sides score</div>
+      </div>
+      <div>
+        <p>The Balance Buffet sits between the Warming Shelf and the dining room, straddling the wall that splits the field into halves. Each buffet is shared with <strong>one team from the opposite half</strong>, and each of you may only touch your own colour-designated side.</p>
+        <p>It's balanced when the 1&times;4 dividing wall of the rotating platform falls <strong>fully between the two tape indicators</strong> on the support post. If that divider crosses the inner edge of either tape line, the buffet is out of balance and nothing on it scores — for either of you.</p>
+        <p>That's 15 points per meal, up to three meals, and it only pays if your counterpart on the far side of the field loads their side to match. Interacting with your own designated shelf is never treated as de-scoring their dish, so you can add weight; touching <em>their</em> shelf is a disqualification.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Outside the boundary: the human areas</h2>
+      <p>Four zones sit outside the field wall at each quadrant, and the traffic between them is tightly regulated.</p>
+    </div>
+    <div class="grid g4">
+      <div class="card"><h4>Driver Box</h4><p>One student, feet inside the box for the whole match. Leaving it costs 20 seconds. The driver may not touch the field, a game piece, or the robot — that's a DQ.</p></div>
+      <div class="card"><h4>Spotter Box</h4><p>One student, free to move within the area, with access to the Robot Start Area. Any spotter from the team may take the role — unlike the driver, there's no rotation.</p></div>
+      <div class="card"><h4>Robot Start Area</h4><p>Taped box, measured from the outside edge of the tape. The robot starts fully inside it in its starting configuration. It doubles as the handoff point where the spotter collects pieces.</p></div>
+      <div class="card"><h4>Quality Check Area</h4><p>Taped area on the floor beside the spotter box. Meals the spotter assembles are placed here. Plates may not overlap or cross the outside of the tape lines.</p></div>
+    </div>
+    <div class="note">
+      <strong>The handoff protocol</strong>
+      <p>The robot drops ingredients and dishware into the RSA. The spotter may only reach in when the robot is <em>completely outside</em> the RSA and the driver is hands-free. Anything the spotter touches must end up in the Quality Check Area — it can't be left in the RSA and it can't go back onto the field. Meals in the QCA can be taken apart and rebuilt, but nothing ever returns to play. Loose ingredients left in the QCA at the end of the match score nothing, and neither does water outside a cup.</p>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ================= MEALS & SCORING ================= -->
+<section class="panel" id="tab-meals" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Build a meal</h2>
+      <p>Stack ingredients onto the plate stem and watch what the referee would call it. The rules are all about <em>types</em> and where the grain sits.</p>
+    </div>
+
+    <div class="builder">
+      <div class="plate-stage">
+        <div class="stack" id="stack"></div>
+        <div class="plate-wrap">
+          <div class="stem tint" id="stem"></div>
+          <div id="cupSlot"></div>
+          <div class="plate-base"></div>
+        </div>
+        <div class="verdict" id="verdict">Empty plate
+          <small>Add at least two different ingredient types to make a salad.</small>
+        </div>
+      </div>
+
+      <div class="tray">
+        <h4 style="font-family:var(--cond); font-size:1.2rem">Ingredients</h4>
+        <p class="muted" style="font-size:.88rem">Click to thread one onto the stem. Click a piece on the plate to pull it off.</p>
+        <div class="ing-btns">
+          <button class="ing-btn" data-add="grain"><span class="chip" style="background:#F4F2E9"></span>Grain</button>
+          <button class="ing-btn" data-add="dairy"><span class="chip" style="background:#F0D264"></span>Dairy</button>
+          <button class="ing-btn" data-add="protein"><span class="chip" style="background:#B98A5E"></span>Protein</button>
+          <button class="ing-btn" data-add="vegetable"><span class="chip" style="background:#77B571"></span>Vegetable</button>
+          <button class="ing-btn" data-add="fruit"><span class="chip" style="background:#D4564C"></span>Fruit</button>
+          <button class="ing-btn" id="btnDrink"><span class="chip" style="background:#4F8FD1"></span>Add drink</button>
+        </div>
+
+        <div class="rowline"><span>Where does it end the match?</span></div>
+        <select id="mealLoc" style="width:100%">
+          <option value="field">On the robot or in the field</option>
+          <option value="shelf">On your Warming Shelf (+5)</option>
+          <option value="buffet">On your Balance Buffet, in balance (+15)</option>
+          <option value="dining">On a dining room table, placed autonomously (+50)</option>
+          <option value="qca">In the Quality Check Area, built by the spotter</option>
+        </select>
+
+        <div class="rowline"><span>Meal value</span><b class="mono-num" id="valMeal">0</b></div>
+        <div class="rowline"><span>Drink</span><b class="mono-num" id="valDrink">0</b></div>
+        <div class="rowline"><span>Location bonus</span><b class="mono-num" id="valLoc">0</b></div>
+        <div class="rowline" style="border-top:2px solid var(--enamel); padding-top:12px">
+          <span style="font-family:var(--cond); font-weight:600; font-size:1.1rem">This plate</span>
+          <span class="total" id="valTotal">0</span>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap">
+          <button class="ghost" id="btnClear">Clear plate</button>
+          <button class="ghost" id="btnSandwich">Build a sandwich</button>
+        </div>
+        <p class="muted" style="font-size:.85rem; margin:12px 0 0" id="ruleHint">Two of the same ingredient count as one type. Order only matters for grain.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The three meals</h2>
+      <p>Every ingredient has a hole through the middle. For a piece to count, the plate's stem must pass through that hole — an ingredient merely resting on the plate is not part of the meal.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card">
+        <h4>Salad &middot; 10 pts</h4>
+        <p>Any two different types of ingredient, stacked in any order. The cheapest meal to make and the fastest — a vegetable and a fruit is a legal salad.</p>
+      </div>
+      <div class="card">
+        <h4>Pizza &middot; 30 pts</h4>
+        <p>Grain on the bottom, then at least three <em>different</em> ingredient types above it. Only the grain's position matters; the toppings can go on in any order.</p>
+      </div>
+      <div class="card">
+        <h4>Sandwich &middot; 50 pts</h4>
+        <p>Grain on the bottom and grain on top, with four different ingredient types in between. Grain is the only ingredient whose position matters.</p>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Types, not pieces</strong>
+      <p>The count that decides a meal is the number of <em>types</em> of ingredient, not how many pieces there are. Two dairy slices on a plate count together as one type. Since there are only five types — grain, dairy, protein, vegetable, fruit — a sandwich needs grain plus all four of the others.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Drinks</h2>
+      <p>A cup with at least one water ball in it. An empty cup scores nothing, and a loose water ball scores nothing.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <p>A drink scores on its own if it's upright with the base of the cup flat on the floor or a shelf, or held upright by the robot. It can't score on its own in the dining room.</p>
+        <p>Added to a meal it's worth far more. Place the cup upright on the plate, base in contact with and fully supported by the plate — before or after the plate reaches its scoring area, either works. The <strong>cup colour and plate colour must match</strong>, and at most one drink per meal scores.</p>
+      </div>
+      <div class="card">
+        <h4>Drink values</h4>
+        <div class="rowline"><span>Filled drink on the robot or in the field</span><b class="mono-num">4</b></div>
+        <div class="rowline"><span>Filled drink upright in the Quality Check Area</span><b class="mono-num">2</b></div>
+        <div class="rowline"><span>Drink added to a scoring meal in the field</span><b class="mono-num">12</b></div>
+        <div class="rowline"><span>Drink added to a scoring meal in the QCA</span><b class="mono-num">6</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Full scoring table</h2>
+      <p>Straight from Scoring Table 3.7. Location bonuses are <em>added to</em> the robot-carried value of the meal, drink, or meal-plus-drink combination.</p>
+    </div>
+    <div class="tablescroll">
+      <table>
+        <thead><tr><th>Task</th><th>Condition at the end of the match</th><th class="num">Points each</th><th class="num">Max per team</th></tr></thead>
+        <tbody>
+          <tr><td>Salad, robot-carried or in field</td><td>Completed salad resting on the robot or within the field borders</td><td class="num">10</td><td class="num">8</td></tr>
+          <tr><td>Pizza, robot-carried or in field</td><td>Completed pizza resting on the robot or within the field borders</td><td class="num">30</td><td class="num">8</td></tr>
+          <tr><td>Sandwich, robot-carried or in field</td><td>Completed sandwich resting on the robot or within the field borders</td><td class="num">50</td><td class="num">8</td></tr>
+          <tr><td>Warming Shelf</td><td>Completed meal resting on the flat surface of your designated shelf</td><td class="num">+5</td><td class="num">7</td></tr>
+          <tr><td>Balance Buffet</td><td>Completed meal on your designated side, with the buffet in balance</td><td class="num">+15</td><td class="num">3</td></tr>
+          <tr><td>Autonomous Dining Room</td><td>Placed autonomously on a table, fully covering the fiducial's centre 4&frac14;&Prime; white square</td><td class="num">+50</td><td class="num">8</td></tr>
+          <tr><td>Filled drink, on robot or in field</td><td>Cup upright, containing water, on the robot or within the field</td><td class="num">4</td><td class="num">8</td></tr>
+          <tr><td>Drink added to a meal in the field</td><td>Matching-colour cup resting on the plate of a scoring meal</td><td class="num">12</td><td class="num">8</td></tr>
+          <tr><td>Quality Check salad</td><td>Spotter stacked and placed the salad in the QCA</td><td class="num">5</td><td class="num">8</td></tr>
+          <tr><td>Quality Check pizza</td><td>Spotter stacked and placed the pizza in the QCA</td><td class="num">15</td><td class="num">8</td></tr>
+          <tr><td>Quality Check sandwich</td><td>Spotter stacked and placed the sandwich in the QCA</td><td class="num">25</td><td class="num">8</td></tr>
+          <tr><td>Quality Check drink</td><td>Filled cup placed upright on the floor inside the QCA</td><td class="num">2</td><td class="num">8</td></tr>
+          <tr><td>Drink added to a meal in the QCA</td><td>Matching-colour cup resting on the plate of a scoring meal</td><td class="num">6</td><td class="num">8</td></tr>
+          <tr><td>Crop-Tending Drone deployed</td><td>Drone at least partially across the line marked on top of the garden wall</td><td class="num">8</td><td class="num">1</td></tr>
+          <tr><td>Water Irrigation Valve released</td><td>Handle rotated so that at least one water ball left the irrigation pipe</td><td class="num">4</td><td class="num">1</td></tr>
+          <tr><td>Harvest vegetables</td><td>All vegetables removed from the flood tray, by button or by hand</td><td class="num">4</td><td class="num">1</td></tr>
+          <tr><td>Harvest fruit</td><td>All fruit picked off the vine</td><td class="num">4</td><td class="num">1</td></tr>
+          <tr><td>Harvest cold ingredients</td><td>All protein and dairy removed from the Cold Food Storage Fridge</td><td class="num">8</td><td class="num">1</td></tr>
+          <tr><td>Harvest grain</td><td>All grain removed from the Breadbox, including the slices on top</td><td class="num">8</td><td class="num">1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Score a whole match</h2>
+      <p>Set the counts and see where a strategy lands. Caps from the scoring table are enforced.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h4 style="margin-bottom:.7rem">Meals the robot scores</h4>
+        <div id="calcRobot"></div>
+      </div>
+      <div class="card">
+        <h4 style="margin-bottom:.7rem">Spotter and field tasks</h4>
+        <div id="calcOther"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; border-left:4px solid var(--brass)">
+      <div>
+        <div style="font-family:var(--cond); font-weight:600; font-size:1.15rem">Match total</div>
+        <div class="muted" style="font-size:.9rem" id="calcNote">Add meals above to build a score.</div>
+      </div>
+      <div class="total mono-num" id="calcTotal">0</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>What's on the field at the buzzer</h2>
+      <p>Counts per designated area and across the whole field, from Table E.2.</p>
+    </div>
+    <div class="tablescroll">
+      <table>
+        <thead><tr><th>Game piece</th><th class="num">Per area</th><th class="num">Per field</th><th>Starting location</th></tr></thead>
+        <tbody>
+          <tr><td>Fruit — red balls with a velcro loop</td><td class="num">6</td><td class="num">24</td><td>Fruit vines and the floor in front of them</td></tr>
+          <tr><td>Vegetable — green disks</td><td class="num">6</td><td class="num">24</td><td>Vegetable flood tray</td></tr>
+          <tr><td>Dairy — yellow square slabs</td><td class="num">6</td><td class="num">24</td><td>Fridge, lower shelf, two stacks of three</td></tr>
+          <tr><td>Protein — brown round disks</td><td class="num">6</td><td class="num">24</td><td>Fridge, upper shelf, two stacks of three</td></tr>
+          <tr><td>Grain — white bread-shaped squares</td><td class="num">12</td><td class="num">48</td><td>Breadbox, with 2 slices on top</td></tr>
+          <tr><td>Water — blue tennis balls</td><td class="num">8</td><td class="num">32</td><td>Slanted rail above the garden area</td></tr>
+          <tr><td>Crop-Tending Drone</td><td class="num">1</td><td class="num">4</td><td>Above the water station, T-handle horizontal</td></tr>
+          <tr><td>Water Irrigation Valve</td><td class="num">1</td><td class="num">4</td><td>T-valve horizontal (closed)</td></tr>
+          <tr><td>Plates — grey, team-coloured PVC stem</td><td class="num">8</td><td class="num">32</td><td>Dish Starting Area, two rows of four</td></tr>
+          <tr><td>Cups — 18 oz grey tumblers, team-coloured tape inside</td><td class="num">8</td><td class="num">32</td><td>Upright in a row of 8 along the field boundary</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:14px">Ingredients are 3-D printed, each with a centre hole sized for the plate stem. Plates are grey 10.5&Prime; plastic plates with a PVC stem, fittings and glue; cups are 18-ounce grey plastic tumblers. Ingredient colour has nothing to do with ownership — any robot may collect any ingredient. Plates, cups, drones and irrigation valves are the only team-owned pieces.</p>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ================= MATCH PLAY ================= -->
+<section class="panel" id="tab-play" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The two students on the floor</h2>
+      <p>One driver, one spotter, and a rulebook that spends more words on their interaction than on almost anything else.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <h3>Driver</h3>
+        <p>Only one student per match may operate the V5 Controller. Adult coaches and teachers are not allowed in the driver or spotter area during matches, and students may not stand on platforms of their own construction — or on each other — to get a better view. Hubs can make provisions for special-needs drivers case by case.</p>
+        <p>At registration each team receives up to eight wristbands numbered 1 to 8. Coaches fill out a driver roster on competition day naming which student wears which number, and the bands are not transferable.</p>
+        <p>Driver 1 drives match one, driver 2 drives match two, and so on until the numbers run out and the rotation restarts at 1. If a student can't compete in a round their number is skipped and they rejoin in their numbered position later. The rotation carries across phases — seeding into semi-finals into finals — picking up where the last phase left off. If organisers cancel a match, the driver scheduled for it drives the next one.</p>
+      </div>
+      <div>
+        <h3>Spotter</h3>
+        <p>Any student on the team may spot; there is no rotation. The spotter moves freely inside the spotter box and has access to the Robot Start Area.</p>
+        <p>Before the robot leaves the RSA for the first time, the spotter may touch the robot to fix power, software or radio problems. The permitted actions are exactly four:</p>
+        <ul>
+          <li>Plug or unplug the VEX V5 battery</li>
+          <li>Turn the V5 brain off or on</li>
+          <li>Plug or unplug the V5 radio</li>
+          <li>Use the brain's touch screen to change software settings or the running program</li>
+        </ul>
+        <p>After that first exit, the spotter may not touch the robot at all. Specifically, they may not move parts or reposition components to help unload game pieces.</p>
+      </div>
+    </div>
+    <div class="tablescroll">
+      <table>
+        <caption>How many students must be in the driver rotation</caption>
+        <thead><tr><th>Students present at the competition</th><th class="num">Minimum in rotation</th><th class="num">Maximum in rotation</th></tr></thead>
+        <tbody>
+          <tr><td>2 to 4</td><td class="num">1</td><td class="num">4</td></tr>
+          <tr><td>5 to 6</td><td class="num">2</td><td class="num">6</td></tr>
+          <tr><td>7 to 8</td><td class="num">3</td><td class="num">8</td></tr>
+          <tr><td>9 or more</td><td class="num">4</td><td class="num">8</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note danger">
+      <strong>No signalling</strong>
+      <p>During a match, drivers and spotters may not communicate with anyone through electronic devices or any signalling aid that isn't part of the human body — no signs, sticks or marked gloves. Earbuds are banned on the game floor unless a medical need has been cleared in advance with the head referee, team advocate, pit boss or hub personnel. Spotters and drivers may not handle game pieces before a match.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Match protocol</h2>
+      <p>What happens in the two minutes before the buzzer and the minute after it.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h4>Before</h4>
+        <ul style="margin-bottom:0">
+          <li>At least five referees work each match: the head referee keeps time, four watch one team each.</li>
+          <li>Teams learn their field and position assignment at least two minutes before the match and must be in staging by the end of the previous match.</li>
+          <li>Wait in staging until the setup period is signalled, then place the robot in the assigned start position.</li>
+          <li>You may set the robot down and power it on once you reach your quadrant. The spotter or driver may enter the field to place and prepare it; extra team members may help but must leave before the start.</li>
+          <li>Temporary alignment marks on the field are not permitted.</li>
+          <li>Miss the setup deadline and the head referee may let you keep placing it, with a 20-second penalty applied at the start of the match.</li>
+        </ul>
+      </div>
+      <div class="card"><h4>After</h4>
+        <ul style="margin-bottom:0">
+          <li>The driver and spotter stay in their designated areas until referees finish scoring and say robots may be removed.</li>
+          <li>The referee reviews the scored items with the driver, who signs the scorecard to confirm agreement.</li>
+          <li>A team-provided translator — an adult or a team member — may join that conversation.</li>
+          <li>Referees have ultimate authority and no protests are allowed. Questions go to a Team Advocate, never to referees, scorekeepers or other officials.</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:16px">A referee may untangle machines caught on the field or each other for more than 10 seconds, or where the entanglement looks likely to damage the field, and may tell a driver to stop trying to free their machine. Being high-centred on a field element or a game piece is not entanglement. Neither is being tipped over.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Four phases of Game Day</h2>
+      <p>The same structure at hubs and at championships.</p>
+    </div>
+    <div class="phase">
+      <div><b>Seeding</b><span>Round robin, up to 8 matches per team against random opponents. Never fewer than 5, and every team plays the same number. Ranking is the <strong>average</strong> of match scores with each team's lowest score dropped.</span></div>
+      <div><b>Wildcard</b><span>One extra shot for strong notebooks. With 32 or fewer teams, the 4 highest notebook scores among teams that haven't advanced play one match and the winner takes the last semi-final slot. Above 32 teams, 8 teams play 2 matches and the top 2 advance.</span></div>
+      <div><b>Semi-finals</b><span>8 teams (or 16 at larger events), each playing 3 matches on a fixed rotation. Ranking is the <strong>total</strong> of those three matches — nothing dropped, and all earlier scores are discarded. Top 4 advance.</span></div>
+      <div><b>Finals</b><span>The top 4 teams play 4 matches, rotating through all four quadrants. Total points across those 4 matches decides the winner. Again, no scores dropped and earlier phases disregarded.</span></div>
+    </div>
+    <div class="note">
+      <strong>Ties</strong>
+      <p>Where the game rules don't name a tiebreaker, the default order is: robot performance game score, then engineering notebook score, then digital marketing video score.</p>
+    </div>
+    <p>Match scheduling tries to give every team a turn on each quadrant and to limit back-to-back matches. Any schedule change has to be communicated to the teams.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Resetting the field between matches</h2>
+      <p>Worth knowing because it tells you exactly what "start of match" looks like.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h4>Garden stations</h4>
+        <ul style="margin-bottom:0">
+          <li>Vegetable tray: slide the button/row stop to line the stops up with the slots, then reload the disks into the frame.</li>
+          <li>Fruit vines: four fruit rehung at the marked spots, two placed on the tape below the station.</li>
+          <li>Fridge: dairy restacked on the bottom shelf in two stacks of three, protein on the top shelf in two stacks of three, door closed.</li>
+          <li>Breadbox: grain restacked with the flat edge of the slice toward the front, two slices on top, handle closed.</li>
+          <li>Water station: dispenser emptied, valve back to horizontal, 8 blue tennis balls loaded into the track above the fruit vines.</li>
+          <li>Drone: returned to the side above the water dispenser, rope and handle reset to horizontal.</li>
+        </ul>
+      </div>
+      <div class="card"><h4>Scoring areas and dishware</h4>
+        <ul style="margin-bottom:0">
+          <li>Dining room: tables cleared so the fiducials are visible, fiducials checked for damage, tables checked for position.</li>
+          <li>Warming shelves: meals removed.</li>
+          <li>Balance buffet: meals removed, buffet set to neutral.</li>
+          <li>Dishware: collected from the field and sorted back by colour. Plates in two rows of four, not overlapping, not past the outer edge of the taped area. Cups upright in a single row of eight along the field boundary, bases touching the tape line.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ================= RULES ================= -->
+<section class="panel" id="tab-rules" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Penalties and disqualifications</h2>
+      <p>Two consequences exist. Filter by which one you're worried about.</p>
+    </div>
+    <div class="filters">
+      <button class="chipbtn on" data-rfilter="all">Everything</button>
+      <button class="chipbtn" data-rfilter="dq">Disqualification</button>
+      <button class="chipbtn" data-rfilter="pen">20-second penalty</button>
+      <input type="search" id="ruleSearch" placeholder="Search the rules…" aria-label="Search rules">
+    </div>
+
+    <div class="grid g2" style="margin-bottom:22px">
+      <div class="card danger" style="background:#FBEFEE; border-color:#E9C3BE">
+        <h4>Disqualification</h4>
+        <p style="margin-bottom:0">No points are awarded for that match and the match cannot be re-run. Referees will DQ a team for a major breach of the rules, and their decisions are final.</p>
+      </div>
+      <div class="card" style="background:#FBF6EC; border-color:#E7D5B0">
+        <h4>20-second penalty</h4>
+        <p style="margin-bottom:0">The driver hands the V5 Controller to a referee for 20 seconds, then gets it back and play continues. Assessed once per occurrence — repeat the infraction and you pay again.</p>
+      </div>
+    </div>
+
+    <div id="ruleList"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Playing alongside three other robots</h2>
+      <p>The point of the design is that four machines share limited game pieces and limited scoring spots. These rules keep that competitive rather than destructive.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <p>Strategies aimed purely at destruction, damage, over-turning or entangling an opponent's machine are outside the spirit of the competition and are not allowed. Turning an opponent over may or may not draw a penalty, at the referees' discretion.</p>
+        <p>Machines must operate by reacting only against the surfaces of the playing field — including PVC pipes and ramps — and the air. Clamping to anything in the field is allowed; clamping to another machine is not.</p>
+        <p>Gaining traction or gripping game pieces with adhesives, or by abrading or breaking the field surface, is not allowed. The friction tape from the consumable kit is not treated as an adhesive and is specifically intended for gripping. Spiked wheels are legal only if the part touching the field is more than &frac14;&Prime; in width or depth.</p>
+      </div>
+      <div>
+        <h4>Detachable components</h4>
+        <p>A component counts as detached once no kit part connects it, directly or indirectly, to the set of parts that includes the battery. Detached parts may be used to capture, contain or manipulate game pieces, and to block another machine.</p>
+        <p>They may not be launched at, deliberately attached to, or used to entangle another machine. Incidental contact between a machine and a deployed detachable part earns nobody a penalty, and detached components don't count as "part of the machine" unless a rule says so.</p>
+        <h4 style="margin-top:1rem">Projectiles</h4>
+        <p style="margin-bottom:0">Anything launched through the air, free-flying or tethered, must have a frontal area greater than 10 square inches. Parts that fall off and stay on the playing surface are not projectiles.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Safety</h2>
+      <p>Not negotiable, and enforced in the pit as well as on the field.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h4>Tools in the pit</h4>
+        <p>No power tools, including battery-operated ones, with two exceptions: a power drill/driver and an electrically powered soldering iron or gun. Common hand tools are fine.</p>
+        <p style="margin-bottom:0">The drill/driver may be used for drilling and for inserting or removing hardware — not for grinding, sawing or routing. Allowed power tools may only be run in the pit area or a hub-designated workstation. Illegal tools may be confiscated for the day.</p>
+      </div>
+      <div class="card">
+        <h4>On the machine and around it</h4>
+        <ul style="margin-bottom:0">
+          <li>Batteries, chargers and other BEST Control System Kit components may not be tampered with or altered in any way.</li>
+          <li>Anyone working on the machine in the pit wears safety gear appropriate to the task — safety glasses for soldering or drilling, for instance.</li>
+          <li>Referees and compliance officials will disqualify any machine that looks like a hazard to the field, other robots or people. The robot itself should be safe to handle.</li>
+          <li>Everyone on the gym floor wears shoes appropriate to the surface, as determined by the sponsoring BEST organisation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Definitions that decide calls</h2>
+      <p>Section 3.2.1. Worth reading before you argue with a referee — which, incidentally, you may not do.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card"><h4>Resting on</h4><p>Touching such that the entire weight of the object is supported by what it rests on.</p></div>
+      <div class="card"><h4>Inside</h4><p>Within the imaginary infinite planes defined by the innermost sides of a container or area, or the outer edge of a tape line. Planes run normal to the bottom of the area.</p></div>
+      <div class="card"><h4>Covered</h4><p>The object cannot be seen without moving something else.</p></div>
+      <div class="card"><h4>Control</h4><p>Pulling, dragging, lifting or carrying a game piece. Pushing it does not count as control.</p></div>
+      <div class="card"><h4>Hands-free</h4><p>The V5 Controller is not in the driver's hands and the driver has no remote control of the robot.</p></div>
+      <div class="card"><h4>Designated</h4><p>The field structure closest to a coloured Robot Start Area is owned by that team.</p></div>
+      <div class="card"><h4>Drive / climb on</h4><p>The robot is using part of the field structure to gain leverage or advantageous positioning.</p></div>
+      <div class="card"><h4>Field structure</h4><p>Any physical part of the field built to stabilise the field, the game elements or the border.</p></div>
+      <div class="card"><h4>Balance</h4><p>Identifiers on the balance buffets mark the range that counts as "in balance".</p></div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ================= ROBOT ================= -->
+<section class="panel" id="tab-robot" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Hard limits</h2>
+      <p>Four numbers that get checked before you're allowed to compete.</p>
+    </div>
+    <div class="grid g4">
+      <div class="stat"><b>24&Prime;</b><span>Must fit unconstrained in a 24-inch cube at the start of every match. It may be powered on during the check.</span></div>
+      <div class="stat"><b>24 lb</b><span>Total weight including battery, detachable pieces, optional equipment, tethered parts and decorations.</span></div>
+      <div class="stat"><b>1</b><span>VEX battery on the machine during a match. A second battery may not be aboard even unconnected.</span></div>
+      <div class="stat"><b>4</b><span>Team Custom Parts, each fitting a 2&Prime; &times; 4&Prime; &times; 4&Prime; cuboid.</span></div>
+    </div>
+    <p style="margin-top:16px">Once the match begins the machine may unfold and change size under its own power, and there is no size requirement at the end — it doesn't have to fold back up.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Where energy may come from</h2>
+      <p>Four sources, and nothing else.</p>
+    </div>
+    <div class="grid g4">
+      <div class="card"><h4>The battery</h4><p>Electrical energy from the single onboard BEST-supplied battery pack. It is the only allowed source of electrical power for every functional component.</p></div>
+      <div class="card"><h4>Springs</h4><p>Energy stored by deforming springs from the kit, or springs made under the Team Custom Part rules.</p></div>
+      <div class="card"><h4>Gravity</h4><p>A change in the altitude of the centre of gravity of any part of the machine.</p></div>
+      <div class="card"><h4>Stretch</h4><p>Inner tube, rubber bands, shock cord or a TCP — provided the part is attached so it won't fly off if it breaks.</p></div>
+    </div>
+    <div class="note danger">
+      <strong>Battery handling</strong>
+      <p>Connect the battery to the brain only through the supplied V5 Power Cable, and only to the battery connector. A locking tab holds it in place and must be depressed before removing the cable or the V5 brain may be damaged. On Game Day you must play every match on the BEST-supplied 12.8 V batteries; team-owned batteries and team-owned chargers for them are banned from the field and pit that day, though they're allowed at other BEST activities. Replacement batteries are issued only on proof of failure, on an exchange basis.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>What you may and may not modify</h2>
+      <p>The returnable kit goes back to the hub at the end of the season in the condition you received it. The consumable kit is yours to cut up.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card" style="border-left:4px solid #2C6BB0">
+        <h4>Returnable kit — hands off</h4>
+        <ul>
+          <li>No modification, with three exceptions: belt stock may be cut and punched (the pre-made loop belt may not), servo horns may be modified as desired, and the BEST IR Sensor Kit may be assembled.</li>
+          <li>Motors and servos may never be opened — no re-gearing, no re-winding.</li>
+          <li>Pulleys, bearings and the shoulder screw may not be modified, glued or taped.</li>
+          <li>No tape, adhesive or glue on any returnable item unless a rule specifically allows it. The adhesive side of the hook-and-loop fastener may not go on the battery or any returnable item.</li>
+          <li>No paint on any returnable item.</li>
+          <li>The V5 Controller, servos, brain, AI Vision Sensor, batteries and chargers may not be tampered with, modified or adjusted. Only exception: the brain and AI sensor may be programmed freely.</li>
+          <li>No labels or rubber bands on the V5 Controller.</li>
+          <li>No soldering to the brain or to any interfacing cable.</li>
+          <li>Residue-free painters tape from the consumable kit may go on returnable items — except the V5 Controller.</li>
+        </ul>
+        <p style="margin-bottom:0"><strong>All VEX licensed products</strong> — brain, battery, AI sensor and the rest — must be secured to the robot with <strong>#8-32 machine screws</strong>. A different thread count can damage the part. Lengths may vary.</p>
+      </div>
+      <div class="card" style="border-left:4px solid #2C8659">
+        <h4>Consumable kit — go ahead</h4>
+        <ul>
+          <li>Modify as you like within these rules.</li>
+          <li>Replacements you buy yourself must match the kit part's material, treatment or grade, and dimensions. A 1&times;4 can't become a 2&times;4 of the same volume.</li>
+          <li>Only the provided wire, snap-plug terminals and optional quick-disconnect terminals may conduct electricity — plus solder at the connections. The one exception: any provided metallic material may be part of a sensor circuit.</li>
+          <li>Team-supplied pennies may not be altered.</li>
+          <li>No packaging materials, such as the film covering the adhesive on a hook-and-loop strip.</li>
+          <li>Thread locker may be used on consumable kit fasteners.</li>
+        </ul>
+        <p style="margin-bottom:0">Limited replacements may be available from your hub on a justified request.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Fabrication rules</h2>
+      <p>What you can do to material, and what crosses the line.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <h4>Allowed</h4>
+        <ul>
+          <li>Any tools or machines may be used to make parts — but students are expected to be taught to use them and to be the ones operating them.</li>
+          <li>Metal, rubber and plastic may be heated and reformed.</li>
+          <li>Lubricants, for lubrication only. Contaminating the field or an opponent with lubricant is not allowed.</li>
+          <li>Solder your own wire connections, except where connectors are provided — those must be used without soldering to the connector. Solder is fine on consumable-kit bullet or quick-disconnect connectors.</li>
+          <li>Strings and the outer sheath of shock cord may be singed to stop fraying.</li>
+          <li>Markers, paint and printouts for visual information that doesn't help perform game tasks — labelling parts, taping a copy of the V5 port schematic to the machine.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Not allowed</h4>
+        <ul>
+          <li>No welding, brazing or structural soldering.</li>
+          <li>Metal, rubber and plastic may not be melted and re-cast.</li>
+          <li>Materials may not be changed chemically (Team Custom Parts are exempt from this one).</li>
+          <li>Nothing built before kickoff, and no parts reused from previous competitions. BEST personnel may permanently mark parts — scribing, drilling — to prevent reuse.</li>
+          <li>Paint or finish may not change the mechanical properties of what it's applied to. Its optical properties — colour and reflectivity — <em>may</em> be used functionally.</li>
+          <li>No strobe lights. Other lights are fine.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:6px">
+      <div class="card">
+        <h4>Decorations and cameras</h4>
+        <p>Non-functional decorations are permitted only if they don't help the machine perform game tasks. The test: if you can remove it or cover it and the machine behaves the same, it's non-functional — and you may be asked to prove it. Decorations may use a separate power source such as a 9 V battery.</p>
+        <p style="margin-bottom:0">Video capture devices like a GoPro or phone are allowed under the decoration rules plus: display no larger than 6&Prime; diagonal, screen off or covered, no transmitting or streaming, non-kit mounting hardware counts as part of the device, and BEST officials may ask for it to be removed at any time for any reason. Protect it yourself — BEST isn't responsible for damage.</p>
+      </div>
+      <div class="card">
+        <h4>Team Custom Parts</h4>
+        <ul style="margin-bottom:0">
+          <li>Four allowed, each fitting a 2&Prime; &times; 4&Prime; &times; 4&Prime; cuboid.</li>
+          <li>Any uniform, homogeneous team-supplied material. Surface treatment on metals or magnets is fine — anodising on aluminium, nickel coating on a neodymium magnet.</li>
+          <li>Each part must be a single continuous piece of material in its operational state.</li>
+          <li>Start from basic raw stock: rectangular or cylindrical, if the final part keeps any of that original shape. Starting shape is irrelevant if the material was liquid during forming, or if the part is carved entirely from a solid block.</li>
+          <li>No kit parts inserted or embedded in a TCP. Kit screws or zip ties to attach it are fine.</li>
+          <li>No hazardous materials, no welding. Chemical change <em>is</em> allowed here.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Compliance</h2>
+      <p>Every machine is inspected before the competition, and may be re-inspected at any point during it.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <ul>
+          <li>Random re-checks happen through the day at the referees' discretion. A non-compliant machine can't continue until it's fixed, and may be disqualified from matches it already played.</li>
+          <li>Machines may not leave the competition site between the compliance check and the start of the competition without approval.</li>
+          <li>Machines may be modified between matches, but must still meet every regulation afterwards and the compliance official must approve the changes before the next match.</li>
+          <li>No substitute machines.</li>
+          <li>Teams advancing to a championship may repair and functionally improve their machine, then get re-checked before that competition.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Multiple configurations</h4>
+        <p>A machine may have several configurations — swappable arms, for instance. Each configuration must independently meet the size and weight limits and pass a compliance check.</p>
+        <p style="margin-bottom:0">The catch: the <strong>sum of all parts across all configurations</strong> can't exceed the quantities on the returnable and consumable kit lists, and the robot still can't exceed 24 pounds.</p>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Also required to compete</strong>
+      <p>Every student on the Game Day roster must complete the Student Participation Survey — verified at the compliance check — and every team member including teachers and mentors must be registered individually in the BEST National Registry. A compliant engineering notebook must be submitted a week before the competition. Pass compliance and you're guaranteed at least 25 robot performance points; fail and you get 0 and are ineligible for robot awards or advancement.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Other machine rules</h2>
+    </div>
+    <ul>
+      <li>Machines must prominently display their team number, at least 2&Prime; in size.</li>
+      <li>During a match the machine may only be controlled through normal operation of the robot network. Touching the robot outside the game-specific exceptions means a penalty or disqualification.</li>
+      <li>No external devices may be connected to the V5 Controller during match play unless BEST competition personnel provide them — an auxiliary power supply or a channel-shifting dongle, for example.</li>
+      <li>Powered tandem devices are permitted and may use an umbilical between them. The umbilical is part of the machine and faces the same constraints.</li>
+      <li>All hubs and regional championships use the VEX V5 system. No other control system is allowed.</li>
+      <li>After the competition every returnable kit item goes back to the hub. The rest of the machine stays with the school.</li>
+    </ul>
+  </div>
+
+</div>
+</section>
+
+<!-- ================= MATERIALS ================= -->
+<section class="panel" id="tab-materials" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Everything you get, and everything you'd have to buy</h2>
+      <p>Three lists in one place. The machine may only be built from materials on these lists — quantity, type and grade — with the exceptions covered under fabrication rules.</p>
+    </div>
+
+    <div class="legend-3">
+      <div class="lg-r"><h4>Returnable kit</h4><p class="muted" style="font-size:.9rem; margin:0">Given by the hub. Goes back at the end of the season, boxes and packing included, in the condition you got it.</p></div>
+      <div class="lg-c"><h4>Consumable kit</h4><p class="muted" style="font-size:.9rem; margin:0">Given by the hub. Cut it, drill it, keep it. Replacements must match material, grade and dimensions.</p></div>
+      <div class="lg-b"><h4>Team-provided</h4><p class="muted" style="font-size:.9rem; margin:0">Not supplied — buy or source these yourself if you want them. Optional, and used <em>in addition</em> to the kits.</p></div>
+    </div>
+
+    <div class="filters">
+      <button class="chipbtn on" data-mfilter="all">All items</button>
+      <button class="chipbtn" data-mfilter="return">Returnable</button>
+      <button class="chipbtn" data-mfilter="consume">Consumable</button>
+      <button class="chipbtn" data-mfilter="buy">You buy</button>
+      <input type="search" id="matSearch" placeholder="Search parts — try &ldquo;bearing&rdquo; or &ldquo;PVC&rdquo;…" aria-label="Search materials">
+    </div>
+    <p class="muted" style="font-size:.9rem; margin-top:-6px" id="matCount"></p>
+
+    <div id="matTables"></div>
+
+    <div class="note">
+      <strong>Quantities are ceilings, not targets</strong>
+      <p>All quantities listed are the maximum allowed for compliance. Hubs may put higher quantities in the annual kits, but teams must pass compliance using only the allowed limits. Teams are responsible for checking their kits against the lists — excess parts may not be used. Optional returnable-kit items may be bought by the team even if the hub doesn't supply them, and machine screws may be substituted with shorter screws of the same type in either zinc-plated steel or stainless.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Notes attached to the kit lists</h2>
+      <p>Fine print from Appendix B that changes what's legal.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h4>Returnable kit notes</h4>
+        <ul style="margin-bottom:0">
+          <li>Only one battery may be on the robot at any given time.</li>
+          <li>Battery chargers and the USB A-Micro cable cannot be used on the robot.</li>
+          <li>Teams may use returnable kit optional items even if their hub doesn't supply them.</li>
+          <li>Any shroud protecting the male pins must be removed so it can plug into components — applies to servos, sensors and the IR sensor.</li>
+          <li>Standard servo: 40&times;20&times;36 mm, 44.4 oz-in, 0.23 sec/60&deg; at 4.8 V, 25-tooth 6 mm spline, plastic gears, digital PWM.</li>
+          <li>All DC motors must have at least 8 inches of tinned red/black lead, heat shrink over the solder junction, and wires zip-tied to the motor body.</li>
+          <li>The battery power cable is typically 180 mm; a longer VEX V5 power cable may replace it if damaged or lost.</li>
+          <li>Brain mounting flanges may be 3-D printed as replacements if damaged or lost — CAD models are on the VEX product page.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Team-provided notes</h4>
+        <ul style="margin-bottom:0">
+          <li>These items are used <em>in addition</em> to what the hub supplies. Ask your hub about material availability first.</li>
+          <li>PET or PETE containers are identified by a number 1 recycling symbol; 2 litre maximum.</li>
+          <li>Pennies cannot be altered, though bank wrappers are allowed.</li>
+          <li>Cardboard sheet: &frac14;&Prime; maximum thickness, and not preformed.</li>
+          <li>Wire management clips, ties and wraps may only be used on wiring.</li>
+          <li>Team Custom Parts have their own rules — see the Team Custom Part Guide and the robot limits section.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ================= AWARDS ================= -->
+<section class="panel" id="tab-awards" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The BEST Award is worth 1,000 points</h2>
+      <p>Robot performance is a quarter of it. The rest is documentation, presentation and marketing — which is the point.</p>
+    </div>
+    <div id="bestChart" class="card" style="padding:26px"></div>
+    <div class="note danger">
+      <strong>Two components are mandatory for everyone</strong>
+      <p>Every team must complete an engineering notebook and compete in the Robot Performance competition on Game Day. Everything else is optional — but failing either required component disqualifies you from the competition <em>and</em> from all other awards. To compete for the BEST Award specifically, all five components are required.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Engineering notebook &middot; 300 points</h2>
+      <p>Its purpose is to document the process you used to design, build and test the robot. It has to stand on its own — anything behind an external link isn't considered.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <h4>Minimum requirements for a compliant submission</h4>
+        <ul>
+          <li>Title page identifying school, team name, teacher contact and team number</li>
+          <li>Table of contents and page numbers</li>
+          <li>Team overview and organisation chart</li>
+          <li>8&frac12;&Prime; &times; 11&Prime;, double-spaced, 1&Prime; margins, Times New Roman preferred or a similar business font no smaller than 12 pt. Single spacing is fine in tables and outlines</li>
+          <li>Delivered electronically as a single PDF</li>
+        </ul>
+        <h4>A completed compliant notebook adds</h4>
+        <ul>
+          <li>Headings, sub-headings and internal bookmarks to the appendix</li>
+          <li>Minimal extraneous material — promotion, spirit, team building</li>
+          <li><strong>35 pages or fewer</strong> in the main section; the title page and table of contents don't count</li>
+          <li>An optional appendix of no more than <strong>40 pages</strong>: drawings, photos, org charts, meeting minutes, test results. It must support the process described in the main document</li>
+        </ul>
+      </div>
+      <div>
+        <div class="tablescroll">
+          <table>
+            <caption>Where the 300 points sit</caption>
+            <thead><tr><th>Section</th><th class="num">Weight</th></tr></thead>
+            <tbody>
+              <tr><td>Ask, Define and Plan</td><td class="num">50</td></tr>
+              <tr><td>Research Paper</td><td class="num">40</td></tr>
+              <tr><td>Hardware Create Process</td><td class="num">40</td></tr>
+              <tr><td>Software Create Process</td><td class="num">40</td></tr>
+              <tr><td>Overall Quality and Completeness</td><td class="num">35</td></tr>
+              <tr><td>Support Documentation</td><td class="num">35</td></tr>
+              <tr><td>Integration, Test and Revision</td><td class="num">25</td></tr>
+              <tr><td>Safety</td><td class="num">25</td></tr>
+              <tr><td>Simulink Modeling</td><td class="num">10</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted" style="font-size:.9rem; margin-top:10px">Within Overall Quality, 5 of the 35 points come simply from participating in your hub's CDR mentoring session — the hub checks that box.</p>
+      </div>
+    </div>
+    <div class="grid g2" style="margin-top:8px">
+      <div class="card danger" style="background:#FBEFEE; border-color:#E9C3BE">
+        <h4>Late and non-compliant</h4>
+        <p>Up to 6 days late costs <strong>10% of the notebook score</strong>. Seven days or later, or failing the minimum requirements, makes it non-compliant.</p>
+        <p style="margin-bottom:0">At the hub's discretion a non-compliant notebook means seeding phase only, no eligibility for awards or advancement, and possibly disqualification. Teams that don't submit a compliant notebook one week before the game competition are ineligible to compete at all.</p>
+      </div>
+      <div class="card">
+        <h4>Using AI</h4>
+        <p>AI agents may not write the notebook, or large segments or entire sections of it. They may be used to research, provide references or supporting documentation, or to offer clues about approach and best practice.</p>
+        <p style="margin-bottom:0">AI use must be disclosed and referenced like any other non-student source. On references generally: leaning heavily on a single source is considered inferior to drawing on several. References support an argument — they aren't the work itself.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The three presentation components</h2>
+      <p>In all three, judges play the client shopping for a robot, and your team plays the company that builds them.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card">
+        <h4>Customer Marketing Presentation &middot; 250</h4>
+        <p>BEST Robotics has issued an RFP for a machine that solves the problems in the game. You're a vendor who responded.</p>
+        <p><strong>4 to 8 students</strong>, each with an active role. 30-minute sign-up block; the meeting runs no more than 25 minutes including setup and breakdown. Judges may start asking questions after 10 minutes of uninterrupted presentation, and you can invite conversation earlier if you want.</p>
+        <p class="muted" style="font-size:.9rem; margin-bottom:0">Scored on Company Overview (75), Product Features (70), Clear Business Offer (50), Business Professionalism (55).</p>
+      </div>
+      <div class="card">
+        <h4>Poster Display and Interview &middot; 100</h4>
+        <p>A trifold poster promoting your team's business, your product and BEST Robotics, presented in person on Game Day.</p>
+        <p><strong>1 to 3 students</strong>. Everything — easel, poster and presenters — must fit in a 48&Prime; &times; 48&Prime; space. The poster itself may be no larger than 36&Prime; &times; 48&Prime;, supported by a provided 63&Prime; foldable easel or 48&Prime; of table. The interview runs no more than 15 minutes.</p>
+        <p class="muted" style="font-size:.9rem; margin-bottom:0">Scored on elevator speeches, robot features and operations, 3D isometric/CAD drawings or other artwork, product differentiation, and the company business plan.</p>
+      </div>
+      <div class="card">
+        <h4>Digital Marketing Video &middot; 100</h4>
+        <p>A written abstract of <strong>150–300 words</strong> plus a video of <strong>90–120 seconds</strong>, submitted as a PDF with an unlisted-but-viewable video link embedded, at least 7 days before Game Day.</p>
+        <p>All footage must be original student work, not stock. Logos for BEST Robotics, your team, hub, regional championship and sponsors go in the video, along with acknowledgements and credits. Make sure the link works outside your school's domain.</p>
+        <p class="muted" style="font-size:.9rem; margin-bottom:0">The abstract covers integration of school and workplace skills, advocacy, workforce development, and collaboration with other schools.</p>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Rules common to the presentations</strong>
+      <p>Only students may participate, including setting up and taking down. The only materials you may give judges are a printed brochure and business cards — no gifts. Robots and models may be used in the Customer Marketing Presentation for demonstration. Teams provide their own equipment, and should bring the presentation on a USB drive as a backup. Check in 10 minutes before your slot. If a spectator coaches or disrupts a presentation, the lead judge evicts them immediately and the team isn't penalised.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>How judging works</h2>
+    </div>
+    <ul>
+      <li>Judges come from private and public sectors with technical and non-technical expertise, and serve on a rotation.</li>
+      <li>Notebook judging teams have 2 to 4 scorers who read notebooks in their entirety, no more than 5 notebooks per team of judges.</li>
+      <li>A component's score is the average of the individual judges' scores. Where a component has 3 or more judges, the hub may drop the lowest.</li>
+      <li>Teams get a copy of their score sheets within <strong>3 days</strong> of their local competition, and within <strong>10 days</strong> of the last regional championship date.</li>
+      <li>Scores among many teams frequently differ by fractions of a point.</li>
+      <li>Teams advancing to a championship may use judges' comments to improve, subject to the championship's own deadlines.</li>
+    </ul>
+    <p>Robot performance points are awarded by final rank in the <strong>seeding phase</strong>, from 1 down to N. Unique points are awarded at each ranking level, up to a maximum of 250. Pass compliance and you receive no fewer than 25.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The awards</h2>
+      <p>Standard awards are required at every hub and regional championship. Choice awards are picked by the host.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card"><h4>BEST Award</h4><p>First through third place to the teams completing every BEST Award component. Trophies and student medals.</p></div>
+      <div class="card"><h4>Game Award</h4><p>First through fourth place to the highest game-scoring teams.</p></div>
+      <div class="card"><h4>Founders Award</h4><p>Named for founders Steve Marum and Ted Mahler. For a competitive advantage or enhanced functionality from a unique or disruptive approach — hardware, software or both. Judges look for a genuinely different way of performing a game task that has merit, backed by a competitive score. Not about the paint job.</p></div>
+      <div class="card"><h4>Most Robust</h4><p>About being well built and functioning reliably. Judges watch for breakdowns, repairs needed, and the ability to recover from a difficult situation during play.</p></div>
+      <div class="card"><h4>Most Photogenic Robot</h4><p>For unique or creative parts that may not function well, thoughtful looks, clear display of the team number, and the best use of optional kit items.</p></div>
+      <div class="card"><h4>Top Gun and Spotter</h4><p>To the driver and spotter behind the highest robot performance score recorded during the seeding rounds.</p></div>
+      <div class="card"><h4>Blood, Sweat and Duct Tape</h4><p>For perseverance through the seeding rounds — repairs, modifications and changed strategies to keep the robot performing.</p></div>
+      <div class="card"><h4>Sportsmanship</h4><p>For helping other teams, respecting team members, adults and referees, fair and ethical play, and grace when things go wrong.</p></div>
+      <div class="card"><h4>Fan Favourite Video</h4><p>Voted from the digital marketing videos shared publicly during regional championship game days.</p></div>
+      <div class="card"><h4>Simulink Design Award</h4><p>One team per regional championship, selected by a judging panel with national sponsor Simulink, for a MATLAB software design entry.</p></div>
+      <div class="card"><h4>Prusa 3-D Challenge</h4><p>One team per regional championship, selected with award sponsor Prusa for a 3-D design entry.</p></div>
+      <div class="card" style="border-left:4px solid var(--brass)"><h4>Choice skills challenges</h4><p>Highly recommended optional categories: Engineering/CAD Drawings, Website Design, and T-Shirt Design.</p></div>
+    </div>
+    <p class="muted" style="margin-top:14px; font-size:.9rem">National-level award winners receive nationally recognised trophies, student medals and/or 7&Prime;&times;9&Prime; plaques. Choice award winners receive a 5&Prime;&times;7&Prime; plaque or a framed certificate. Hubs offering choice awards must publish an Awards and Judging Logistics document in the National Registry before kickoff.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Using the BEST brand</h2>
+      <p>Teams aren't required to build a website or design shirts, but if you do:</p>
+    </div>
+    <ul>
+      <li>Include the BEST Robotics national logo on all digital and printed materials.</li>
+      <li>A team website's homepage should carry the national logo and a link to the national site, plus student storytelling and testimonials from a community leader — video, or quotes with pictures.</li>
+      <li>T-shirts should carry the national logo, set apart from other sponsors or positioned above them.</li>
+      <li>Social posts about outreach should use <strong>#BESTRobotics</strong> and tag <strong>@BESTRobotics</strong>.</li>
+    </ul>
+  </div>
+
+</div>
+</section>
+
+<!-- ================= ADVANCEMENT ================= -->
+<section class="panel" id="tab-advance" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Getting to a championship</h2>
+      <p>BEST Robotics decides which championship each hub feeds. The championship decides how many teams that hub may send, and how many of them are eligible for the BEST Award there — announced no later than two days before the hub's game day.</p>
+    </div>
+    <p>Teams advance in one of three categories: as a <strong>BEST Award team</strong>, as a <strong>Robot Performance team</strong>, or as a <strong>Rookie Bowl team</strong> where the championship chooses to run one. A hub may send fewer teams than allotted but must tell the championship immediately.</p>
+    <div class="grid g2">
+      <div class="card">
+        <h4>Order of advancement</h4>
+        <p class="muted" style="font-size:.9rem">Alternating down the two rankings, skipping any team that has already advanced.</p>
+        <ol style="margin-bottom:0">
+          <li>BEST Award 1st place</li>
+          <li>Robot Performance 1st place</li>
+          <li>BEST Award 2nd place</li>
+          <li>Robot Performance 2nd place</li>
+          <li>BEST Award 3rd place</li>
+          <li>Robot Performance 3rd place</li>
+          <li>BEST Award 4th place</li>
+          <li>Robot Performance 4th place</li>
+          <li>BEST Award 5th, 6th, 7th, and onward</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h4>Working the list</h4>
+        <ol>
+          <li>List your hub's teams in the rank order above.</li>
+          <li>Move each team to the advancing list unless it's already there, keeping its finishing place attached.</li>
+          <li>Trim the advancing list to the number of slots the championship allotted.</li>
+          <li>From the top of that final list, mark the highest-ranking BEST Award winners equal to the number of BEST Award slots. Those teams compete for the BEST Award.</li>
+        </ol>
+        <p style="margin-bottom:0">Everyone else competes at the championship but doesn't enter the Poster Display and Interview, Customer Marketing Presentation or Digital Marketing Video categories. Robot Performance teams advance on the total of their highest engineering notebook score and highest game score totals.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The Rookie Bowl</h2>
+      <p>A separate competition for first- and second-year teams that wouldn't otherwise reach a championship. Held only at the championship's discretion.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <p>A rookie team is a first- or second-year team that either hasn't competed in BEST before, or hasn't done so in any of the past four consecutive years. Each hub may advance one rookie team that doesn't otherwise qualify.</p>
+        <p>Rookie teams compete their robot only, against other rookie teams, in a format similar to the game-only portion of the BEST or UIL competition. The number of rounds is up to the championship.</p>
+      </div>
+      <div class="card">
+        <h4>What the champion wins</h4>
+        <p>A single Rookie Bowl Champion is named on cumulative points across the rounds — the championship may count all rounds or drop some. The award itself is at their discretion.</p>
+        <p style="margin-bottom:0">The champion may then be advanced into the <strong>seeding rounds</strong> of the main championship robot competition and competes there on equal terms. Rookie Bowl participants and the champion aren't eligible for the BEST or UIL awards, since they didn't compete in the other categories.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Texas UIL teams</h2>
+    </div>
+    <p>Any approved UIL team <strong>must</strong> compete in all BEST Award components at the hub, and advances to a championship based only on their BEST Award scores. UIL teams are ranked by division at both the hub and the championship: small school (1A–2A), medium school (3A–4A), large school (5A–6A), and unified school. Points accumulated determine the rank within the division for both the Robot Performance competition and the BEST Award, and the number of teams advancing from each division may differ.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>What changed in v3.2</h2>
+      <p>Released 2 September 2026, on top of the initial team release in August.</p>
+    </div>
+    <div class="tablescroll">
+      <table>
+        <thead><tr><th>Revision</th><th>Date</th><th>Impact</th><th>Changes</th></tr></thead>
+        <tbody>
+          <tr><td>3.2</td><td>2 Sep 2026</td><td>High</td><td>Better definition of 3.7.1.e.c; 1.3.2.4 now references the correct appendix section; returnable and consumable kit lists updated to include the IGUS parts shipped to hubs</td></tr>
+          <tr><td>3.1</td><td>26 Aug 2026</td><td>High</td><td>Changes to general rules for driver and spotter interactions, and to penalties</td></tr>
+          <tr><td>3.0</td><td>Aug 2026</td><td>High</td><td>Initial release to teams; Head-to-Head renamed Robot Performance; BEST Award elements revised; standard and choice awards revised; scoresheets revised</td></tr>
+          <tr><td>2.0</td><td>Jul 2026</td><td>High</td><td>Revisions, images, formatting</td></tr>
+          <tr><td>1.0</td><td>Apr 2026</td><td>High</td><td>Initial release</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p style="max-width:70ch"><strong>An unofficial study guide to the 2026 BEST Robotics Classic Competition Rules, v3.2.</strong> Everything here is drawn from the official rulebook dated 2 September 2026. Where this page and the rulebook disagree, the rulebook wins — and so do posted Q&amp;A answers, which are an extension of the rules.</p>
+    <p style="margin-bottom:0">Submit rule questions during the eight-week build at <a href="https://game.bestrobotics.org/qna">game.bestrobotics.org/qna</a>. Copyright &copy; 1993–2026 BEST Robotics, Inc., all rights reserved.</p>
+  </div>
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============================================================
+   TABS
+   ============================================================ */
+var tabs = [].slice.call(document.querySelectorAll('.tabbtn'));
+var panels = [].slice.call(document.querySelectorAll('.panel'));
+var tabbar = document.querySelector('.tabbar');
+var tabstrip = document.querySelector('.tabbar-inner');
+
+// Track how far the tab strip has scrolled so the edge fades can hide at the ends.
+function measureTabs(){
+  var atEnd = tabstrip.scrollLeft + tabstrip.clientWidth >= tabstrip.scrollWidth - 4;
+  var atStart = tabstrip.scrollLeft <= 4;
+  tabbar.classList.toggle('at-end', atEnd);
+  tabbar.classList.toggle('at-start', atStart);
+}
+tabstrip.addEventListener('scroll', measureTabs, {passive:true});
+window.addEventListener('resize', measureTabs);
+
+function showTab(name){
+  var btn = null;
+  tabs.forEach(function(t){
+    var on = t.dataset.tab === name;
+    t.setAttribute('aria-selected', on ? 'true' : 'false');
+    if (on) btn = t;
+  });
+  panels.forEach(function(p){ p.classList.toggle('active', p.id === 'tab-' + name); });
+  if (name === 'field') setTimeout(function(){ if (fieldView) fieldView.resize(); }, 40);
+
+  // Bring the chosen tab into view in the strip without disturbing page scroll.
+  if (btn) tabstrip.scrollLeft = btn.offsetLeft - (tabstrip.clientWidth - btn.offsetWidth) / 2;
+
+  var jump = REDUCED || window.innerWidth < 760;   // smooth-scrolling a long phone page is slow
+  if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: jump ? 'auto' : 'smooth' });
+  if (history.replaceState) history.replaceState(null, '', '#' + name);
+  measureTabs();
+}
+tabs.forEach(function(t){
+  t.addEventListener('click', function(e){ e.preventDefault(); showTab(t.dataset.tab); });
+});
+var initial = (location.hash || '').replace('#','');
+if (initial && document.getElementById('tab-' + initial)) showTab(initial);
+measureTabs();
+
+/* ============================================================
+   3D FIELD — schematic of the Byte to Bite restaurant
+   ============================================================ */
+var C = {
+  floor:0xE7E4DC,
+  wood:0xC9A273, woodMid:0xB08A5C, woodDark:0x8A6A42, woodDeep:0x6E4A28,
+  ply:0xD8B98A, pvc:0xEDEBE3, steel:0xB9C1BD, white:0xF2F2EF, dark:0x33302B,
+  yellow:0xD9A81C, blue:0x2C6BB0, red:0xBE3A2E, green:0x2C8659,
+  veg:0x2F7A34, fruit:0xB4453C, water:0x2C3C86, rotor:0x2A3570,
+  grain:0xEFEDE2, dairy:0xE8C33F, protein:0xB08B5E
+};
+
+/* Field is 24 x 24, one unit to the foot. Halves split at x = 0: the two left
+   quadrants share the left Garden Area, the two right quadrants the right one.
+   Warming shelves and Balance Buffets straddle that line, top and bottom. */
+var HALF = 12, DR = 5.0, WALL_H = 1.5, WALL_T = 0.3, DOOR = 2.3, GX = 6.6;
+var QUADS = [
+  { key:'yellow', color:C.yellow, sx:-1, sz:-1 },
+  { key:'blue',   color:C.blue,   sx: 1, sz:-1 },
+  { key:'red',    color:C.red,    sx: 1, sz: 1 },
+  { key:'green',  color:C.green,  sx:-1, sz: 1 }
+];
+
+function mat(color, opts){
+  opts = opts || {};
+  return new THREE.MeshLambertMaterial({
+    color: color,
+    transparent: opts.opacity !== undefined,
+    opacity: opts.opacity === undefined ? 1 : opts.opacity
+  });
+}
+function box(w,h,d,color,x,y,z,opts){
+  var m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat(color,opts));
+  m.position.set(x,y,z); return m;
+}
+function cyl(rt,rb,h,color,x,y,z,seg){
+  var m = new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg||14), mat(color));
+  m.position.set(x,y,z); return m;
+}
+function ball(r,color,x,y,z){
+  var m = new THREE.Mesh(new THREE.SphereGeometry(r,12,9), mat(color));
+  m.position.set(x,y,z); return m;
+}
+/* a disk lying like a coin on edge, axis along z */
+function disk(r,t,color,x,y,z){
+  var m = cyl(r,r,t,color,x,y,z,16);
+  m.rotation.x = Math.PI/2; return m;
+}
+
+/* ============================================================
+   Station models, each built facing +x with the run along z.
+   Proportions follow Figures 3.6 to 3.18.
+   ============================================================ */
+
+// Figure 3.6 — disks stand on edge across three sloped rails, held by a
+// finger stop with a round wooden release knob at the bottom.
+function mkVegTray(lite){
+  var g = new THREE.Group();
+  var SL = 0.40;                                  // rail slope
+  g.add(box(0.10, 1.05, 1.30, C.ply, -0.46, 0.52, 0));          // back upright
+  [-0.62, 0.62].forEach(function(z){
+    var side = box(1.15, 0.16, 0.07, C.ply, 0.03, 0.62, z);
+    side.rotation.z = -SL; g.add(side);
+    g.add(box(0.12, 0.62, 0.07, C.ply, 0.42, 0.31, z));         // front leg
+  });
+  [-0.34, 0, 0.34].forEach(function(z){                          // white PVC rails
+    var r = cyl(0.055, 0.055, 1.2, C.pvc, 0.02, 0.68, z, 10);
+    r.rotation.z = Math.PI/2 - SL;
+    g.add(r);
+  });
+  for (var row = 0; row < 2; row++){
+    var z = row ? 0.17 : -0.17;
+    for (var i = 0; i < (lite ? 1 : 3); i++){
+      var t = -0.36 + i * 0.30;
+      g.add(disk(0.27, 0.10, C.veg, t, 0.98 - t * Math.tan(SL), z));
+    }
+  }
+  for (var f = 0; f < (lite ? 1 : 4); f++){                      // finger stop
+    var fin = box(0.42, 0.06, 0.05, C.ply, 0.50, 0.42, -0.30 + f * 0.20);
+    fin.rotation.z = 0.55; g.add(fin);
+  }
+  var knob = cyl(0.19, 0.19, 0.07, C.ply, 0.52, 0.19, 0.34, 16);
+  knob.rotation.x = Math.PI/2; g.add(knob);
+  g.add(cyl(0.03, 0.03, 0.5, C.steel, 0.52, 0.19, 0.10, 8).rotateX(Math.PI/2));
+  return g;
+}
+
+// Figure 3.7 — a white PVC frame with three vines; four fruit hang, two rest
+// on tape markers on the floor in front.
+function mkFruitVines(lite){
+  var g = new THREE.Group();
+  function fruit(x,y,z){
+    var f = new THREE.Group();
+    f.add(ball(0.21, C.fruit, 0, 0, 0));
+    if (!lite){
+      f.add(cyl(0.10, 0.10, 0.06, 0x6B241E, 0, 0.19, 0, 10));    // stacking hole
+      f.add(box(0.10, 0.05, 0.16, C.dark, -0.20, 0.10, 0));      // velcro tab
+    }
+    f.position.set(x,y,z); return f;
+  }
+  [-0.62, 0.62].forEach(function(z){
+    g.add(cyl(0.075,0.075,1.55, C.pvc, 0, 0.78, z, 10));         // uprights
+  });
+  var top = cyl(0.075,0.075,1.24, C.pvc, 0, 1.55, 0, 10); top.rotation.x = Math.PI/2; g.add(top);
+  var mid = cyl(0.075,0.075,1.24, C.pvc, 0, 0.55, 0, 10); mid.rotation.x = Math.PI/2; g.add(mid);
+  if (!lite) [-0.62,0.62].forEach(function(z){
+    g.add(cyl(0.085,0.085,0.16, C.pvc, 0, 1.55, z, 10));         // elbows
+    g.add(cyl(0.085,0.085,0.16, C.pvc, 0, 0.55, z, 10));
+  });
+  [-0.34, 0, 0.34].forEach(function(z){
+    g.add(cyl(0.014,0.014,1.0, 0x4A4A48, 0, 1.05, z, 6));        // vines
+  });
+  g.add(fruit(0, 0.92, -0.34));
+  g.add(fruit(0, 0.92, 0));
+  g.add(fruit(0, 0.92, 0.34));
+  g.add(fruit(0, 1.30, 0));
+  if (!lite){
+    g.add(fruit(0.62, 0.21, -0.22));
+    g.add(fruit(0.62, 0.21, 0.24));
+  }
+  return g;
+}
+
+// Figure 3.8 — a plywood carcass with a door swung open on a wire handle,
+// dairy stacked on the handle side, protein on the hinge side.
+function mkFridge(lite){
+  var g = new THREE.Group();
+  var W = 0.9, H = 1.25, D = 1.15, T = 0.07;
+  g.add(box(T, H, D, C.ply, -W/2, H/2, 0));                      // back
+  g.add(box(W, T, D, C.ply, 0, H - T/2, 0));                     // top
+  g.add(box(W, T, D, C.ply, 0, T/2, 0));                         // bottom
+  [-1,1].forEach(function(s){ g.add(box(W, H, T, C.ply, 0, H/2, s*D/2)); });
+  g.add(box(W, T, D, C.ply, 0, H*0.5, 0));                       // middle shelf
+  var door = new THREE.Group();                                   // hinged on +z
+  door.add(box(0.06, H, D, C.ply, 0, H/2, -D/2));
+  door.add(cyl(0.03,0.03,0.62, C.steel, 0.13, H*0.55, -D*0.78, 8));
+  [-1,1].forEach(function(s){ door.add(cyl(0.028,0.028,0.15, C.steel, 0.07, H*0.55 + s*0.31, -D*0.78, 8).rotateZ(Math.PI/2)); });
+  door.position.set(W/2, 0, D/2);
+  door.rotation.y = -1.95;
+  g.add(door);
+  for (var sh = 0; sh < 2; sh++){
+    var y0 = sh ? H*0.5 + T/2 : T;
+    for (var k = 0; k < (lite ? 1 : 3); k++){
+      g.add(box(0.36, 0.075, 0.36, C.dairy, 0.02, y0 + 0.04 + k*0.08,  D*0.22));
+      g.add(cyl(0.20, 0.20, 0.075, C.protein, 0.02, y0 + 0.04 + k*0.08, -D*0.24, 14));
+    }
+  }
+  return g;
+}
+
+// Figure 3.9 — an angled-front bin with a drop-down flap, stacks inside and
+// two loose slices resting on the lid.
+function mkBreadbox(lite){
+  var g = new THREE.Group();
+  var W = 0.9, D = 1.15;
+  g.add(box(0.06, 0.85, D, C.ply, -W/2, 0.43, 0));               // back
+  [-1,1].forEach(function(s){ g.add(box(W, 0.85, 0.06, C.ply, 0, 0.43, s*D/2)); });
+  g.add(box(W, 0.06, D, C.ply, 0, 0.03, 0));                     // floor
+  g.add(box(W*0.55, 0.06, D, C.ply, -W*0.22, 0.85, 0));          // lid, rear half
+  var flap = box(0.48, 0.05, D*0.92, C.ply, 0, 0, 0);            // dropped flap
+  flap.position.set(W*0.62, 0.03, 0); g.add(flap);
+  for (var s2 = 0; s2 < 2; s2++){
+    for (var k = 0; k < (lite ? 2 : 5); k++){
+      g.add(box(0.38, 0.065, 0.38, C.grain, W*0.06, 0.10 + k*0.07, (s2 ? 0.26 : -0.26)));
+    }
+  }
+  g.add(box(0.38, 0.065, 0.38, C.grain, -W*0.22, 0.92, -0.26));  // two on top
+  g.add(box(0.38, 0.065, 0.38, C.grain, -W*0.22, 0.92,  0.26));
+  return g;
+}
+
+// Figure 3.10 — a dispenser cabinet at the inner end with a long angled track
+// climbing out over the fruit vines, holding eight tennis balls.
+function mkWaterStation(lite, dir){
+  var g = new THREE.Group();
+  g.add(box(0.10, 2.0, 0.62, C.ply, -0.30, 1.0, 0));             // tall back panel
+  g.add(box(0.62, 0.95, 0.62, C.ply, 0, 0.48, 0));               // cabinet
+  g.add(box(0.05, 0.42, 0.34, C.dark, 0.32, 0.42, 0));           // outlet
+  g.add(box(0.06, 0.12, 0.30, C.steel, 0.33, 0.13, 0));          // sill plate
+  g.add(box(0.52, 0.10, 0.10, C.red, 0.30, 0.72, 0));            // T-handle
+  g.add(cyl(0.05,0.05,0.16, C.steel, 0.24, 0.72, 0, 8).rotateZ(Math.PI/2));
+
+  var LEN = 3.3, RISE = 0.55, ang = Math.atan(RISE/LEN);
+  var mz = dir * (0.35 + LEN/2), my = 1.02 + RISE/2;
+  var bed = box(0.34, 0.07, LEN, C.pvc, 0, my, mz); bed.rotation.x = -dir*ang; g.add(bed);
+  [-1,1].forEach(function(s){
+    var rail = cyl(0.05,0.05,LEN, C.pvc, s*0.17, my + 0.07, mz, 8);
+    rail.rotation.x = Math.PI/2 - dir*ang; g.add(rail);
+  });
+  g.add(box(0.30, 0.09, 0.24, C.ply, 0, 1.02 + RISE, dir*(0.35 + LEN)));  // far bracket
+  for (var w = 0; w < (lite ? 3 : 8); w++){
+    var t = 0.45 + w*0.27;
+    g.add(ball(0.135, C.water, 0, 1.10 + t*Math.tan(ang), dir*t));
+  }
+  return g;
+}
+
+// Figures 3.11 and 3.12 — a post with a T-handle at the base, two ropes running
+// out over the garden, and a four-rotor drone riding on them.
+function mkDrone(lite, dir){
+  var g = new THREE.Group();
+  g.add(box(0.14, 2.25, 0.14, C.woodMid, 0, 1.12, 0));           // post
+  g.add(box(0.26, 0.34, 0.26, C.woodMid, 0, 0.17, 0));           // base block
+  g.add(box(0.10, 0.20, 0.20, C.dark, 0.14, 0.17, 0));
+  g.add(box(0.50, 0.09, 0.09, C.woodDark, 0.22, 0.34, 0));       // T-handle
+  var LEN = 5.2, RISE = 0.45, ang = Math.atan(RISE/LEN);
+  [-1,1].forEach(function(s){
+    var rope = cyl(0.018,0.018,LEN, C.white, s*0.13, 2.25 + RISE/2, dir*LEN/2, 6);
+    rope.rotation.x = Math.PI/2 - dir*ang; g.add(rope);
+  });
+  var d = new THREE.Group();
+  d.add(box(0.34, 0.16, 0.52, C.woodMid, 0, 0, 0));              // body
+  [[-0.30,-0.34],[0.30,-0.34],[-0.30,0.34],[0.30,0.34]].forEach(function(p){
+    d.add(cyl(0.05,0.05,0.10, C.rotor, p[0], 0.10, p[1], 8));
+    for (var b = 0; !lite && b < 5; b++){
+      var blade = box(0.30, 0.022, 0.11, C.rotor, p[0], 0.13, p[1]);
+      blade.rotation.y = b * Math.PI / 5;
+      blade.position.x += Math.cos(blade.rotation.y) * 0.13;
+      blade.position.z -= Math.sin(blade.rotation.y) * 0.13;
+      d.add(blade);
+    }
+  });
+  d.position.set(0, 2.32, dir*0.75);
+  g.add(d);
+  return g;
+}
+
+// Figure 3.17 — grey plate with a team-coloured PVC stem and a white cap.
+function mkPlate(color){
+  var g = new THREE.Group();
+  g.add(cyl(0.44, 0.38, 0.05, C.steel, 0, 0.025, 0, 18));
+  g.add(cyl(0.30, 0.30, 0.03, 0xC8CFCB, 0, 0.06, 0, 16));
+  g.add(cyl(0.05, 0.05, 0.34, color, 0, 0.24, 0, 8));
+  g.add(cyl(0.055, 0.055, 0.07, C.white, 0, 0.44, 0, 8));
+  return g;
+}
+// Figure 3.18 — grey tumbler with the team colour taped inside the rim.
+function mkCup(color){
+  var g = new THREE.Group();
+  g.add(cyl(0.20, 0.155, 0.50, C.steel, 0, 0.25, 0, 12));
+  g.add(cyl(0.195, 0.19, 0.12, color, 0, 0.44, 0, 12));
+  return g;
+}
+
+function buildField(lite){
+  var root = new THREE.Group();
+  var picks = [];
+  var groups = {};
+
+  function G(name){
+    if (!groups[name]){
+      var q = new THREE.Group(); q.userData.station = name;
+      groups[name] = q; root.add(q);
+    }
+    return groups[name];
+  }
+  function IG(name, inst){
+    var g = G(name);
+    if (!g.userData.inst) g.userData.inst = {};
+    if (!g.userData.inst[inst]){
+      var q = new THREE.Group(); q.userData.instance = inst;
+      g.userData.inst[inst] = q; g.add(q);
+    }
+    return g.userData.inst[inst];
+  }
+  function add(name, mesh, pickable, inst){
+    IG(name, inst || '*').add(mesh);
+    if (pickable !== false){ mesh.userData.station = name; picks.push(mesh); }
+    return mesh;
+  }
+  // drop a whole station model in, and make every mesh in it clickable
+  function place(name, inst, grp, x, z, ry){
+    grp.position.set(x, 0, z);
+    if (ry) grp.rotation.y = ry;
+    IG(name, inst).add(grp);
+    (function walk(o){
+      if (o.geometry){ o.userData.station = name; picks.push(o); }
+      o.children.forEach(walk);
+    })(grp);
+    return grp;
+  }
+  function outline(name, w, d, color, x, z, inst){
+    var t = 0.14;
+    add(name, box(w,0.04,t,color,x,0.02,z-d/2), true, inst);
+    add(name, box(w,0.04,t,color,x,0.02,z+d/2), true, inst);
+    add(name, box(t,0.04,d,color,x-w/2,0.02,z), true, inst);
+    add(name, box(t,0.04,d,color,x+w/2,0.02,z), true, inst);
+  }
+
+  // ---------- floor and border rail ----------
+  add('field', box(HALF*2, 0.3, HALF*2, C.floor, 0, -0.15, 0), false);
+  [[0,-HALF,HALF*2,0.45],[0,HALF,HALF*2,0.45],[-HALF,0,0.45,HALF*2],[HALF,0,0.45,HALF*2]].forEach(function(b){
+    add('field', box(b[2],0.5,b[3], C.woodMid, b[0], 0.25, b[1]), false);
+    add('field', box(b[2],0.08,b[3], C.wood, b[0], 0.54, b[1]), false);
+  });
+
+  // ---------- dining room (Figure 3.13): four walls pinwheeled, corner doorways ----------
+  var span = DR*2 - DOOR, off = (DR*2 - span)/2;
+  add('dining', box(span, WALL_H, WALL_T, C.woodDeep, -off, WALL_H/2, -DR));
+  add('dining', box(WALL_T, WALL_H, span, C.woodDeep,  DR, WALL_H/2, -off));
+  add('dining', box(span, WALL_H, WALL_T, C.woodDeep,  off, WALL_H/2,  DR));
+  add('dining', box(WALL_T, WALL_H, span, C.woodDeep, -DR, WALL_H/2,  off));
+  add('dining', box(span,0.09,WALL_T+0.07, C.wood, -off, WALL_H+0.04, -DR), false);
+  add('dining', box(WALL_T+0.07,0.09,span, C.wood,  DR, WALL_H+0.04, -off), false);
+  add('dining', box(span,0.09,WALL_T+0.07, C.wood,  off, WALL_H+0.04,  DR), false);
+  add('dining', box(WALL_T+0.07,0.09,span, C.wood, -DR, WALL_H+0.04,  off), false);
+  for (var f = 0; f < 3; f++){
+    var fo = -off + (f-1)*2.2, fq = off + (f-1)*2.2;
+    add('dining', box(0.6,0.6,0.03, C.white, fo, 1.0, -DR+0.17), false);
+    add('dining', box(0.25,0.25,0.04, C.dark, fo, 1.0, -DR+0.18), false);
+    add('dining', box(0.03,0.6,0.6, C.white, DR-0.17, 1.0, fo), false);
+    add('dining', box(0.04,0.25,0.25, C.dark, DR-0.18, 1.0, fo), false);
+    add('dining', box(0.6,0.6,0.03, C.white, fq, 1.0, DR-0.17), false);
+    add('dining', box(0.25,0.25,0.04, C.dark, fq, 1.0, DR-0.18), false);
+    add('dining', box(0.03,0.6,0.6, C.white, -DR+0.17, 1.0, fq), false);
+    add('dining', box(0.04,0.25,0.25, C.dark, -DR+0.18, 1.0, fq), false);
+  }
+  for (var i = 0; i < 3; i++) for (var j = 0; j < 3; j++){
+    var tx = (i-1)*2.9, tz = (j-1)*2.9;
+    add('dining', box(0.28,0.72,0.28, C.woodDark, tx, 0.36, tz), false);
+    add('dining', box(0.8,0.09,0.8, C.woodDark, tx, 0.05, tz), false);
+    add('dining', box(1.4,0.13,1.4, C.wood, tx, 0.79, tz));
+    add('dining', box(0.74,0.04,0.74, C.white, tx, 0.87, tz), false);
+    add('dining', box(0.3,0.05,0.3, C.dark, tx, 0.89, tz), false);
+  }
+
+  // ---------- garden runs (Figure 3.5) ----------
+  var STOPS = { water:1.5, veg:2.7, fruit:3.9, fridge:5.0, bread:5.95 };
+  [-1,1].forEach(function(sx){
+    var wallI = sx < 0 ? 'a' : 'b';
+    var face = sx < 0 ? Math.PI : 0;             // stations look away from the dining room
+    add('garden', box(0.5, 1.3, 12.6, C.wood, sx*GX, 0.65, 0), true, wallI);
+    add('garden', box(0.58, 0.09, 12.6, C.woodDark, sx*GX, 1.34, 0), false, wallI);
+    [-1,1].forEach(function(sz){
+      add('garden', box(0.62, 0.06, 0.16, C.dark, sx*GX, 1.41, sz*3.2), false, wallI);
+    });
+
+    [-1,1].forEach(function(sz){
+      var X = sx*(GX + 1.15);
+      var I = (sx < 0 && sz < 0) ? 'a' : 'b';    // 'a' is the copy the camera frames
+      // A rotation can't both face a station outward and send its long axis down
+      // the run, so the long axis gets its own direction.
+      var dir = (sx > 0 ? 1 : -1) * sz;
+      place('drone',  I, mkDrone(lite, dir),        sx*(GX + 0.75), sz*0.35, face);
+      place('water',  I, mkWaterStation(lite, dir), X, sz*STOPS.water, face);
+      place('veg',    I, mkVegTray(lite),      X, sz*STOPS.veg,    face);
+      place('fruit',  I, mkFruitVines(lite),   X, sz*STOPS.fruit,  face);
+      place('fridge', I, mkFridge(lite),       X, sz*STOPS.fridge, face);
+      place('bread',  I, mkBreadbox(lite),     X, sz*STOPS.bread,  face);
+    });
+  });
+
+  // ---------- warming shelves (Figure 3.14) and balance buffets (Figure 3.15) ----------
+  var beams = [];
+  [-1,1].forEach(function(sz){
+    var I = sz < 0 ? 'a' : 'b';
+    // flat T: a long plank at the border with a stub dividing the two teams
+    add('warm', box(8.0, 0.26, 1.30, C.wood, 0, 0.13, sz*11.0), true, I);
+    add('warm', box(1.10, 0.26, 1.40, C.wood, 0, 0.13, sz*9.90), true, I);
+    [-1,1].forEach(function(sx){
+      for (var p = 0; p < (lite ? 1 : 3); p++){
+        place('warm', I, mkPlate(sx < 0 ? (sz < 0 ? C.yellow : C.green) : (sz < 0 ? C.blue : C.red)),
+              sx*(1.05 + p*1.15), sz*11.0).position.y = 0.26;
+      }
+    });
+
+    // rotating platform tips across its length; the fin must stay between the
+    // two tape indicators on the support post
+    add('buffet', box(2.6, 0.09, 3.6, C.woodDeep, 0, 0.045, sz*7.1), false, I);
+    add('buffet', box(0.42, 1.35, 0.42, C.ply, 0, 0.67, sz*8.70), true, I);   // support post
+    [-1,1].forEach(function(sx){
+      add('buffet', box(0.30, 0.42, 0.10, C.steel, sx*0.30, 1.15, sz*8.53), false, I);
+    });
+    add('buffet', box(0.36, 0.40, 0.36, C.ply, 0, 0.52, sz*5.50), true, I);   // pivot block
+    var beam = new THREE.Group();
+    beam.position.set(0, 0.80, sz*7.1);
+    var plank = box(2.1, 0.13, 3.2, C.wood, 0, 0, 0);
+    plank.userData.station = 'buffet'; picks.push(plank);
+    beam.add(plank);
+    beam.add(box(0.14, 0.46, 3.8, C.ply, 0, 0.28, 0));                        // dividing fin
+    [-1,1].forEach(function(sx){
+      for (var q = 0; q < (lite ? 1 : 2); q++){
+        var pl = mkPlate(sx < 0 ? (sz < 0 ? C.yellow : C.green) : (sz < 0 ? C.blue : C.red));
+        pl.position.set(sx*0.62, 0.07, (q - 0.5) * 1.6);
+        beam.add(pl);
+      }
+    });
+    IG('buffet', I).add(beam);
+    beams.push(beam);
+  });
+  root.userData.beams = beams;
+
+  // ---------- per-quadrant team areas ----------
+  QUADS.forEach(function(q){
+    var I = q.key === 'yellow' ? 'a' : 'b';
+    add('human', box(3.2, 0.06, 3.2, q.color, q.sx*9.9, 0.04, q.sz*9.9, {opacity:0.8}), true, I);
+    outline('human', 6.2, 3.0, q.color, q.sx*6.0, q.sz*14.0, I);
+    outline('human', 3.0, 6.2, q.color, q.sx*14.0, q.sz*6.0, I);
+    outline('human', 2.6, 2.6, q.color, q.sx*13.6, q.sz*13.6, I);
+
+    // Figure 3.16 — taped bay of 8 plates, with 8 cups in a row on the border
+    outline('dish', 2.3, 3.0, q.color, q.sx*10.6, q.sz*5.2, I);
+    for (var p = 0; p < (lite ? 0 : 8); p++){
+      place('dish', I, mkPlate(q.color),
+            q.sx*10.6 + ((p % 2) - 0.5) * 1.05,
+            q.sz*5.2 + (Math.floor(p/2) - 1.5) * 0.72);
+    }
+    for (var c2 = 0; c2 < (lite ? 0 : 8); c2++){
+      place('dish', I, mkCup(q.color), q.sx*11.5, q.sz*5.2 + (c2 - 3.5) * 0.56);
+    }
+  });
+
+  return { group:root, picks:picks, groups:groups };
+}
+
+/* Which part groups stay visible when a station is chosen. Anything not listed
+   shows only itself; 'intro' shows the whole restaurant. */
+var ISOLATE = {
+  intro:  null,
+  garden: ['garden','veg','fruit','water','drone','fridge','bread']
+};
+
+/* -------- viewer -------- */
+function makeView(canvas, opts){
+  if (typeof THREE === 'undefined' || !canvas) return null;
+  opts = opts || {};
+  var scene = new THREE.Scene();
+  var renderer;
+  try{
+    renderer = new THREE.WebGLRenderer({ canvas:canvas, antialias:true, alpha:true });
+  }catch(e){ return null; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  scene.add(new THREE.AmbientLight(0xE9F0EC, 0.78));
+  var key = new THREE.DirectionalLight(0xFFF6E6, 0.8); key.position.set(16, 24, 12); scene.add(key);
+  var fill = new THREE.DirectionalLight(0xA8C8DC, 0.3); fill.position.set(-14, 10, -16); scene.add(fill);
+
+  var built = buildField(!!opts.lite);
+  scene.add(built.group);
+
+  var bbox = new THREE.Box3().setFromObject(built.group);
+  var centre = bbox.getCenter(new THREE.Vector3());
+  built.group.position.x -= centre.x;
+  built.group.position.z -= centre.z;
+
+  var FOV = 38, TAN = Math.tan(FOV * Math.PI / 360);
+  var camera = new THREE.PerspectiveCamera(FOV, 1, 0.4, 260);
+  var state = {
+    az: opts.az !== undefined ? opts.az : -0.72,
+    el: opts.el !== undefined ? opts.el : 0.62,
+    r: 22.2, hh: 3.0, dist: 50,
+    look: new THREE.Vector3(0, 0.6, 0),
+    spin: opts.spin !== false,
+    tAz:null, tEl:null, tR:null, tHh:null, tLook:null
+  };
+
+  // Frames a sphere of radius r (plus hh of headroom) sitting at the look point.
+  function fitDist(){
+    var w = canvas.clientWidth || 1, h = canvas.clientHeight || 1;
+    var a = (w / h) / ((opts.bias && w > 760) ? opts.bias : 1);
+    var vertHalf = state.r * Math.sin(state.el) + state.hh * Math.cos(state.el);
+    var z = (opts.narrowZoom && w <= 760) ? opts.narrowZoom : 1;
+    return Math.max(vertHalf / TAN, state.r / (a * TAN)) * 1.06 * z;
+  }
+
+  function place(){
+    var d = state.dist = fitDist();
+    camera.position.set(
+      state.look.x + Math.sin(state.az) * Math.cos(state.el) * d,
+      state.look.y + Math.sin(state.el) * d,
+      state.look.z + Math.cos(state.az) * Math.cos(state.el) * d
+    );
+    camera.lookAt(state.look);
+  }
+
+  function resize(){
+    var w = canvas.clientWidth || canvas.parentNode.clientWidth;
+    var h = canvas.clientHeight || 460;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    var bias = (opts.bias && w > 760) ? opts.bias : 1;
+    if (bias > 1){
+      camera.aspect = (w * bias) / h;
+      camera.setViewOffset(w * bias, h, (w * bias - w) * (opts.biasShift === undefined ? 1 : opts.biasShift), 0, w, h);
+    } else {
+      camera.clearViewOffset();
+      camera.aspect = w / h;
+    }
+    camera.updateProjectionMatrix();
+  }
+
+  var drag = false, orbiting = false, lastX = 0, lastY = 0, startX = 0, startY = 0;
+  function pt(e){ var t = (e.touches && e.touches[0]) ? e.touches[0] : e; return { x:t.clientX, y:t.clientY }; }
+  function down(e){
+    var p = pt(e);
+    drag = true;
+    orbiting = !e.touches;
+    if (orbiting) state.spin = false;
+    startX = lastX = p.x; startY = lastY = p.y;
+  }
+  function move(e){
+    if (!drag) return;
+    var p = pt(e);
+    if (!orbiting){
+      // A touch could be an orbit or the reader scrolling the page. Wait until the
+      // gesture commits, then keep only the sideways ones.
+      var dx = Math.abs(p.x - startX), dy = Math.abs(p.y - startY);
+      if (dx < 8 && dy < 8) return;
+      if (dy >= dx){ drag = false; return; }
+      orbiting = true; state.spin = false;
+    }
+    state.az -= (p.x - lastX) * 0.008;
+    state.el = Math.max(0.16, Math.min(1.40, state.el + (p.y - lastY) * 0.006));
+    state.tAz = state.tEl = null;
+    lastX = p.x; lastY = p.y;
+    if (e.touches && e.cancelable) e.preventDefault();
+  }
+  function up(){ drag = false; orbiting = false; }
+  canvas.addEventListener('mousedown', down);
+  canvas.addEventListener('touchstart', down, {passive:true});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', up);
+  canvas.addEventListener('touchcancel', up);
+  window.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', up);
+
+  var t0 = 0, visible = true;
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(en){ visible = en[0].isIntersecting; }, {threshold:0}).observe(canvas);
+  }
+  function loop(t){
+    requestAnimationFrame(loop);
+    if (!visible){ t0 = t; return; }
+    var dt = Math.min((t - t0)/1000, 0.05); t0 = t;
+    if (state.spin && !REDUCED) state.az += dt * 0.13;
+    if (state.tAz !== null){
+      state.az  += (state.tAz  - state.az)  * 0.1;
+      state.el  += (state.tEl  - state.el)  * 0.1;
+      state.r   += (state.tR   - state.r)   * 0.1;
+      state.hh  += (state.tHh  - state.hh)  * 0.1;
+      state.look.lerp(state.tLook, 0.1);
+      if (Math.abs(state.tAz - state.az) < 0.004) state.tAz = null;
+    }
+    var bm = built.group.userData.beams || [];
+    for (var i=0;i<bm.length;i++) bm[i].rotation.z = Math.sin(t/1500 + i*2) * 0.045;
+    place();
+    renderer.render(scene, camera);
+  }
+  resize();
+  requestAnimationFrame(loop);
+  window.addEventListener('resize', resize);
+
+  return {
+    resize:resize, state:state, picks:built.picks, camera:camera, canvas:canvas,
+    // Show one part on its own, or pass null for the whole restaurant.
+    isolate:function(id){
+      var keep = id ? (ISOLATE[id] || [id]) : null;
+      Object.keys(built.groups).forEach(function(name){
+        var g = built.groups[name];
+        g.visible = !keep || keep.indexOf(name) !== -1;
+        g.children.forEach(function(ch){
+          if (ch.userData.instance === undefined) return;
+          // whole field shows every copy; isolating shows just the framed one
+          ch.visible = !keep || ch.userData.instance === '*' || ch.userData.instance === 'a';
+        });
+      });
+    },
+    fly:function(c){
+      state.spin = false;
+      state.tAz = c.az; state.tEl = c.el; state.tR = c.r; state.tHh = c.h;
+      state.tLook = new THREE.Vector3(c.look[0], c.look[1], c.look[2]);
+    },
+    setSpin:function(v){ state.spin = v; }
+  };
+}
+
+/* -------- station copy -------- */
+var STATIONS = {
+  intro:{ tag:'START HERE', title:'The Byte to Bite field',
+    body:'Four quadrants mirrored around a central dining room. Each half of the field is shared by two neighbouring teams who compete for the same garden ingredients. Teams in opposite halves share a Balance Buffet and only score it if both sides cooperate.',
+    meta:[['Match length','3 minutes, up to 4 teams'],['Quadrant colours','Yellow, blue, red, green']],
+    cam:{az:-0.72,el:0.62,r:22.2,h:3.0,look:[0,0.6,0]} },
+  garden:{ tag:'GARDEN AREA', title:'Garden Area',
+    body:'The starting location for nearly every game piece. A Garden Area contains two mirrored halves — 44 pieces each, 88 in total — and every one of them is available to either team on that half of the field regardless of its colour. Each half holds five ingredient stations plus two field tasks.',
+    meta:[['Ingredient stations','Vegetable tray, fruit vines, fridge, breadbox, water'],['Field tasks','Crop-tending drone, water irrigation valve'],['Ownership','Task points go to the owning team, whoever does the work']],
+    cam:{az:-1.15,el:0.44,r:6.9,h:2.2,look:[-7.4,1.0,-0.2]} },
+  veg:{ tag:'INGREDIENT STATION', title:'Vegetable Tray',
+    body:'A slanted hydroponic flood tray. Six green disks load vertically into three rows of two. Release them with the button at the bottom of the tray, or lift them straight out — either method counts for the harvest bonus.',
+    meta:[['Count','6 per garden half, 24 per field'],['Harvest bonus','4 points for emptying the tray'],['Reset','Slide the row stop to align with the slots, then reload']],
+    cam:{az:-1.45,el:0.38,r:1.05,h:0.75,look:[-7.75,0.6,-2.7]} },
+  fruit:{ tag:'INGREDIENT STATION', title:'Fruit Vines',
+    body:'Red balls with a loop-velcro patch, hung on three hook-velcro vines strung across a PVC frame. Three start in a row low on the vines, one starts higher on the centre vine, and two start on the floor in front, touching tape markers.',
+    meta:[['Count','6 per garden half, 24 per field'],['Harvest bonus','4 points for clearing the vine'],['Reset','Four rehung on the vines, two on the tape below']],
+    cam:{az:-1.45,el:0.32,r:1.15,h:0.95,look:[-8.0,0.8,-3.9]} },
+  fridge:{ tag:'INGREDIENT STATION', title:'Cold Food Storage Fridge',
+    body:'Dairy — yellow square slabs — sits in stacks of three on the handle side. Protein — brown round disks — sits in stacks of three on the hinge side. The door has to be opened before either can be pulled out.',
+    meta:[['Count','6 dairy + 6 protein per garden half'],['Harvest bonus','8 points for emptying both'],['Reset','Two stacks of three on each shelf, door closed']],
+    cam:{az:-1.50,el:0.34,r:1.15,h:0.85,look:[-8.05,0.65,-5.0]} },
+  bread:{ tag:'INGREDIENT STATION', title:'Breadbox',
+    body:'White bread-shaped grain squares, the most numerous ingredient on the field, stored along the dining room wall at the outer end of the garden. Two slices start on top of the box.',
+    meta:[['Count','12 per garden half, 48 per field'],['Harvest bonus','8 points — the slices on top must go too'],['Watch out','Grain resting on the breadbox does not score']],
+    cam:{az:-1.40,el:0.40,r:1.0,h:0.6,look:[-8.0,0.5,-5.95]} },
+  water:{ tag:'FIELD TASK', title:'Water Station and Irrigation Valve',
+    body:'Eight blue tennis balls sit in an angled track above the fruit vines. Rotate the T-handle near the centre of the field a quarter turn in either direction, horizontal to vertical, and the water releases from the opening at the front.',
+    meta:[['Count','8 per garden half, 32 per field'],['Valve','4 points to the owning team once at least one ball is released'],['Disqualification','Reaching into the station or irrigation pipe for water']],
+    cam:{az:-1.20,el:0.32,r:2.6,h:1.3,look:[-7.75,1.2,-3.0]} },
+  drone:{ tag:'FIELD TASK', title:'Crop-Tending Drone',
+    body:'Rotate the T-handle on the drone post — either direction — to drag the drone along its support rope. It scores once the front edge of the wooden body crosses the line marked on the top of the garden wall.',
+    meta:[['Points','8 — the highest-value field task'],['Not allowed','Touching the drone, support rope or pull rope directly'],['Reset','Back to the side above the water dispenser, handle horizontal']],
+    cam:{az:-1.05,el:0.34,r:3.2,h:1.5,look:[-7.35,1.5,-2.7]} },
+  dining:{ tag:'AUTONOMOUS ZONE', title:'The Dining Room',
+    body:'Nine tables in a 3×3 array behind four pinwheeled walls, with a doorway at each corner. A robot may only enter under autonomous control while the driver is hands-free, and every scoring task inside must be done autonomously. AprilTag Circle21h7 fiducials on the walls and table tops guide the AI Vision Sensor.',
+    meta:[['Bonus','+50 per meal placed autonomously'],['Table rule','One meal per table; the plate must cover the centre 4¼″ white square'],['Exit','Only through a doorway leading to your own half']],
+    cam:{az:-0.60,el:0.70,r:7.4,h:1.8,look:[0,0.7,0]} },
+  warm:{ tag:'SCORING AREA', title:'Warming Shelf',
+    body:'Along the outside border of the field, next to the driver box. Shelves in adjacent halves share a dividing wall, and each side can hold up to seven plates. A plate must be fully supported by the shelf to score, and you may only use your own designated shelf.',
+    meta:[['Bonus','+5 per meal'],['Capacity','7 plates per side, max 7 scoring per team'],['Not allowed','Reaching over the warming shelf divider']],
+    cam:{az:0.05,el:0.34,r:4.4,h:0.8,look:[0,0.4,-10.4]} },
+  buffet:{ tag:'COLLABORATIVE SCORING', title:'Balance Buffet',
+    body:'A rotating platform shared with one team from the opposite half of the field. It counts as balanced only when the 1×4 dividing wall falls fully between the two tape indicators on the support post. If that divider crosses the inner edge of either tape line, nothing on it scores.',
+    meta:[['Bonus','+15 per meal, up to 3'],['Catch','Both sides must load it to keep it level'],['Disqualification','Interacting with the other team’s designated shelf']],
+    cam:{az:0.05,el:0.32,r:2.5,h:1.2,look:[0,0.7,-7.1]} },
+  human:{ tag:'HUMAN AREA', title:'Robot Start Area',
+    body:'A taped box measured from the outside edge of the tape line. The robot starts fully inside it in its starting configuration. It doubles as the handoff point: the spotter may collect ingredients and dishware from it, but only while the robot is completely outside and the driver is hands-free.',
+    meta:[['Rule','A piece is inside once it breaks the plane of the boundary'],['Handoff','Anything the spotter touches must go to the Quality Check Area'],['Disqualification','Blocking another team’s RSA or a dining room entrance']],
+    cam:{az:-0.78,el:0.48,r:9.0,h:0.7,look:[-9.4,0.2,-9.4]} },
+  dish:{ tag:'TEAM OWNED', title:'Dish Starting Area',
+    body:'Where your eight plates and eight cups begin every match. Plates are grey 10.5″ plastic with a team-coloured PVC stem for stacking; cups are 18-ounce grey tumblers with team-coloured tape inside, level with the lip.',
+    meta:[['Count','8 plates and 8 cups per team'],['Penalty','20 seconds for controlling a plate or cup that isn’t your colour'],['Carrying limit','One plate and one cup at a time']],
+    cam:{az:-1.30,el:0.42,r:2.4,h:0.6,look:[-10.7,0.3,-5.2]} }
+};
+var STATION_ORDER = ['intro','garden','veg','fruit','fridge','bread','water','drone','dining','warm','buffet','human','dish'];
+
+var fieldView = null, heroView = null;
+function initThree(){
+  if (typeof THREE === 'undefined'){
+    var vp = document.querySelector('.viewport');
+    if (vp) vp.innerHTML = '<div style="padding:40px; color:#C3CFC9; font-family:var(--cond); font-size:1.2rem; text-align:center">The 3D field model needs an internet connection to load.<br><span style="font-family:var(--sans); font-size:.95rem; color:#8FA098">Pick any part below to read about it.</span></div>';
+    wireField();
+    return;
+  }
+  heroView = makeView(document.getElementById('heroCanvas'), { az:-0.85, el:0.44, bias:1.42, biasShift:0.22, narrowZoom:0.72, lite:true });
+  fieldView = makeView(document.getElementById('fieldCanvas'), { az:-0.72, el:0.62, lite:window.innerWidth < 760 });
+  if (heroView){
+    heroView.resize();
+    setTimeout(function(){ heroView.resize(); }, 500);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ heroView.resize(); });
+  }
+  wireField();
+}
+
+function wireField(){
+  var ro = { tag:document.getElementById('roTag'), title:document.getElementById('roTitle'),
+             body:document.getElementById('roBody'), meta:document.getElementById('roMeta') };
+  var nav = document.getElementById('stationNav');
+  var viewport = document.querySelector('.viewport');
+  var iso = document.getElementById('vpIso');
+  var isoName = document.getElementById('vpIsoName');
+  var spinBtn = document.getElementById('btnSpin');
+
+  function setIsoBadge(title){
+    if (!iso) return;
+    if (title){ isoName.textContent = title; iso.hidden = false; viewport.classList.add('isolated'); }
+    else { iso.hidden = true; viewport.classList.remove('isolated'); }
+  }
+
+  function showCopy(id){
+    var s = STATIONS[id];
+    ro.tag.textContent = s.tag;
+    ro.title.textContent = s.title;
+    ro.body.textContent = s.body;
+    ro.meta.innerHTML = s.meta.map(function(m){
+      return '<dt>' + m[0] + '</dt><dd>' + m[1] + '</dd>';
+    }).join('');
+    [].slice.call(nav.children).forEach(function(b){ b.classList.toggle('on', b.dataset.st === id); });
+  }
+
+  function select(id){
+    var s = STATIONS[id]; if (!s) return;
+    showCopy(id);
+    if (!fieldView) return;              // no WebGL: the descriptions still work
+    if (s.cam) fieldView.fly(s.cam);
+    fieldView.isolate(id === 'intro' ? null : id);
+    setIsoBadge(id === 'intro' ? null : s.title);
+    if (spinBtn) spinBtn.classList.remove('on');
+  }
+
+  // Field-wide views put every part back on the table.
+  function resetIsolation(){
+    fieldView.isolate(null);
+    setIsoBadge(null);
+    showCopy('intro');
+  }
+  var backBtn = document.getElementById('vpIsoBack');
+  if (backBtn) backBtn.addEventListener('click', function(){ select('intro'); });
+
+  STATION_ORDER.forEach(function(id){
+    var b = document.createElement('button');
+    b.textContent = id === 'intro' ? 'Whole field' : STATIONS[id].title;
+    b.dataset.st = id;
+    b.addEventListener('click', function(){ select(id); });
+    nav.appendChild(b);
+  });
+  nav.children[0].classList.add('on');
+
+  if (!fieldView) return;
+
+  // click-to-pick on the model
+  var ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
+  var dnX = 0, dnY = 0;
+  function noteDown(e){
+    var t = (e.touches && e.touches[0]) ? e.touches[0] : e;
+    dnX = t.clientX; dnY = t.clientY;
+  }
+  fieldView.canvas.addEventListener('mousedown', noteDown);
+  fieldView.canvas.addEventListener('touchstart', noteDown, {passive:true});
+  fieldView.canvas.addEventListener('click', function(e){
+    if (Math.abs(e.clientX - dnX) > 8 || Math.abs(e.clientY - dnY) > 8) return; // that was a drag
+    var r = fieldView.canvas.getBoundingClientRect();
+    mouse.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    mouse.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+    ray.setFromCamera(mouse, fieldView.camera);
+    var hits = ray.intersectObjects(fieldView.picks, false);
+    for (var i = 0; i < hits.length; i++){
+      var o = hits[i].object, on = true;
+      for (var n = o; n; n = n.parent) if (n.visible === false){ on = false; break; }
+      if (on && o.userData.station){ select(o.userData.station); return; }
+    }
+  });
+
+  spinBtn.addEventListener('click', function(){
+    var on = !this.classList.contains('on');
+    this.classList.toggle('on', on);
+    fieldView.setSpin(on);
+    fieldView.state.tAz = null;
+  });
+  document.getElementById('btnTop').addEventListener('click', function(){ fieldView.fly({az:0,el:1.38,r:22.2,h:3.0,look:[0,0.4,0]}); resetIsolation(); spinBtn.classList.remove('on'); });
+  document.getElementById('btnCorner').addEventListener('click', function(){ fieldView.fly({az:-0.78,el:0.52,r:22.2,h:3.0,look:[0,0.6,0]}); resetIsolation(); spinBtn.classList.remove('on'); });
+}
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initThree);
+else initThree();
+
+/* ============================================================
+   BALANCE BUFFET TOY
+   ============================================================ */
+(function(){
+  var slider = document.getElementById('tilt');
+  if (!slider) return;
+  var beam = document.getElementById('beam'), div = document.getElementById('divider'),
+      out = document.getElementById('balanceVerdict');
+  function update(){
+    var deg = +slider.value;
+    beam.setAttribute('transform','rotate(' + (deg*0.6) + ' 210 99)');
+    div.setAttribute('transform','rotate(' + (deg*0.6) + ' 210 99)');
+    var ok = Math.abs(deg) <= 5;
+    out.textContent = ok
+      ? 'In balance — meals on both sides score'
+      : 'Out of balance — nothing on this buffet scores, for either team';
+    out.style.color = ok ? 'var(--q-green)' : 'var(--q-red)';
+  }
+  slider.addEventListener('input', update); update();
+})();
+
+/* ============================================================
+   MEAL BUILDER
+   ============================================================ */
+var NAMES = { grain:'Grain', dairy:'Dairy', protein:'Protein', vegetable:'Vegetable', fruit:'Fruit' };
+var stack = [];        // bottom -> top
+var hasDrink = false;
+
+function uniqCount(arr){
+  var t = {}; arr.forEach(function(x){ t[x] = 1; });
+  return Object.keys(t).length;
+}
+function classify(s){
+  if (!s.length) return { name:'Empty plate', pts:0, qca:0, why:'Add at least two different ingredient types to make a salad.' };
+
+  var n = uniqCount(s);
+  var bottomGrain = s[0] === 'grain';
+  var topGrain = s.length > 1 && s[s.length-1] === 'grain';
+  var midTypes = (bottomGrain && topGrain) ? uniqCount(s.slice(1, -1)) : 0;
+  var aboveTypes = bottomGrain ? uniqCount(s.slice(1).filter(function(x){ return x !== 'grain'; })) : 0;
+
+  if (bottomGrain && topGrain && midTypes >= 4)
+    return { name:'Sandwich', pts:50, qca:25, why:'Grain on the bottom and on top, with four different ingredient types in between.' };
+
+  if (bottomGrain && aboveTypes >= 3)
+    return { name:'Pizza', pts:30, qca:15, why:'Grain on the bottom with ' + aboveTypes + ' different ingredient types above it.' };
+
+  if (n >= 2){
+    var why = 'Two or more different ingredient types, in any order.';
+    if (bottomGrain && topGrain)
+      why = 'Grain on both ends, but only ' + midTypes + ' ingredient type' + (midTypes === 1 ? '' : 's') + ' in between — a sandwich needs four. It scores as a salad.';
+    else if (bottomGrain)
+      why = 'Only ' + aboveTypes + ' non-grain type' + (aboveTypes === 1 ? '' : 's') + ' above the grain — a pizza needs three. It scores as a salad.';
+    return { name:'Salad', pts:10, qca:5, why:why };
+  }
+
+  return { name:'Not a meal', pts:0, qca:0,
+    why:'Only one type of ingredient on the plate. A salad needs two different types — the same ingredient twice counts as one type.' };
+}
+
+function renderStack(){
+  var el = document.getElementById('stack');
+  el.innerHTML = '';
+  stack.forEach(function(k, i){
+    var d = document.createElement('div');
+    d.className = 'ing ' + k;
+    d.textContent = NAMES[k];
+    d.title = 'Click to remove';
+    d.addEventListener('click', function(){ stack.splice(i,1); renderStack(); });
+    el.appendChild(d);
+  });
+  var slot = document.getElementById('cupSlot');
+  slot.innerHTML = '';
+  if (hasDrink){
+    var c = document.createElement('div');
+    c.className = 'cup-on-plate';
+    c.innerHTML = '<i></i>';
+    c.title = 'Click to remove the drink';
+    c.addEventListener('click', function(){ hasDrink = false; renderStack(); });
+    slot.appendChild(c);
+  }
+  var res = classify(stack);
+  var loc = document.getElementById('mealLoc').value;
+  var inQca = loc === 'qca';
+  var mealPts = res.pts ? (inQca ? res.qca : res.pts) : 0;
+  var drinkPts = 0;
+  if (hasDrink) drinkPts = mealPts ? (inQca ? 6 : 12) : (inQca ? 2 : 4);
+  var bonus = 0;
+  if (mealPts){
+    if (loc === 'shelf') bonus = 5;
+    else if (loc === 'buffet') bonus = 15;
+    else if (loc === 'dining') bonus = 50;
+  }
+
+  document.getElementById('verdict').innerHTML = res.name + '<small>' + res.why +
+    (loc === 'dining' && res.pts ? ' Placed autonomously on a dining room table.' : '') + '</small>';
+  document.getElementById('valMeal').textContent = mealPts;
+  document.getElementById('valDrink').textContent = drinkPts;
+  document.getElementById('valLoc').textContent = bonus ? '+' + bonus : 0;
+  document.getElementById('valTotal').textContent = mealPts + drinkPts + bonus;
+  document.getElementById('stem').className = 'stem tint';
+
+  var hint = document.getElementById('ruleHint');
+  if (loc === 'dining' && hasDrink && mealPts) hint.textContent = 'A drink can ride along on a meal delivered to a table — the cup colour has to match the plate.';
+  else if (loc === 'qca') hint.textContent = 'In the Quality Check Area the spotter does the stacking, and every meal is worth about half.';
+  else hint.textContent = 'Two of the same ingredient count as one type. Order only matters for grain.';
+}
+
+[].slice.call(document.querySelectorAll('[data-add]')).forEach(function(b){
+  b.addEventListener('click', function(){
+    if (stack.length >= 9) return;
+    stack.push(b.dataset.add); renderStack();
+  });
+});
+document.getElementById('btnDrink').addEventListener('click', function(){ hasDrink = !hasDrink; renderStack(); });
+document.getElementById('btnClear').addEventListener('click', function(){ stack = []; hasDrink = false; renderStack(); });
+document.getElementById('btnSandwich').addEventListener('click', function(){
+  stack = ['grain','protein','dairy','vegetable','fruit','grain']; renderStack();
+});
+document.getElementById('mealLoc').addEventListener('change', renderStack);
+renderStack();
+
+/* ============================================================
+   MATCH SCORE CALCULATOR
+   ============================================================ */
+var CALC_ROBOT = [
+  { id:'salad',  label:'Salads',    pts:10, max:8 },
+  { id:'pizza',  label:'Pizzas',    pts:30, max:8 },
+  { id:'sand',   label:'Sandwiches',pts:50, max:8 },
+  { id:'shelf',  label:'…on a Warming Shelf',      pts:5,  max:7 },
+  { id:'buffet', label:'…on a balanced Buffet',    pts:15, max:3 },
+  { id:'dining', label:'…placed autonomously',     pts:50, max:8 },
+  { id:'fdrink', label:'Filled drinks in the field', pts:4, max:8 },
+  { id:'adrink', label:'Drinks added to field meals', pts:12, max:8 }
+];
+var CALC_OTHER = [
+  { id:'qsalad', label:'QCA salads',    pts:5,  max:8 },
+  { id:'qpizza', label:'QCA pizzas',    pts:15, max:8 },
+  { id:'qsand',  label:'QCA sandwiches',pts:25, max:8 },
+  { id:'qdrink', label:'QCA drinks',    pts:2,  max:8 },
+  { id:'qadd',   label:'Drinks added to QCA meals', pts:6, max:8 },
+  { id:'drone',  label:'Crop-tending drone',   pts:8, max:1 },
+  { id:'valve',  label:'Irrigation valve',     pts:4, max:1 },
+  { id:'hveg',   label:'Harvest vegetables',   pts:4, max:1 },
+  { id:'hfruit', label:'Harvest fruit',        pts:4, max:1 },
+  { id:'hcold',  label:'Harvest cold ingredients', pts:8, max:1 },
+  { id:'hgrain', label:'Harvest grain',        pts:8, max:1 }
+];
+function buildCalc(rows, host){
+  host.innerHTML = rows.map(function(r){
+    return '<div class="rowline"><label for="c-'+r.id+'">'+r.label+
+      ' <span class="muted" style="font-size:.82rem">'+r.pts+' ea</span></label>'+
+      '<input type="number" id="c-'+r.id+'" data-pts="'+r.pts+'" min="0" max="'+r.max+'" value="0" style="width:68px">'+
+      '</div>';
+  }).join('');
+}
+buildCalc(CALC_ROBOT, document.getElementById('calcRobot'));
+buildCalc(CALC_OTHER, document.getElementById('calcOther'));
+function recalc(){
+  var total = 0, any = false;
+  [].slice.call(document.querySelectorAll('#calcRobot input, #calcOther input')).forEach(function(i){
+    var v = Math.max(0, Math.min(+i.max, +i.value || 0));
+    if (v !== (+i.value || 0)) i.value = v;
+    if (v) any = true;
+    total += v * (+i.dataset.pts);
+  });
+  document.getElementById('calcTotal').textContent = total;
+  document.getElementById('calcNote').textContent = any
+    ? 'Location bonuses are added on top of the meal values, so count each meal once as a meal and again in its location row.'
+    : 'Add meals above to build a score.';
+}
+document.getElementById('calcRobot').addEventListener('input', recalc);
+document.getElementById('calcOther').addEventListener('input', recalc);
+recalc();
+
+/* ============================================================
+   BEST AWARD BREAKDOWN
+   ============================================================ */
+(function(){
+  var host = document.getElementById('bestChart'); if (!host) return;
+  var parts = [
+    { n:'Engineering Notebook', v:300, c:'#12211D', note:'Required for every team' },
+    { n:'Customer Marketing Presentation', v:250, c:'#C8892F', note:'4–8 students, 25 minutes' },
+    { n:'Robot Performance', v:250, c:'#2C6BB0', note:'Ranked from the seeding phase' },
+    { n:'Team Poster and Interview', v:100, c:'#2C8659', note:'1–3 students, 15 minutes' },
+    { n:'Digital Marketing Video', v:100, c:'#BE3A2E', note:'90–120 seconds plus an abstract' }
+  ];
+  var bar = '<div style="display:flex; height:46px; border-radius:4px; overflow:hidden; border:1px solid var(--steel-line); margin-bottom:20px">' +
+    parts.map(function(p){
+      return '<div title="'+p.n+' — '+p.v+' points" style="width:'+(p.v/10)+'%; background:'+p.c+'; display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--cond); font-weight:600; font-size:.95rem">'+p.v+'</div>';
+    }).join('') + '</div>';
+  var list = '<div class="grid g3">' + parts.map(function(p){
+    return '<div style="border-left:4px solid '+p.c+'; padding-left:12px">'+
+      '<div style="font-family:var(--cond); font-weight:700; font-size:1.35rem; line-height:1.1">'+p.v+'</div>'+
+      '<div style="font-weight:600; font-size:.95rem">'+p.n+'</div>'+
+      '<div class="muted" style="font-size:.86rem">'+p.note+'</div></div>';
+  }).join('') + '</div>';
+  host.innerHTML = bar + list;
+})();
+
+/* ============================================================
+   RULES LIST
+   ============================================================ */
+var RULES = [
+  ['dq','Taking game pieces','Robots may not take game pieces in the grasp of, or contained on, another robot.'],
+  ['dq','Another team’s start area','Robots may not move ingredients, plates or cups that are within another team’s Robot Start Area.'],
+  ['dq','Another team’s buffet shelf','Robots may not interact with another team’s designated Balance Buffet shelf.'],
+  ['dq','Dining room pieces','Robots may not remove, dislodge or control any game piece in the dining room. Pieces in a scoring position before the violation still count as scored, and nothing is ever reset.'],
+  ['dq','Remote-control delivery','A robot may not place a meal or drink on a dining room table under remote control.'],
+  ['dq','Blocking','Robots and detachable parts may not block another team’s RSA or entrance to the dining room. A robot that breaks down in either is disqualified — no exceptions.'],
+  ['dq','Another team’s plate','Robots are not to remove ingredients that are resting on another team’s plate.'],
+  ['dq','Wrong exit','Robots may only exit the dining room through a doorway leading to their own half of the field.'],
+  ['dq','Reaching over','Robots may not reach over any dining room wall, warming shelf or balance buffet divider for any reason.'],
+  ['dq','Water station','Robots may not reach into the water station or irrigation pipe to retrieve water. The valve has to be opened.'],
+  ['dq','Damaging the field','Damaging any portion of the field or game pieces, including intentionally moving or tipping over static portions of the field.'],
+  ['dq','Aggression','Referees may order an aggressive machine to stop an action if they believe another machine or the field could be damaged, and will disqualify for a major breach.'],
+  ['dq','Non-compliant machine','Any machine failing the compliance requirements of Section 1.3.6.'],
+  ['dq','Entering the field','Spotters and drivers may not enter the field during a match. If they do, the machine is disqualified.'],
+  ['dq','Leaving the field','A machine that as a whole completely leaves the field.'],
+  ['dq','Driver contact','The driver may not touch any part of the field, any game piece or the robot during the match.'],
+  ['dq','Spotter contact','The spotter may not touch any part of the field, any game piece or another team’s robot during the match, and may not touch the inside of the field beyond the RSA.'],
+  ['dq','Spotter and the robot','Other than debugging before the robot first leaves the RSA, the spotter may not manipulate the robot — including moving parts or repositioning components to help unload game pieces.'],
+  ['dq','Throwing','Throwing or tossing game pieces is not allowed.'],
+  ['dq','Autonomous during handoff','The robot may not run an autonomous or time-delay program while the spotter is interacting with it in the RSA.'],
+  ['pen','Leaving the box','A spotter or driver whose feet leave the designated spotter or driver box. 20 seconds per occurrence.'],
+  ['pen','Out of bounds','Any part of the robot touching the ground outside the field boundary. The robot leaving the field as a whole is a disqualification instead.'],
+  ['pen','Wrong colour dishware','Picking up or otherwise controlling a plate or cup that doesn’t match the colour of your RSA.'],
+  ['pen','Climbing','Driving or climbing on any field structure to gain leverage or advantageous positioning.'],
+  ['pen','Occupied table','Placing a meal on an already occupied dining room table. Only the first meal on that table scores.'],
+  ['pen','Carrying limit','Carrying or lifting more than one plate, or more than one cup, at a time.'],
+  ['pen','De-scoring','De-scoring another team’s completed dish. Interacting with your own designated Balance Buffet shelf is not de-scoring.'],
+  ['pen','Spotter timing','The spotter may only interact with the robot once part of it has broken the plane of the RSA and the driver is no longer touching the V5 Controller.'],
+  ['pen','Hands on the controller','The spotter may not touch the robot or any part of the field while the driver is touching the V5 Controller — except that the spotter may work in the RSA while the robot is not in it.'],
+  ['pen','Hands-free requirement','The driver must be hands-free before the spotter touches the robot, and the controller must stay hands-free throughout the interaction.'],
+  ['pen','One-way handoff','Anything the spotter touches inside the RSA must go into the Quality Check Area. Game pieces, meals and drinks may never return to the field or the RSA once touched.']
+];
+(function(){
+  var host = document.getElementById('ruleList'); if (!host) return;
+  function draw(filter, q){
+    q = (q||'').toLowerCase();
+    var shown = RULES.filter(function(r){
+      if (filter !== 'all' && r[0] !== filter) return false;
+      if (q && (r[1]+' '+r[2]).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+    if (!shown.length){ host.innerHTML = '<p class="muted" style="padding:20px 0">No rule matches that. Try a shorter word — “drink”, “spotter”, “dining”.</p>'; return; }
+    host.innerHTML = shown.map(function(r){
+      var pill = r[0] === 'dq' ? '<span class="pill dq">DQ</span>' : '<span class="pill pen">20 sec</span>';
+      return '<div class="rule">' + pill + '<div><h4>'+r[1]+'</h4><p>'+r[2]+'</p></div></div>';
+    }).join('');
+  }
+  var cur = 'all';
+  [].slice.call(document.querySelectorAll('[data-rfilter]')).forEach(function(b){
+    b.addEventListener('click', function(){
+      [].slice.call(document.querySelectorAll('[data-rfilter]')).forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on'); cur = b.dataset.rfilter;
+      draw(cur, document.getElementById('ruleSearch').value);
+    });
+  });
+  document.getElementById('ruleSearch').addEventListener('input', function(){ draw(cur, this.value); });
+  draw('all','');
+})();
+
+})();
+</script>
+
+
+<script>
+(function(){
+'use strict';
+/* kind: return | consume | buy
+   [kind, group, qty, description, source, part] */
+var MATERIALS = [
+  // ---------- RETURNABLE: BEST Control System V5 Kit (VEX SKU 270-9118)
+  ['return','BEST Control System V5 Kit','1','V5 Robot Brain, with power cable and mounting flanges — required','VEX Robotics','276-4810'],
+  ['return','BEST Control System V5 Kit','1','V5 Controller — required','VEX Robotics','276-4820'],
+  ['return','BEST Control System V5 Kit','1','V5 Robot Radio — required','VEX Robotics','276-4831'],
+  ['return','BEST Control System V5 Kit','4','Motor Controller MC55 — required','VEX Robotics','270-8996'],
+  ['return','BEST Control System V5 Kit','2','Large Motor — required','VEX Robotics','276-1611'],
+  ['return','BEST Control System V5 Kit','2','Small Motor — required','VEX Robotics','276-1610'],
+  ['return','BEST Control System V5 Kit','2','V5 Robot Battery Li-Ion 1100 mAh — only one may be on the robot at a time','VEX Robotics','276-4811'],
+  ['return','BEST Control System V5 Kit','2','V5 Battery Clip — required','VEX Robotics','(276-6020)'],
+  ['return','BEST Control System V5 Kit','1','V5 Battery Charger — cannot be used on the robot','VEX Robotics','276-4812'],
+  ['return','BEST Control System V5 Kit','6','Smart Cables (long assortment) — required','VEX Robotics','(276-4861)'],
+  ['return','BEST Control System V5 Kit','8','Screw Terminal Sensor Interface Cable, 3-wire — required','VEX Robotics','(276-3071)'],
+  ['return','BEST Control System V5 Kit','1','USB A-Micro Cable, 2 m — cannot be used on the robot','VEX Robotics','228-2785'],
+  ['return','BEST Control System V5 Kit','1','3-wire expander — required','VEX Robotics','276-5299'],
+  ['return','BEST Control System V5 Kit','2','Motor Wheel Hub, 1.5″ max dia, 0.5″ max thickness, 0.250″ bore, with set','VEX Robotics','(270-6430)'],
+  // ---------- RETURNABLE: BEST Motion Components Kit
+  ['return','BEST Motion Components Kit','1','¼″ bore, 24 tooth (small) drive pulley','VEX Robotics','270-4395'],
+  ['return','BEST Motion Components Kit','1','¼″ bore, idler pulley (diameter to match the 24 tooth pulley)','VEX Robotics','270-4395'],
+  ['return','BEST Motion Components Kit','1','¼″ bore, 120 tooth (large) drive pulley','VEX Robotics','270-4395'],
+  ['return','BEST Motion Components Kit','1','170 tooth, 3 mm pitch, 9 mm wide HTD loop belt — may not be modified','VEX Robotics / other','270-4395'],
+  ['return','BEST Motion Components Kit','1','3 mm pitch, 9 mm wide HTD strip belt, 3 ft long — may be cut and punched','VEX Robotics / other','270-4395'],
+  ['return','BEST Motion Components Kit','1','¼″ dia. shoulder screw with #10-32 thread','VEX Robotics / other','270-4395'],
+  ['return','BEST Motion Components Kit','1','76 mm roller blade wheel (78A to 82A) with bearings and 6 mm spacer','VEX Robotics / other','270-4395'],
+  ['return','BEST Motion Components Kit','1','6 mm roller blade wheel axle (any style)','VEX Robotics / other','270-4395'],
+  ['return','BEST Motion Components Kit','4','R4AZZ ball bearing, 0.25″ ID × 0.75″ OD × 0.28″ wide','VEX Robotics / other','270-4395'],
+  // ---------- RETURNABLE: Hub provided
+  ['return','Hub provided','1','Spare (replacement) servo horn screw','various',''],
+  ['return','Hub provided','3','BEST IR Sensor Kit — one comes assembled, and may be assembled by the team','BRI, not publicly available',''],
+  ['return','Hub provided','3','6″ servo extension cable (150 mm, 8″ or 200 mm also allowed)','various',''],
+  ['return','Hub provided','5','24″ servo extension cable (500 mm, 600 mm also allowed)','various',''],
+  ['return','Hub provided','2','40″ servo extension cable (36″ or 1000 mm also allowed)','various',''],
+  ['return','Hub provided','2','¼″ shaft coupler with set screws','McMaster-Carr','6412K11'],
+  ['return','Hub provided','1','V5 AI Vision Sensor and USB Cable A-C, 1 m','VEX Robotics','276-8659'],
+  ['return','Servos','4','Futaba S-U300 or compatible standard servo','various',''],
+  ['return','Servos','4','Male 1×3 2.54 mm header pin adapter, needle length approx 17 mm — optional','various',''],
+  ['return','Servos','4','Servo horn screw','various',''],
+  ['return','Servos','5','Servo horn, radius not to exceed 1″','various',''],
+  ['return','Servos','16','Rubber grommet — optional','various',''],
+  ['return','Servos','16','Brass spacer — optional','various',''],
+  ['return','Servos','16','Servo mounting screw — optional','various',''],
+  ['return','Hub provided','any','Containers, bags, boxes — all returned with the kit','Hub supplied',''],
+
+  // ---------- CONSUMABLE: igus donated
+  ['consume','igus donated parts','1 m','e-chain cable carrier, P/N E08-30-048-24, with 2 mount brackets (P/N 080-30-12)','',''],
+  ['consume','igus donated parts','12 ft','chainflex control cable, P/N CF130.05.03.UL','',''],
+  ['consume','igus donated parts','12 ft','chainflex data cable, P/N CF240.03.03','',''],
+  ['consume','igus donated parts','6 ea','iglide G plain bearings, P/N GFI-0405-06','',''],
+  ['consume','igus donated parts','2 ea','drylin N linear guide system, P/N NK01-27-2-450 (18 in / 450 mm)','',''],
+  ['consume','igus donated parts','6 ea','igubal rod end bearings, P/N EBRI-04 (¼″ bore / ¼-28 thread)','',''],
+  ['consume','igus donated parts','6 ea','igubal flange bearings, P/N EFOI-04 (0.2500″ bore)','',''],
+  ['consume','igus donated parts','6 ea','igubal pillow block bearings, P/N KSTI-04 (0.2500″ bore)','',''],
+  ['consume','igus donated parts','2 ea','drylin aluminium shafting, P/N AWI-04 (18 in / 450 mm, 0.2500″ dia)','',''],
+  ['consume','igus donated parts','500 mm','iglide A160 tribo-tape, P/N A160-T-005-0100-G (100 mm width)','',''],
+  // ---------- CONSUMABLE: stock
+  ['consume','Plastic and metal stock','1 ea','¼″ thick polypropylene sheet, 12″ × 24″','',''],
+  ['consume','Plastic and metal stock','1 ea','⅛″ thick clear polycarbonate sheet, 12″ × 24″','',''],
+  ['consume','Plastic and metal stock','1 ea','⅛″ thick PVC Type 1 sheet, 12″ × 24″','',''],
+  ['consume','Plastic and metal stock','1 ea','0.5″ thick × 2″ wide 6061-T6 aluminium flat, 12″ long','',''],
+  ['consume','Plastic and metal stock','1 ea','0.063″ thick 5052-H32 aluminium sheet, 12″ × 24″','',''],
+  ['consume','Plastic and metal stock','1 ea','0.5″ diameter 6061-T6 or 6063-T5 aluminium round, 24″ long','',''],
+  ['consume','Plastic and metal stock','4 ea','Piano wire, 0.063″ diameter, 12″ long','',''],
+  ['consume','Wood stock','1 ea','0.25″ to 0.50″ thick 2′ × 4′ plywood, 5 plys max, any grade, soft or hardwood','',''],
+  ['consume','Wood stock','1 ea','0.10″ to 0.25″ thick 2′ × 4′ plywood, 3 plys max, any grade, soft or hardwood','',''],
+  ['consume','Wood stock','2 ea','1″ × 4″ (nominal) #2 whitewood, 2 ft long','',''],
+  ['consume','Pipes and fittings','2 ea','¾″ schedule 40 PVC pipe, 5 ft long','',''],
+  ['consume','Pipes and fittings','10 ea','¾″ PVC 90 degree elbow (slip)','',''],
+  ['consume','Pipes and fittings','10 ea','¾″ PVC tee (slip)','',''],
+  ['consume','Pipes and fittings','1 ea','PVC cement, 4 oz or 8 oz','',''],
+  ['consume','Hardware','4 ea','2.5″ × ⅝″ steel ZN corner angle bracket','',''],
+  ['consume','Hardware','2 ea','2.5″ H × 1.75″ W × 0.055″ narrow hinge (with 6 ea of #6 ¾″ screws)','',''],
+  ['consume','Hardware','2 ea','1.5″ H × 1-3/8″ W × 0.05″ narrow hinge (with 4 ea of #5 ¾″ screws)','',''],
+  ['consume','Hardware','1 ea','6″ × 6″ steel turntable, 400 lb to 500 lb capacity','',''],
+  ['consume','Hardware','1 ea','¾″ metal pipe hanger tape, 28 gauge, 10 ft long','',''],
+  ['consume','Electrical','12 ft','18 gauge stranded copper wire, red insulation, single conductor','',''],
+  ['consume','Electrical','12 ft','18 gauge stranded copper wire, black insulation, single conductor','',''],
+  ['consume','Electrical','12 ft','CAT3 24 gauge, 4 twisted pairs of conductor wire','',''],
+  ['consume','Electrical','3 ea','Sub-mini snap action switch, SPDT, 0.1 A, Omron P/N SS-01GL13PT','',''],
+  ['consume','Electrical','2 ea','Rotary potentiometer, linear, 10K ohm, 300°, panel mount, 6 mm approx shaft','',''],
+  ['consume','Electrical','2 ft','Heat shrink tubing, ¼″ OD expanded, 2:1 ratio, polyolefin','',''],
+  ['consume','Electrical','10 ea','11″ long × 0.18″ wide nylon cable tie','',''],
+  ['consume','Electrical','20 ea','4″ long × 0.1″ wide nylon cable tie','',''],
+  ['consume','Tapes and adhesives','1 ea','Vinyl electrical tape, ¾″ wide, 60 ft','',''],
+  ['consume','Tapes and adhesives','1 ea','Friction tape, ¾″ wide, 20 ft — not treated as an adhesive; intended for gripping','',''],
+  ['consume','Tapes and adhesives','1 ea','All purpose duct tape, 2″ (or 1.88″) wide, 50 to 60 yd, colour optional','',''],
+  ['consume','Tapes and adhesives','1 ea','Painters tape, 1″ (or 0.94″) wide, 60 yard — the only tape allowed on returnable items','',''],
+  ['consume','Tapes and adhesives','1 ea','Carpenters wood glue, 4 oz or 8 oz','',''],
+  ['consume','Threaded fasteners','1 pack','Assortment: ¼″-20 Build a Bolt kit','',''],
+  ['consume','Threaded fasteners','1 pack','Assortment: Bolts and Nuts Kit, imperial screws','',''],
+  ['consume','Threaded fasteners','1 pack','Assortment: screws, zinc plated steel, #6, #8 and #10, lengths under 2 inches, qty 125','',''],
+  ['consume','Threaded fasteners','1 ea','¼″-20 threaded rod, 3 ft long, steel','',''],
+  ['consume','Threaded fasteners','6 ea','¼-28 × 1″ screw, nylon (mates with igus rod end)','',''],
+  ['consume','Threaded fasteners','6 ea','Wood screw eyebolts, 0.192″ wire dia × .97 shank × .75 thread × .27 id, steel','',''],
+  ['consume','Threaded fasteners','25 ea','#4 × ¾″ to 1″ wood screw, steel, slotted or Phillips drive, round or pan head','',''],
+  ['consume','Miscellaneous','5 ft','¾″ nylon sticky back hook and loop fastener — adhesive side may not touch returnable items','',''],
+  ['consume','Miscellaneous','1 ea','#18 twisted nylon or polypropylene seine twine, 225 to 250 ft long, colour optional','',''],
+  ['consume','Miscellaneous','4 ft','¼″ polypropylene covered shock cord, colour optional','',''],
+  ['consume','Miscellaneous','1 ea','Bicycle inner tube, 26″ × 1.375″ min to 2.25″ max','',''],
+  ['consume','Miscellaneous','1 pack','Assortment: rubber bands 2 oz, 1/16″ to 3/16″ wide × 1-¼″ to 3-½″ long','',''],
+  ['consume','Miscellaneous','1 kit','VEX motor mounting kit (4 mounts plus screws)','',''],
+  // ---------- CONSUMABLE: assortment pack contents
+  ['consume','Pack: ¼″-20 Build a Bolt','10 ea','¼″-20 hex nut, steel — up to 25 allowed on a compliant robot','',''],
+  ['consume','Pack: ¼″-20 Build a Bolt','10 ea','¼″ SAE flat washer, steel — up to 25 allowed on a compliant robot','',''],
+  ['consume','Pack: ¼″-20 Build a Bolt','10 ea','¼″ medium split lock washer, steel — up to 25 allowed on a compliant robot','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','25 ea','#10-24 or 10-32 × 1-½″ machine screws, stainless steel, round/pan head','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','25 ea','#10-24 or 10-32 machine screw nuts, stainless steel','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','25 ea','#10 flat washer, stainless steel','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','50 ea','#8-32 × 1-¼″ machine screw, stainless steel, round/pan head, Phillips','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','50 ea','#8-32 machine screw nuts, stainless steel','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','50 ea','#8 flat washer, stainless steel (7/16″ OD)','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','25 ea','#6-32 × 1″ machine screw, stainless steel, round/pan head, Phillips','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','25 ea','#6-32 machine screw nuts, stainless steel','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','25 ea','#6 flat washer, stainless steel (3/8″ OD)','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','25 ea','#4-40 × 1″ machine screws, round/pan head, stainless steel','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','25 ea','#4-40 machine screw nuts, stainless steel','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','25 ea','#4 flat washer, stainless steel (5/16″ OD)','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','10 ea','#2-56 × 1″ machine screws, round/pan head, Phillips, stainless steel','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','10 ea','#2-56 machine screw nuts, stainless steel','',''],
+  ['consume','Pack: Bolts and Nuts, imperial','10 ea','#2 flat washer, stainless steel','',''],
+  ['consume','Pack: Zinc plated screws','~40 ea','#6 × ¾ in flat head Phillips wood screws','',''],
+  ['consume','Pack: Zinc plated screws','~30 ea','#6 × 1 in flat head Phillips wood screws','',''],
+  ['consume','Pack: Zinc plated screws','~30 ea','#8 × ¾ in flat head Phillips wood screws','',''],
+  ['consume','Pack: Zinc plated screws','~20 ea','#8 × 1-½ in flat head Phillips wood screws','',''],
+  ['consume','Pack: Zinc plated screws','~30 ea','#6 × ½ in pan head combo sheet metal screws','',''],
+  ['consume','Pack: Zinc plated screws','~30 ea','#8 × ½ in pan head combo sheet metal screws','',''],
+  ['consume','Pack: Zinc plated screws','~30 ea','#8 × ¾ in pan head combo sheet metal screws','',''],
+  ['consume','Pack: Zinc plated screws','~25 ea','#10 × ¾ in pan head combo sheet metal screws','',''],
+  ['consume','Pack: Zinc plated screws','1 ea','#2 Phillips driver bit','',''],
+
+  // ---------- TEAM PROVIDED / BUY
+  ['buy','Team Custom Parts','4 ea','Team Custom Part — any homogeneous material, each fitting a 2″ × 4″ × 4″ cuboid','Team sourced',''],
+  ['buy','Structure and grip','6 ft','Foam pipe insulation, max 1-⅛″ ID','Team sourced',''],
+  ['buy','Structure and grip','10 sq ft','Drawer shelf liner for grip, non-adhesive','Team sourced',''],
+  ['buy','Structure and grip','100 ea','1-¼″ long paper clips, 0.033″ dia wire (No. 1 Regular)','Team sourced',''],
+  ['buy','Structure and grip','10 ea','Wooden spring-type clothes pins','Team sourced',''],
+  ['buy','Structure and grip','88,704 sq in','Cardboard sheet, ¼″ maximum thickness, not preformed','Team sourced',''],
+  ['buy','Structure and grip','2 ea','Empty food or beverage PETE container with screw-on cap or lid, 2 litre max','Team sourced',''],
+  ['buy','Structure and grip','3 ea','Wire coat hangers, with or without plastic coating, ⅛″ dia max','Team sourced',''],
+  ['buy','Structure and grip','3 ea','Solid core golf balls','Team sourced',''],
+  ['buy','Structure and grip','3 ea','~10 oz empty metal soup can with the lid removed','Team sourced',''],
+  ['buy','Structure and grip','24 lb','Pennies — cannot be altered; bank wrappers allowed','Team sourced',''],
+  ['buy','Adhesives and fasteners','1 ea','5 minute epoxy, 0.85 oz','Team sourced',''],
+  ['buy','Adhesives and fasteners','1 ea','8 oz PVC primer','Team sourced',''],
+  ['buy','Adhesives and fasteners','1 ea','Carpenters wood glue, 4 oz or 8 oz','Team sourced',''],
+  ['buy','Adhesives and fasteners','50 ea','Deck or drywall screws, 2-½″ maximum length','Team sourced',''],
+  ['buy','Adhesives and fasteners','6 ea','#10-32 × 1″ socket head screw, high strength (150 KSI min) steel','Team sourced',''],
+  ['buy','Wiring','25 ea','Wire management clips, ties or wraps — may only be used on wiring','Team sourced',''],
+  ['buy','Wiring','16 ea','Lever wire connectors','Team sourced',''],
+  ['buy','Wiring','16 ea','Snap-plug terminals (bullet connectors), insulated, male','Team sourced',''],
+  ['buy','Wiring','16 ea','Snap-plug terminals (socket for bullet connectors), insulated, female','Team sourced',''],
+  ['buy','Wiring','20 ea','Quick-disconnect terminal, insulated, female, ~⅛″ wide','Team sourced',''],
+  ['buy','Wiring','10 ea','Quick-disconnect terminal, insulated, female, ~3/16″ wide','Team sourced','']
+];
+
+var KINDS = {
+  'return':  { label:'Returnable', cls:'b-return',  note:'Given — goes back' },
+  'consume': { label:'Consumable', cls:'b-consume', note:'Given — yours to keep' },
+  'buy':     { label:'You provide', cls:'b-buy',    note:'Not supplied — source it' }
+};
+
+var host = document.getElementById('matTables');
+var countEl = document.getElementById('matCount');
+if (host){
+  var filter = 'all', query = '';
+
+  function render(){
+    var q = query.toLowerCase();
+    var rows = MATERIALS.filter(function(r){
+      if (filter !== 'all' && r[0] !== filter) return false;
+      if (q && (r[1] + ' ' + r[3] + ' ' + r[4] + ' ' + r[5]).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+
+    countEl.textContent = rows.length + ' of ' + MATERIALS.length + ' line items shown';
+
+    if (!rows.length){
+      host.innerHTML = '<div class="card"><p style="margin:0">Nothing matches that search. Try a material — “aluminium”, “PVC”, “servo”, “bearing”.</p></div>';
+      return;
+    }
+
+    // group in first-seen order
+    var order = [], byGroup = {};
+    rows.forEach(function(r){
+      if (!byGroup[r[1]]) { byGroup[r[1]] = []; order.push(r[1]); }
+      byGroup[r[1]].push(r);
+    });
+
+    host.innerHTML = order.map(function(gname){
+      var items = byGroup[gname];
+      var kind = KINDS[items[0][0]];
+      var showSource = items.some(function(r){ return r[4] || r[5]; });
+      return '<div class="tablescroll"><table>' +
+        '<caption>' + gname + ' <span class="badge ' + kind.cls + '" style="vertical-align:middle; margin-left:6px">' + kind.label + '</span></caption>' +
+        '<thead><tr><th style="width:92px">Qty</th><th>Item</th>' +
+        (showSource ? '<th style="width:190px">Source</th><th style="width:110px">Part no.</th>' : '') +
+        '</tr></thead><tbody>' +
+        items.map(function(r){
+          return '<tr><td class="num">' + r[2] + '</td><td>' + r[3] + '</td>' +
+            (showSource ? '<td>' + (r[4] || '—') + '</td><td>' + (r[5] || '—') + '</td>' : '') + '</tr>';
+        }).join('') +
+        '</tbody></table></div>';
+    }).join('');
+  }
+
+  [].slice.call(document.querySelectorAll('[data-mfilter]')).forEach(function(b){
+    b.addEventListener('click', function(){
+      [].slice.call(document.querySelectorAll('[data-mfilter]')).forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      filter = b.dataset.mfilter;
+      render();
+    });
+  });
+  document.getElementById('matSearch').addEventListener('input', function(){ query = this.value; render(); });
+  render();
+}
+})();
+</script>
+
+</body>
+</html>
