@@ -4,6 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Byte to Bite — 2026 BEST Robotics Classic</title>
+<meta name="description" content="Unofficial study guide to Byte to Bite, the 2026 BEST Robotics Classic: full scoring tables, an interactive meal builder and match calculator, a 3D field walkthrough, kit lists, and the gaps in rulebook v3.2.">
+<meta name="theme-color" content="#12211D">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312211D'/%3E%3Cellipse cx='16' cy='22' rx='10.5' ry='3.4' fill='%23EEF1EF'/%3E%3Crect x='15' y='9' width='2' height='12' rx='1' fill='%23C8892F'/%3E%3Ccircle cx='16' cy='9' r='3.2' fill='%23E8A93F'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Byte to Bite — rules guide">
+<meta property="og:title" content="Byte to Bite — 2026 BEST Robotics Classic">
+<meta property="og:description" content="Unofficial study guide to Byte to Bite, the 2026 BEST Robotics Classic: full scoring tables, an interactive meal builder and match calculator, a 3D field walkthrough, kit lists, and the gaps in rulebook v3.2.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Byte to Bite — 2026 BEST Robotics Classic">
+<meta name="twitter:description" content="Unofficial study guide to Byte to Bite, the 2026 BEST Robotics Classic: full scoring tables, an interactive meal builder and match calculator, a 3D field walkthrough, kit lists, and the gaps in rulebook v3.2.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -239,6 +249,23 @@ select,input[type=number]{font-family:var(--sans); font-size:.95rem; padding:6px
 @media(max-width:760px){.phase>div{border-right:0; border-bottom:1px solid var(--steel-line)}}
 
 /* ---------- Rules list ---------- */
+.pill.q{color:#2C6BB0; background:#EDF3FA}
+
+/* ---------- Open questions ---------- */
+.oq{border:1px solid var(--steel-line); border-left:4px solid var(--steel); border-radius:var(--r-s); background:var(--white); padding:16px 20px; margin-bottom:14px}
+.oq[data-cat="contradiction"]{border-left-color:var(--q-red)}
+.oq[data-cat="gap"]{border-left-color:var(--brass)}
+.oq[data-cat="loophole"]{border-left-color:var(--q-blue)}
+.oq[data-cat="count"]{border-left-color:var(--q-green)}
+.oq-top{display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; margin-bottom:6px}
+.oq-top h4{font-family:var(--cond); font-size:1.22rem; margin:0; line-height:1.25}
+.oq p{margin:0 0 9px}
+.oq p:last-child{margin-bottom:0}
+.oq blockquote{margin:9px 0; padding:7px 0 7px 14px; border-left:2px solid var(--steel-line); color:#3E514A; font-size:.95rem}
+.oq blockquote b{font-family:var(--cond); font-weight:600; color:var(--enamel)}
+.oq .why{font-size:.93rem; color:#42544D; border-top:1px dashed var(--steel-line); padding-top:9px; margin-top:11px}
+.oq .why b{font-family:var(--cond); color:var(--enamel)}
+
 .rule{display:grid; grid-template-columns:88px 1fr; gap:14px; padding:12px 0; border-bottom:1px solid var(--steel-line); align-items:start}
 .rule:last-child{border-bottom:0}
 .rule p{margin:0; font-size:.96rem}
@@ -318,6 +345,7 @@ footer strong{color:#FFF}
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="materials">Materials &amp; Kits</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="awards">Awards &amp; Judging</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="advance">Season &amp; Advancement</button>
+    <button class="tabbtn" role="tab" aria-selected="false" data-tab="open">Open Questions</button>
   </div>
 </nav>
 
@@ -491,7 +519,7 @@ footer strong{color:#FFF}
       </div>
       <div class="card">
         <h4>Cold Food Storage Fridge</h4>
-        <p>Dairy — yellow square slabs — sit in stacks of three on the handle side. Protein — brown round disks — sit in stacks of three on the hinge side. Open the door, then pull them out.</p>
+        <p>Dairy — yellow square slabs — sit in two stacks of three on the <strong>lower shelf</strong>, on the handle side. Protein — brown round disks — sit in two stacks of three on the <strong>upper shelf</strong>, on the hinge side. Open the door, then pull them out.</p><p class="muted" style="font-size:.9rem">That combines two descriptions the rulebook gives differently &mdash; 3.3.2.1.C puts both ingredients on both shelves. See <a href="#open" data-goto="open">Open Questions</a>.</p>
         <p class="muted" style="font-size:.9rem">6 dairy + 6 protein per garden half &middot; harvest bonus 8 pts for clearing both</p>
       </div>
       <div class="card">
@@ -595,7 +623,7 @@ footer strong{color:#FFF}
     </div>
     <div class="note">
       <strong>The handoff protocol</strong>
-      <p>The robot drops ingredients and dishware into the RSA. The spotter may only reach in when the robot is <em>completely outside</em> the RSA and the driver is hands-free. Anything the spotter touches must end up in the Quality Check Area — it can't be left in the RSA and it can't go back onto the field. Meals in the QCA can be taken apart and rebuilt, but nothing ever returns to play. Loose ingredients left in the QCA at the end of the match score nothing, and neither does water outside a cup.</p>
+      <p>The robot drops ingredients and dishware into the RSA. The spotter may only reach in when the robot is <em>completely outside</em> the RSA, the driver is hands-free, or both — the rulebook words this condition three different ways, so build for the strict reading and see <a href="#open" data-goto="open">Open Questions</a>. Anything the spotter touches must end up in the Quality Check Area — it can't be left in the RSA and it can't go back onto the field. Meals in the QCA can be taken apart and rebuilt, but nothing ever returns to play. Loose ingredients left in the QCA at the end of the match score nothing, and neither does water outside a cup.</p>
     </div>
   </div>
 
@@ -887,6 +915,64 @@ footer strong{color:#FFF}
     <p>Match scheduling tries to give every team a turn on each quadrant and to limit back-to-back matches. Any schedule change has to be communicated to the teams.</p>
   </div>
 
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Who plays where, match by match</h2>
+      <p>Seeding pairings are drawn by the scoring software, but every match after that runs on a fixed rotation published in the rulebook. Find your seed and you know your quadrant before you arrive.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <div class="tablescroll">
+          <table>
+            <caption>Semi-finals, 8 teams &mdash; Table 1.4.6.3.a</caption>
+            <thead><tr><th>Match</th><th class="num"><span class="q-y">Yellow</span></th><th class="num"><span class="q-b">Blue</span></th><th class="num"><span class="q-r">Red</span></th><th class="num"><span class="q-g">Green</span></th></tr></thead>
+            <tbody>
+          <tr><td class="num">1</td><td class="num">Seed&nbsp;4</td><td class="num">Seed&nbsp;6</td><td class="num">Seed&nbsp;3</td><td class="num">Seed&nbsp;2</td></tr>
+          <tr><td class="num">2</td><td class="num">Seed&nbsp;7</td><td class="num">Seed&nbsp;1</td><td class="num">Seed&nbsp;5</td><td class="num">Seed&nbsp;8</td></tr>
+          <tr><td class="num">3</td><td class="num">Seed&nbsp;3</td><td class="num">Seed&nbsp;7</td><td class="num">Seed&nbsp;8</td><td class="num">Seed&nbsp;4</td></tr>
+          <tr><td class="num">4</td><td class="num">Seed&nbsp;6</td><td class="num">Seed&nbsp;5</td><td class="num">Seed&nbsp;2</td><td class="num">Seed&nbsp;1</td></tr>
+          <tr><td class="num">5</td><td class="num">Seed&nbsp;5</td><td class="num">Seed&nbsp;3</td><td class="num">Seed&nbsp;4</td><td class="num">Seed&nbsp;7</td></tr>
+          <tr><td class="num">6</td><td class="num">Seed&nbsp;8</td><td class="num">Seed&nbsp;2</td><td class="num">Seed&nbsp;1</td><td class="num">Seed&nbsp;6</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tablescroll" style="margin-top:18px">
+          <table>
+            <caption>Finals &mdash; Table 1.4.6.4</caption>
+            <thead><tr><th>Match</th><th class="num"><span class="q-y">Yellow</span></th><th class="num"><span class="q-b">Blue</span></th><th class="num"><span class="q-r">Red</span></th><th class="num"><span class="q-g">Green</span></th></tr></thead>
+            <tbody>
+          <tr><td class="num">1</td><td class="num">SF&nbsp;1</td><td class="num">SF&nbsp;2</td><td class="num">SF&nbsp;3</td><td class="num">SF&nbsp;4</td></tr>
+          <tr><td class="num">2</td><td class="num">SF&nbsp;4</td><td class="num">SF&nbsp;3</td><td class="num">SF&nbsp;2</td><td class="num">SF&nbsp;1</td></tr>
+          <tr><td class="num">3</td><td class="num">SF&nbsp;3</td><td class="num">SF&nbsp;1</td><td class="num">SF&nbsp;4</td><td class="num">SF&nbsp;2</td></tr>
+          <tr><td class="num">4</td><td class="num">SF&nbsp;2</td><td class="num">SF&nbsp;4</td><td class="num">SF&nbsp;1</td><td class="num">SF&nbsp;3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted" style="font-size:.9rem; margin-top:10px">In the finals, &ldquo;SF&nbsp;<i>n</i>&rdquo; means the team that finished <i>n</i>th in the semi-final phase. Each of the four teams plays every quadrant exactly once.</p>
+      </div>
+      <div class="tablescroll">
+        <table>
+          <caption>Semi-finals, 16 teams &mdash; Table 1.4.6.3.b</caption>
+          <thead><tr><th>Match</th><th class="num"><span class="q-y">Yellow</span></th><th class="num"><span class="q-b">Blue</span></th><th class="num"><span class="q-r">Red</span></th><th class="num"><span class="q-g">Green</span></th></tr></thead>
+          <tbody>
+        <tr><td class="num">1</td><td class="num">Seed&nbsp;4</td><td class="num">Seed&nbsp;13</td><td class="num">Seed&nbsp;1</td><td class="num">Seed&nbsp;16</td></tr>
+          <tr><td class="num">2</td><td class="num">Seed&nbsp;5</td><td class="num">Seed&nbsp;10</td><td class="num">Seed&nbsp;3</td><td class="num">Seed&nbsp;15</td></tr>
+          <tr><td class="num">3</td><td class="num">Seed&nbsp;6</td><td class="num">Seed&nbsp;9</td><td class="num">Seed&nbsp;8</td><td class="num">Seed&nbsp;11</td></tr>
+          <tr><td class="num">4</td><td class="num">Seed&nbsp;16</td><td class="num">Seed&nbsp;4</td><td class="num">Seed&nbsp;2</td><td class="num">Seed&nbsp;14</td></tr>
+          <tr><td class="num">5</td><td class="num">Seed&nbsp;8</td><td class="num">Seed&nbsp;5</td><td class="num">Seed&nbsp;6</td><td class="num">Seed&nbsp;12</td></tr>
+          <tr><td class="num">6</td><td class="num">Seed&nbsp;7</td><td class="num">Seed&nbsp;11</td><td class="num">Seed&nbsp;9</td><td class="num">Seed&nbsp;10</td></tr>
+          <tr><td class="num">7</td><td class="num">Seed&nbsp;3</td><td class="num">Seed&nbsp;14</td><td class="num">Seed&nbsp;13</td><td class="num">Seed&nbsp;2</td></tr>
+          <tr><td class="num">8</td><td class="num">Seed&nbsp;10</td><td class="num">Seed&nbsp;12</td><td class="num">Seed&nbsp;5</td><td class="num">Seed&nbsp;1</td></tr>
+          <tr><td class="num">9</td><td class="num">Seed&nbsp;15</td><td class="num">Seed&nbsp;6</td><td class="num">Seed&nbsp;16</td><td class="num">Seed&nbsp;7</td></tr>
+          <tr><td class="num">10</td><td class="num">Seed&nbsp;14</td><td class="num">Seed&nbsp;8</td><td class="num">Seed&nbsp;11</td><td class="num">Seed&nbsp;13</td></tr>
+          <tr><td class="num">11</td><td class="num">Seed&nbsp;1</td><td class="num">Seed&nbsp;7</td><td class="num">Seed&nbsp;4</td><td class="num">Seed&nbsp;3</td></tr>
+          <tr><td class="num">12</td><td class="num">Seed&nbsp;2</td><td class="num">Seed&nbsp;15</td><td class="num">Seed&nbsp;12</td><td class="num">Seed&nbsp;9</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
   <div class="sec">
     <div class="sec-head">
       <h2>Resetting the field between matches</h2>
@@ -945,6 +1031,11 @@ footer strong{color:#FFF}
     </div>
 
     <div id="ruleList"></div>
+
+    <div class="note" style="margin-top:22px">
+      <strong>A third outcome: out of play</strong>
+      <p>Not every mistake is a penalty. Under rule 3.6.2.A, any game piece that touches the floor <em>outside</em> the field boundary &mdash; or that is placed in, or falls into, the spotter box &mdash; is simply considered out of play and is removed by the referee. It costs you no points and no time, but that piece is gone for the rest of the match. The one exception is the game pieces, completed meals and drinks the spotter deliberately places into the Quality Check Area, which stay in play for scoring.</p>
+    </div>
   </div>
 
   <div class="sec">
@@ -973,11 +1064,21 @@ footer strong{color:#FFF}
       <h2>Safety</h2>
       <p>Not negotiable, and enforced in the pit as well as on the field.</p>
     </div>
-    <div class="grid g2">
+    <div class="grid g3">
       <div class="card">
         <h4>Tools in the pit</h4>
         <p>No power tools, including battery-operated ones, with two exceptions: a power drill/driver and an electrically powered soldering iron or gun. Common hand tools are fine.</p>
         <p style="margin-bottom:0">The drill/driver may be used for drilling and for inserting or removing hardware — not for grinding, sawing or routing. Allowed power tools may only be run in the pit area or a hub-designated workstation. Illegal tools may be confiscated for the day.</p>
+      </div>
+      <div class="card">
+        <h4>Your pit space</h4>
+        <ul style="margin-bottom:0">
+          <li>Each team gets its own workspace in the pit. If the hub doesn't provide a table, you may bring one with a surface area no greater than <strong>2,400 square inches</strong>.</li>
+          <li>One electrical plug per team for battery charging. Exact specifications and location vary by hub.</li>
+          <li>You may bring a toolbox of basic hand tools, subject to the safety constraints above.</li>
+          <li>Break a part you can't repair with what you have, and the sponsoring BEST organisation will make its best effort to help you replace it from local shops or spare material.</li>
+          <li>At least one Practice Day or Mall Day runs before Game Day. Tables and electricity are shared, teams bring their own tools, and the same safety rules apply.</li>
+        </ul>
       </div>
       <div class="card">
         <h4>On the machine and around it</h4>
@@ -1002,6 +1103,7 @@ footer strong{color:#FFF}
       <div class="card"><h4>Covered</h4><p>The object cannot be seen without moving something else.</p></div>
       <div class="card"><h4>Control</h4><p>Pulling, dragging, lifting or carrying a game piece. Pushing it does not count as control.</p></div>
       <div class="card"><h4>Hands-free</h4><p>The V5 Controller is not in the driver's hands and the driver has no remote control of the robot.</p></div>
+      <div class="card"><h4>Remote control</h4><p>The driver has manual control of the robot via the V5 Controller. The opposite of hands-free &mdash; and the state the dining room forbids.</p></div>
       <div class="card"><h4>Designated</h4><p>The field structure closest to a coloured Robot Start Area is owned by that team.</p></div>
       <div class="card"><h4>Drive / climb on</h4><p>The robot is using part of the field structure to gain leverage or advantageous positioning.</p></div>
       <div class="card"><h4>Field structure</h4><p>Any physical part of the field built to stabilise the field, the game elements or the border.</p></div>
@@ -1346,6 +1448,35 @@ footer strong{color:#FFF}
         <p class="muted" style="font-size:.9rem; margin-bottom:0">The abstract covers integration of school and workplace skills, advocacy, workforce development, and collaboration with other schools.</p>
       </div>
     </div>
+    <div class="tablescroll" style="margin-top:20px">
+      <table>
+        <caption>How the judges split the points, from the Appendix F scoresheets</caption>
+        <thead><tr><th>Component</th><th>Section</th><th>Line items</th><th class="num">Weight</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="4"><strong>Customer Marketing Presentation</strong><br><span class="muted">250 points</span></td>
+              <td>Company Overview</td>
+              <td>Organization 10 &middot; mission statement 10 &middot; brand promise 10 &middot; marketing and sales strategies / market analysis 15 &middot; public image 10 &middot; budget 10 &middot; company sustainability 10</td>
+              <td class="num">75</td></tr>
+          <tr><td>Product Features</td><td>Task knowledge 20 &middot; meeting requirements 20 &middot; differentiation 20 &middot; visual aids 10</td><td class="num">70</td></tr>
+          <tr><td>Clear Business Offer</td><td>Sales price 20 &middot; aftermarket support 20 &middot; formal offer 10</td><td class="num">50</td></tr>
+          <tr><td>Business Professionalism</td><td>Mechanics 10 &middot; endorsements 10 &middot; professionalism 15 &middot; creativity 20</td><td class="num">55</td></tr>
+
+          <tr><td rowspan="2"><strong>Poster Display and Interview</strong><br><span class="muted">100 points</span></td>
+              <td>Elevator Speech</td>
+              <td>Speech 1, a self introduction and personal goals, about a minute, 30 &middot; speech 2, a company introduction, objective and branding, 30</td>
+              <td class="num">60</td></tr>
+          <tr><td>Specifications and Differentiation</td><td>Robot feature and operation 10 &middot; 3D isometric/CAD rendering or artwork 10 &middot; product differentiation 10 &middot; company business plan 10</td><td class="num">40</td></tr>
+
+          <tr><td rowspan="2"><strong>Digital Marketing Video</strong><br><span class="muted">100 points</span></td>
+              <td>Written Abstract</td>
+              <td>School and workplace skills 10 &middot; advocacy 10 &middot; workforce development 10 &middot; collaboration with other schools and teams 10</td>
+              <td class="num">40</td></tr>
+          <tr><td>The Video</td><td>Content and specifications 20 &middot; branding 10 &middot; creativity 15 &middot; quality and technical detail 15</td><td class="num">60</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:.9rem; margin-top:10px">Every scoresheet also bands the total: for a 100-point component, Superlative is 90&ndash;100, Excellent 70&ndash;89, Meets 30&ndash;69 and Needs Revision 0&ndash;29. The notebook uses the same percentages on its 300-point scale &mdash; Superlative 270&ndash;300, Excellent 210&ndash;269, Meets 90&ndash;209, Needs Revision 0&ndash;89.</p>
+
     <div class="note">
       <strong>Rules common to the presentations</strong>
       <p>Only students may participate, including setting up and taking down. The only materials you may give judges are a printed brochure and business cards — no gifts. Robots and models may be used in the Customer Marketing Presentation for demonstration. Teams provide their own equipment, and should bring the presentation on a USB drive as a backup. Check in 10 minutes before your slot. If a spectator coaches or disrupts a presentation, the lead judge evicts them immediately and the team isn't penalised.</p>
@@ -1491,6 +1622,64 @@ footer strong{color:#FFF}
 </div>
 </section>
 
+
+<!-- ================= OPEN QUESTIONS ================= -->
+<section class="panel" id="tab-open" role="tabpanel">
+<div class="wrap">
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Where the rulebook leaves room</h2>
+      <p>Fourteen places in v3.2 where two sections disagree, a rule carries no stated consequence, or a literal reading buys you something. Every one is quoted with its section number so you can check it yourself.</p>
+    </div>
+    <div class="note danger">
+      <strong>None of this is a ruling</strong>
+      <p>These are readings of the text, not decisions. Referees have ultimate authority and no protests are allowed (1.4.1.A), so nothing here is worth arguing on Game Day. The place to settle any of it is the Q&amp;A at <a href="https://game.bestrobotics.org/qna">game.bestrobotics.org/qna</a> during the eight-week build. Posted answers are an extension of the rules and go out to every team &mdash; and where an answer and the rules contradict each other, <strong>the rules still win</strong>. An answer can also trigger a rule revision, published within three days.</p>
+    </div>
+    <div class="grid g4">
+      <div class="stat"><b>3</b><span>places where two sections describe the same thing differently</span></div>
+      <div class="stat"><b>4</b><span>rules stated with no penalty or DQ attached to breaking them</span></div>
+      <div class="stat"><b>4</b><span>literal readings that appear to pay more than intended</span></div>
+      <div class="stat"><b>3</b><span>published maximums that cannot all happen in one match</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The list</h2>
+      <p>Filter by kind, or search for a section number.</p>
+    </div>
+    <div class="filters">
+      <button class="chipbtn on" data-ofilter="all">Everything</button>
+      <button class="chipbtn" data-ofilter="contradiction">Contradictions</button>
+      <button class="chipbtn" data-ofilter="gap">Missing consequences</button>
+      <button class="chipbtn" data-ofilter="loophole">Loopholes</button>
+      <button class="chipbtn" data-ofilter="count">Impossible counts</button>
+      <input type="search" id="oqSearch" placeholder="Search &mdash; try &ldquo;spotter&rdquo; or &ldquo;3.7&rdquo;&hellip;" aria-label="Search open questions">
+    </div>
+    <p class="muted" style="font-size:.9rem; margin-top:-6px" id="oqCount"></p>
+    <div id="oqList"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>Asking a question that actually gets answered</h2>
+      <p>The Q&amp;A is the only sanctioned way to close any of these, and it runs during the build phase only &mdash; not on Game Day.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card"><h4>Read first</h4><p>The rulebook's own advice is blunt: most questions are answered by <em>reading the rules thoroughly</em>. A question that quotes the section it is about, and says which two readings are in play, is far more likely to get a usable answer than &ldquo;can we do X?&rdquo;</p></div>
+      <div class="card"><h4>Quote the conflict</h4><p>Where two sections disagree, name both. &ldquo;3.3.1.3.B says <em>or</em>, 3.6.2.I says <em>and</em> &mdash; which governs?&rdquo; is a question the committee can answer in one line. It also tells them a revision may be needed.</p></div>
+      <div class="card"><h4>Design for the strict reading</h4><p>Until an answer is posted, build for whichever interpretation is harsher. A robot that scores under the strict reading also scores under the generous one; the reverse is how teams lose points at a compliance check or a scorecard signature.</p></div>
+    </div>
+    <div class="note">
+      <strong>A note on where these came from</strong>
+      <p>Each item below was found by reading v3.2 end to end against itself &mdash; Section 1 against Section 3, the prose against Scoring Table 3.7, and both against Appendices D and E. Several cluster around driver and spotter interaction, which is unsurprising: that is precisely what v3.1 changed and what v3.2 went back to redefine in 3.7.1.e.c.</p>
+    </div>
+  </div>
+
+</div>
+</section>
+
 </main>
 
 <footer>
@@ -1545,6 +1734,13 @@ function showTab(name){
 }
 tabs.forEach(function(t){
   t.addEventListener('click', function(e){ e.preventDefault(); showTab(t.dataset.tab); });
+});
+// In-page links that jump to another tab, e.g. <a href="#open" data-goto="open">.
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('[data-goto]');
+  if (!a) return;
+  var name = a.dataset.goto;
+  if (document.getElementById('tab-' + name)){ e.preventDefault(); showTab(name); }
 });
 var initial = (location.hash || '').replace('#','');
 if (initial && document.getElementById('tab-' + initial)) showTab(initial);
@@ -2146,7 +2342,7 @@ var STATIONS = {
     meta:[['Count','6 per garden half, 24 per field'],['Harvest bonus','4 points for clearing the vine'],['Reset','Four rehung on the vines, two on the tape below']],
     cam:{az:-1.45,el:0.32,r:1.15,h:0.95,look:[-8.0,0.8,-3.9]} },
   fridge:{ tag:'INGREDIENT STATION', title:'Cold Food Storage Fridge',
-    body:'Dairy — yellow square slabs — sits in stacks of three on the handle side. Protein — brown round disks — sits in stacks of three on the hinge side. The door has to be opened before either can be pulled out.',
+    body:'Dairy — yellow square slabs — sits in two stacks of three on the lower shelf, handle side. Protein — brown round disks — sits in two stacks of three on the upper shelf, hinge side. The door has to be opened before either can be pulled out.',
     meta:[['Count','6 dairy + 6 protein per garden half'],['Harvest bonus','8 points for emptying both'],['Reset','Two stacks of three on each shelf, door closed']],
     cam:{az:-1.50,el:0.34,r:1.15,h:0.85,look:[-8.05,0.65,-5.0]} },
   bread:{ tag:'INGREDIENT STATION', title:'Breadbox',
@@ -2174,7 +2370,7 @@ var STATIONS = {
     meta:[['Bonus','+15 per meal, up to 3'],['Catch','Both sides must load it to keep it level'],['Disqualification','Interacting with the other team’s designated shelf']],
     cam:{az:0.05,el:0.32,r:2.5,h:1.2,look:[0,0.7,-7.1]} },
   human:{ tag:'HUMAN AREA', title:'Robot Start Area',
-    body:'A taped box measured from the outside edge of the tape line. The robot starts fully inside it in its starting configuration. It doubles as the handoff point: the spotter may collect ingredients and dishware from it, but only while the robot is completely outside and the driver is hands-free.',
+    body:'A taped box measured from the outside edge of the tape line. The robot starts fully inside it in its starting configuration. It doubles as the handoff point: the spotter may collect ingredients and dishware from it once the robot is clear — though the rulebook states that condition inconsistently across 3.3.1.3.B, 3.6.2.I and 3.6.2.J.',
     meta:[['Rule','A piece is inside once it breaks the plane of the boundary'],['Handoff','Anything the spotter touches must go to the Quality Check Area'],['Disqualification','Blocking another team’s RSA or a dining room entrance']],
     cam:{az:-0.78,el:0.48,r:9.0,h:0.7,look:[-9.4,0.2,-9.4]} },
   dish:{ tag:'TEAM OWNED', title:'Dish Starting Area',
@@ -2332,7 +2528,10 @@ function classify(s){
   var n = uniqCount(s);
   var bottomGrain = s[0] === 'grain';
   var topGrain = s.length > 1 && s[s.length-1] === 'grain';
-  var midTypes = (bottomGrain && topGrain) ? uniqCount(s.slice(1, -1)) : 0;
+  // Appendix D: a sandwich needs four ADDITIONAL types between the grain, so a
+  // grain slice sitting mid-stack never counts toward that four.
+  var midTypes = (bottomGrain && topGrain)
+    ? uniqCount(s.slice(1, -1).filter(function(x){ return x !== 'grain'; })) : 0;
   var aboveTypes = bottomGrain ? uniqCount(s.slice(1).filter(function(x){ return x !== 'grain'; })) : 0;
 
   if (bottomGrain && topGrain && midTypes >= 4)
@@ -2380,7 +2579,11 @@ function renderStack(){
   var inQca = loc === 'qca';
   var mealPts = res.pts ? (inQca ? res.qca : res.pts) : 0;
   var drinkPts = 0;
-  if (hasDrink) drinkPts = mealPts ? (inQca ? 6 : 12) : (inQca ? 2 : 4);
+  // 3.7.2.C.a: a drink may score alone in any scoring position EXCEPT the Dining Room.
+  if (hasDrink){
+    if (mealPts) drinkPts = inQca ? 6 : 12;
+    else if (loc !== 'dining') drinkPts = inQca ? 2 : 4;
+  }
   var bonus = 0;
   if (mealPts){
     if (loc === 'shelf') bonus = 5;
@@ -2397,7 +2600,8 @@ function renderStack(){
   document.getElementById('stem').className = 'stem tint';
 
   var hint = document.getElementById('ruleHint');
-  if (loc === 'dining' && hasDrink && mealPts) hint.textContent = 'A drink can ride along on a meal delivered to a table — the cup colour has to match the plate.';
+  if (loc === 'dining' && hasDrink && !mealPts) hint.textContent = 'A drink cannot score on its own in the dining room — it only counts there riding on a completed meal.';
+  else if (loc === 'dining' && hasDrink && mealPts) hint.textContent = 'A drink can ride along on a meal delivered to a table — the cup colour has to match the plate.';
   else if (loc === 'qca') hint.textContent = 'In the Quality Check Area the spotter does the stacking, and every meal is worth about half.';
   else hint.textContent = 'Two of the same ingredient count as one type. Order only matters for grain.';
 }
@@ -2453,17 +2657,35 @@ function buildCalc(rows, host){
 buildCalc(CALC_ROBOT, document.getElementById('calcRobot'));
 buildCalc(CALC_OTHER, document.getElementById('calcOther'));
 function recalc(){
-  var total = 0, any = false;
+  var total = 0, any = false, v = {};
   [].slice.call(document.querySelectorAll('#calcRobot input, #calcOther input')).forEach(function(i){
-    var v = Math.max(0, Math.min(+i.max, +i.value || 0));
-    if (v !== (+i.value || 0)) i.value = v;
-    if (v) any = true;
-    total += v * (+i.dataset.pts);
+    var n = Math.max(0, Math.min(+i.max, +i.value || 0));
+    if (n !== (+i.value || 0)) i.value = n;
+    if (n) any = true;
+    v[i.id.slice(2)] = n;
+    total += n * (+i.dataset.pts);
   });
   document.getElementById('calcTotal').textContent = total;
-  document.getElementById('calcNote').textContent = any
-    ? 'Location bonuses are added on top of the meal values, so count each meal once as a meal and again in its location row.'
-    : 'Add meals above to build a score.';
+
+  // A team owns exactly 8 plates and 8 cups (Table E.2), so those are the real
+  // ceilings — the per-row caps in Table 3.7 can't all be reached at once.
+  var meals  = v.salad + v.pizza + v.sand + v.qsalad + v.qpizza + v.qsand;
+  var drinks = v.fdrink + v.adrink + v.qdrink + v.qadd;
+  var placed = v.shelf + v.buffet + v.dining;
+  var robotMeals = v.salad + v.pizza + v.sand;
+  var warn = [];
+  if (meals > 8)  warn.push(meals + ' meals, but your team only has 8 plates');
+  if (drinks > 8) warn.push(drinks + ' drinks, but your team only has 8 cups');
+  if (placed > robotMeals) warn.push(placed + ' location bonuses against only ' + robotMeals + ' robot-scored meals');
+
+  var note = document.getElementById('calcNote');
+  if (warn.length){
+    note.innerHTML = '<strong style="color:var(--q-red)">Not reachable in one match:</strong> ' + warn.join('; ') + '.';
+  } else {
+    note.textContent = any
+      ? 'Location bonuses are added on top of the meal values, so count each meal once as a meal and again in its location row.'
+      : 'Add meals above to build a score.';
+  }
 }
 document.getElementById('calcRobot').addEventListener('input', recalc);
 document.getElementById('calcOther').addEventListener('input', recalc);
@@ -2784,5 +3006,137 @@ if (host){
 })();
 </script>
 
+
+<script>
+(function(){
+'use strict';
+/* [category, title, sections, body-html, why] */
+var OPENQ = [
+
+/* ---------------- CONTRADICTIONS ---------------- */
+['contradiction','When exactly may the spotter reach into the start area?','3.3.1.3.B \u00b7 3.6.2.I \u00b7 3.6.2.J \u00b7 1.4.3.G',
+ '<p>Four passages describe this one action, and they do not line up.</p>'+
+ '<blockquote><b>3.3.1.3.B</b> &mdash; &ldquo;Spotter can only retrieve the ingredients or dishware when the robot is completely outside of the RSA <em>or</em> the driver is hands free.&rdquo;</blockquote>'+
+ '<blockquote><b>3.6.2.I</b> &mdash; &ldquo;The Spotter may interact with the robot only when any part of the robot has broken the plane of the Robot Start Area <em>and</em> the driver is no longer touching the V5 Controller.&rdquo;</blockquote>'+
+ '<p>One says <em>or</em>, the other says <em>and</em>. 3.6.2.J then carves out a third case &mdash; &ldquo;the spotter may interact with the RSA while the robot is not in it&rdquo; &mdash; which permits reaching in while the driver still holds the controller, matching the <em>or</em> reading. Meanwhile 1.4.3.G is about a different window entirely: touching the robot <em>before</em> it first leaves the RSA, to fix power, software or radio.</p>',
+ 'It is a 20-second penalty per occurrence, and the spotter route is where a lot of teams bank their points. This is also exactly the area v3.1 rewrote, so a Q&amp;A answer here is likely.'],
+
+['contradiction','Which shelf is the dairy on?','3.3.2.1.C \u00b7 Table E.2 \u00b7 Table E.3',
+ '<p>The prose and the appendix tables describe two different fridges.</p>'+
+ '<blockquote><b>3.3.2.1.C</b> &mdash; dairy is &ldquo;placed in stacks of 3 on <em>each of the shelves</em> of the fridge on the handle side&rdquo;, protein &ldquo;on each of the shelves &hellip; on the hinge side&rdquo;. That is both ingredients on both shelves, split left and right.</blockquote>'+
+ '<blockquote><b>Tables E.2 and E.3</b> &mdash; dairy is on the <em>lower</em> shelf in two stacks of three, protein on the <em>upper</em> shelf in two stacks of three. That is one ingredient per shelf, split top and bottom.</blockquote>'+
+ '<p>Both give six of each per garden half, so the counts agree. The geometry does not.</p>',
+ 'If your intake is built for one height, you care a great deal which of these the field actually looks like. The reset instructions in E.3 are what the field crew follows between matches, so they are the safer bet.'],
+
+['contradiction','How far does the drone have to travel?','3.7.3.A \u00b7 Scoring Table 3.7',
+ '<blockquote><b>3.7.3.A</b> &mdash; it scores &ldquo;if the <em>front edge of the body (wood)</em> of the drone has crossed the line marked on the top of the Garden Area wall.&rdquo;</blockquote>'+
+ '<blockquote><b>Table 3.7</b> &mdash; &ldquo;The drone is scored as long as it is <em>at least partially</em> across that line.&rdquo;</blockquote>'+
+ '<p>Front-edge-across and partially-across are the same test only if &ldquo;partially&rdquo; means the front edge. Worse, the same table row defines the line itself as a build instruction rather than a measurement: &ldquo;Draw / paint / tape a line on the top of the wall <em>about halfway</em> along the rope.&rdquo;</p>',
+ 'Eight points, the largest single field task, turning on a threshold specified as &ldquo;about halfway&rdquo; and measured by eye. Travel well past the line rather than to it.'],
+
+/* ---------------- MISSING CONSEQUENCES ---------------- */
+['gap','Touching the drone or its ropes carries no stated penalty','Table 3.7 \u00b7 3.7.3.A.a \u00b7 3.6.1',
+ '<p>Two places forbid it. Table 3.7: &ldquo;Robots may not directly touch the drone, support rope, or pull rope.&rdquo; And 3.7.3.A.a: &ldquo;The robot may only move the drone by rotating the Drone handle near the bottom of the drone post in the Garden Area.&rdquo;</p>'+
+ '<p>But the prohibition appears in neither list of consequences. It is not among the disqualifications in 3.6.1.A&ndash;J, and not among the 20-second penalties in 3.6.1.K&ndash;P.</p>',
+ 'Most likely the drone simply fails to score. But a referee could reasonably reach for the catch-all in 1.4.4.B.c instead, and that is a disqualification.'],
+
+['gap','Entering the dining room under remote control','3.3.2.2.A \u00b7 3.3.2.2.D \u00b7 3.6.1.E',
+ '<p>3.3.2.2.A: &ldquo;A robot may only enter the Dining Room under autonomous control while the driver is hands-free.&rdquo; Yet the only listed disqualification is 3.6.1.E, which covers <em>placing</em> a meal or drink on a table under remote control &mdash; not entering.</p>'+
+ '<p>And 3.3.2.2.D explicitly allows the driver to &ldquo;manually drive the robot out of the Dining Room&rdquo;, so a robot is legitimately under remote control inside the room for part of every run.</p>',
+ 'A failed autonomous run that drifts in and gets driven back out sits in a grey zone. Abandoning the run is expressly allowed (3.3.2.2.E), which suggests leniency &mdash; but the entry rule is written as an absolute.'],
+
+['gap','Being pushed out of the wrong doorway','3.6.1.H \u00b7 1.3.7.J',
+ '<p>Leaving the dining room through a doorway that does not lead to your half is a disqualification under 3.6.1.H. There is no exception for being shoved there by another machine, even though the rules elsewhere are forgiving about contact &mdash; 1.3.7.J says incidental contact with a deployed detachable component &ldquo;will not result in a penalty for any team.&rdquo;</p>',
+ 'Four robots share one room with four exits. The harshest possible outcome of an accident is a DQ that voids your entire match score.'],
+
+['gap','&ldquo;Each game piece can score only once&rdquo; &mdash; everywhere, or just in the dining room?','3.6.1.D \u00b7 3.7',
+ '<p>The sentence is buried at the end of a dining-room rule: &ldquo;Robots may not remove, dislodge, or control any game piece in the Dining Room. Game pieces that were in a scoring position before a violation occurred will be treated as &lsquo;scored&rsquo; &hellip; Each game piece can score only once.&rdquo;</p>'+
+ '<p>Read narrowly it is about the dining room. Read as written it is a rule of general application. Since 3.7 says all points are scored at the end of the match, a general reading is largely redundant &mdash; which is itself a hint that the narrow one is intended.</p>',
+ 'Mostly harmless, but it muddies what happens to a meal that moves between scoring areas, or an ingredient pulled from one plate onto another.'],
+
+/* ---------------- LOOPHOLES ---------------- */
+['loophole','The fruit harvest bonus may not require all six fruit','3.7.3.C \u00b7 3.3.2.1.B \u00b7 Table 3.7',
+ '<p>Two of the six fruit in a garden half never touch the vine. Per 3.3.2.1.B, three start low on the vines, one starts higher on the centre vine, and &ldquo;two fruit pieces start the match on the floor in front of the vines, touching tape markers.&rdquo;</p>'+
+ '<p>The bonus condition in Table 3.7 reads simply: &ldquo;All Fruit has been picked <em>off of the fruit vine</em>.&rdquo; Compare the grain bonus, which was written carefully: &ldquo;All Grain has been removed from (<em>and off the top of</em>) the Breadbox.&rdquo;</p>',
+ 'On a literal reading, clearing the four vine fruit earns the 4 points and the two on the floor are irrelevant. The grain bonus shows the authors knew how to extend a harvest condition to pieces sitting outside the station when that is what they meant; the fruit bonus has no such clause.'],
+
+['loophole','A completed meal scores full value lying on the floor','3.7.2.A.a \u00b7 3.6.1.P',
+ '<p>The first and largest scoring position is not a delivery at all. 3.7.2.A.a: a meal scores if &ldquo;the plate containing the meal is resting on the robot <em>or is within the borders of the field</em>.&rdquo; Nothing requires the robot to hold it, carry it, or put it anywhere in particular.</p>'+
+ '<p>And once it is a completed dish, de-scoring it is a 20-second penalty for anyone who tries (3.6.1.P).</p>',
+ 'A sandwich abandoned in a corner banks the same 50 points as one held at the buzzer, with none of the risk of carrying it. Building and dropping may beat building and delivering, unless you want the location bonus.'],
+
+['loophole','Does a drink on a plate score twice?','Scoring Table 3.7',
+ '<p>Table 3.7 lists these as two separate rows, each with its own maximum of 8:</p>'+
+ '<blockquote><b>Filled Drink On Robot / In Field</b> &mdash; &ldquo;resting upright on the robot or &hellip; within the borders of the field&rdquo; &mdash; 4 points.</blockquote>'+
+ '<blockquote><b>Added Drink to meal in the Field / on robot</b> &mdash; &ldquo;resting on the accompanying plate&rdquo; &mdash; 12 points.</blockquote>'+
+ '<p>A cup standing on a plate inside the field satisfies both conditions word for word. Nothing says the rows are mutually exclusive.</p>',
+ 'Twelve is plainly the intent. Sixteen is the literal reading, and across eight cups that is a 32-point swing. The calculator on the Meals &amp; Scoring tab uses 12.'],
+
+['loophole','Your neighbour can hand you the whole garden','3.3.2.1 \u00b7 3.7.3.D',
+ '<p>Every garden task pays its owner regardless of who does it. 3.7.3.D: &ldquo;Any Garden tasks (e.g: Crop tending drone, water irrigation valve, harvest bonuses) that are completed will score for the team that owns it, but may be accomplished by <em>either team</em> on that half of the field.&rdquo;</p>'+
+ '<p>The two teams sharing a half are nominally competing for the same ingredients &mdash; and are simultaneously able to bank 36 points of garden tasks for each other.</p>',
+ 'Entirely legal, and easy to miss. Two neighbours who agree to split the work &mdash; one clears stations on both sides, the other plates meals &mdash; each collect their own drone, valve and four harvest bonuses.'],
+
+/* ---------------- IMPOSSIBLE COUNTS ---------------- */
+['count','Thirty-two autonomous deliveries onto nine tables','Table 3.7 \u00b7 3.3.2.2 \u00b7 3.6.1.N',
+ '<p>The dining room has nine tables (3.3.2.2), and only the first meal placed on a table scores (3.6.1.N). Yet Table 3.7 gives the autonomous bonus a &ldquo;Max # Per Team Possible&rdquo; of <strong>8</strong> &mdash; for each of four teams.</p>'+
+ '<p>All four teams together can score at most nine. One team reaching its own published maximum would consume nearly every table on the field.</p>',
+ 'The column is a per-row ceiling, not a forecast. Treat the dining room as a contested resource of nine, not a personal allowance of eight.'],
+
+['count','Forty-eight meals out of eight plates','Table 3.7 \u00b7 Table E.2 \u00b7 3.5',
+ '<p>Table 3.7 lists a maximum of 8 for salads, 8 for pizzas, 8 for sandwiches, and 8 again for each of the three Quality Check rows. Read as a budget that is 48 meals. A team owns <strong>8 plates</strong> (Table E.2), and a meal is a plate plus ingredients.</p>'+
+ '<p>The same applies to drinks: four rows at 8 each against <strong>8 cups</strong>.</p>',
+ 'The real ceiling is dishware, not the scoring table. Eight plates and eight cups &mdash; which is why the match calculator now flags entries that exceed them.'],
+
+['count','Cross-references that point at nothing','1.3.2.4.H \u00b7 1.3.2.4.I \u00b7 1.3.2.3 \u00b7 Revision history',
+ '<p>The Team Custom Part rules waive two earlier rules by number: &ldquo;No welding is allowed (Section 1.3.2.3 <em>item 8</em> still applies)&rdquo; and &ldquo;Chemical change is allowed (Section 1.3.2.3 <em>item 10</em> is waived).&rdquo;</p>'+
+ '<p>Section 1.3.2.3 is lettered A to L, not numbered. You have to count: item 8 is H (no welding, brazing or structural soldering) and item 10 is J (materials may not be changed chemically). Both happen to land correctly &mdash; but v3.2&rsquo;s own changelog records fixing a different broken reference, &ldquo;Changed 1.3.2.4 to reference correct Appendix section.&rdquo;</p>',
+ 'Worth knowing when you cite a rule to a compliance official. Quote the letter and the text, not the number.']
+];
+
+var host = document.getElementById('oqList');
+var countEl = document.getElementById('oqCount');
+if (host){
+  var LABEL = { contradiction:'Contradiction', gap:'No stated consequence', loophole:'Loophole', count:'Impossible count' };
+  var filter = 'all', query = '';
+
+  function draw(){
+    var q = query.toLowerCase();
+    var rows = OPENQ.filter(function(r){
+      if (filter !== 'all' && r[0] !== filter) return false;
+      if (q && (r[1] + ' ' + r[2] + ' ' + r[3] + ' ' + r[4]).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+
+    countEl.textContent = rows.length + ' of ' + OPENQ.length + ' shown';
+
+    if (!rows.length){
+      host.innerHTML = '<div class="card"><p style="margin:0">Nothing matches that. Try a section number like &ldquo;3.6&rdquo;, or a word like &ldquo;drone&rdquo;, &ldquo;spotter&rdquo;, &ldquo;drink&rdquo;.</p></div>';
+      return;
+    }
+
+    host.innerHTML = rows.map(function(r){
+      return '<div class="oq" data-cat="' + r[0] + '">' +
+        '<div class="oq-top"><span class="pill q">' + LABEL[r[0]] + '</span><h4>' + r[1] + '</h4></div>' +
+        '<p class="muted" style="font-size:.88rem; margin-bottom:10px">' + r[2] + '</p>' +
+        r[3] +
+        '<p class="why"><b>Why it matters.</b> ' + r[4] + '</p>' +
+        '</div>';
+    }).join('');
+  }
+
+  [].slice.call(document.querySelectorAll('[data-ofilter]')).forEach(function(b){
+    b.addEventListener('click', function(){
+      [].slice.call(document.querySelectorAll('[data-ofilter]')).forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      filter = b.dataset.ofilter;
+      draw();
+    });
+  });
+  document.getElementById('oqSearch').addEventListener('input', function(){ query = this.value; draw(); });
+  draw();
+}
+})();
+</script>
 </body>
 </html>
