@@ -2137,7 +2137,13 @@ var C = {
   grain:0xEFEDE2, dairy:0xE8C33F, protein:0xB08B5E
 };
 
-/* Field is 24 x 24, one unit to the foot. Halves split at x = 0: the two left
+/* Field is 24 x 24, ONE UNIT = ONE FOOT. Anything the rulebook gives a real
+   dimension for is modelled at that size: plates 10.5" (0.875), cups an 18 oz
+   tumbler, the fiducials' central white square 4-1/4" (0.354). Areas the
+   rulebook only gives a capacity for are sized from that capacity - the warming
+   shelf holds 7 plates a side, the dish area 2 rows of 4. The field outline and
+   the human boxes are NOT specified in the rules and remain estimates; the
+   Byte to Bite Field Drawings are the authority for those. Halves split at x = 0: the two left
    quadrants share the left Garden Area, the two right quadrants the right one.
    Warming shelves and Balance Buffets straddle that line, top and bottom. */
 var HALF = 12, DR = 5.0, WALL_H = 1.5, WALL_T = 0.3, DOOR = 2.3, GX = 6.6;
@@ -2358,7 +2364,7 @@ function mkDrone(lite, dir){
 // Figure 3.17 — grey plate with a team-coloured PVC stem and a white cap.
 function mkPlate(color){
   var g = new THREE.Group();
-  g.add(cyl(0.44, 0.38, 0.05, C.steel, 0, 0.025, 0, 18));
+  g.add(cyl(0.4375, 0.375, 0.05, C.steel, 0, 0.025, 0, 18));   // 10.5" rim
   g.add(cyl(0.30, 0.30, 0.03, 0xC8CFCB, 0, 0.06, 0, 16));
   g.add(cyl(0.05, 0.05, 0.34, color, 0, 0.24, 0, 8));
   g.add(cyl(0.055, 0.055, 0.07, C.white, 0, 0.44, 0, 8));
@@ -2366,9 +2372,11 @@ function mkPlate(color){
 }
 // Figure 3.18 — grey tumbler with the team colour taped inside the rim.
 function mkCup(color){
+  // Mainstays 18 oz tumbler (Table E.1): ~3.5" across the lip, ~2.8" base,
+  // ~6.1" tall, with the team's tape band inside level with the lip.
   var g = new THREE.Group();
-  g.add(cyl(0.20, 0.155, 0.50, C.steel, 0, 0.25, 0, 12));
-  g.add(cyl(0.195, 0.19, 0.12, color, 0, 0.44, 0, 12));
+  g.add(cyl(0.146, 0.115, 0.51, C.steel, 0, 0.255, 0, 12));
+  g.add(cyl(0.142, 0.138, 0.10, color, 0, 0.455, 0, 12));
   return g;
 }
 
@@ -2436,22 +2444,22 @@ function buildField(lite){
   add('dining', box(WALL_T+0.07,0.09,span, C.wood, -DR, WALL_H+0.04,  off), false);
   for (var f = 0; f < 3; f++){
     var fo = -off + (f-1)*2.2, fq = off + (f-1)*2.2;
-    add('dining', box(0.6,0.6,0.03, C.white, fo, 1.0, -DR+0.17), false);
-    add('dining', box(0.25,0.25,0.04, C.dark, fo, 1.0, -DR+0.18), false);
-    add('dining', box(0.03,0.6,0.6, C.white, DR-0.17, 1.0, fo), false);
-    add('dining', box(0.04,0.25,0.25, C.dark, DR-0.18, 1.0, fo), false);
-    add('dining', box(0.6,0.6,0.03, C.white, fq, 1.0, DR-0.17), false);
-    add('dining', box(0.25,0.25,0.04, C.dark, fq, 1.0, DR-0.18), false);
-    add('dining', box(0.03,0.6,0.6, C.white, -DR+0.17, 1.0, fq), false);
-    add('dining', box(0.04,0.25,0.25, C.dark, -DR+0.18, 1.0, fq), false);
+    add('dining', box(0.67,0.67,0.03, C.dark, fo, 1.0, -DR+0.17), false);
+    add('dining', box(0.354,0.354,0.04, C.white, fo, 1.0, -DR+0.18), false);
+    add('dining', box(0.03,0.67,0.67, C.dark, DR-0.17, 1.0, fo), false);
+    add('dining', box(0.04,0.354,0.354, C.white, DR-0.18, 1.0, fo), false);
+    add('dining', box(0.67,0.67,0.03, C.dark, fq, 1.0, DR-0.17), false);
+    add('dining', box(0.354,0.354,0.04, C.white, fq, 1.0, DR-0.18), false);
+    add('dining', box(0.03,0.67,0.67, C.dark, -DR+0.17, 1.0, fq), false);
+    add('dining', box(0.04,0.354,0.354, C.white, -DR+0.18, 1.0, fq), false);
   }
   for (var i = 0; i < 3; i++) for (var j = 0; j < 3; j++){
     var tx = (i-1)*2.9, tz = (j-1)*2.9;
     add('dining', box(0.28,0.72,0.28, C.woodDark, tx, 0.36, tz), false);
     add('dining', box(0.8,0.09,0.8, C.woodDark, tx, 0.05, tz), false);
     add('dining', box(1.4,0.13,1.4, C.wood, tx, 0.79, tz));
-    add('dining', box(0.74,0.04,0.74, C.white, tx, 0.87, tz), false);
-    add('dining', box(0.3,0.05,0.3, C.dark, tx, 0.89, tz), false);
+    add('dining', box(0.67,0.04,0.67, C.dark, tx, 0.86, tz), false);
+    add('dining', box(0.354,0.05,0.354, C.white, tx, 0.875, tz), false);  // 4-1/4" centre
   }
 
   // ---------- garden runs (Figure 3.5) ----------
@@ -2487,7 +2495,7 @@ function buildField(lite){
   [-1,1].forEach(function(sz){
     var I = sz < 0 ? 'a' : 'b';
     // flat T: a long plank at the border with a stub dividing the two teams
-    add('warm', box(8.0, 0.26, 1.30, C.wood, 0, 0.13, sz*11.0), true, I);
+    add('warm', box(12.3, 0.26, 1.30, C.wood, 0, 0.13, sz*11.0), true, I);  // 7 plates a side
     add('warm', box(1.10, 0.26, 1.40, C.wood, 0, 0.13, sz*9.90), true, I);
     [-1,1].forEach(function(sx){
       for (var p = 0; p < (lite ? 1 : 3); p++){
@@ -2528,17 +2536,17 @@ function buildField(lite){
     add('human', box(3.2, 0.06, 3.2, q.color, q.sx*9.9, 0.04, q.sz*9.9, {opacity:0.8}), true, I);
     outline('human', 6.2, 3.0, q.color, q.sx*6.0, q.sz*14.0, I);
     outline('human', 3.0, 6.2, q.color, q.sx*14.0, q.sz*6.0, I);
-    outline('human', 2.6, 2.6, q.color, q.sx*13.6, q.sz*13.6, I);
+    outline('human', 3.0, 3.0, q.color, q.sx*13.6, q.sz*13.6, I);   // 8 plates flat
 
     // Figure 3.16 — taped bay of 8 plates, with 8 cups in a row on the border
-    outline('dish', 2.3, 3.0, q.color, q.sx*10.6, q.sz*5.2, I);
+    outline('dish', 1.95, 3.85, q.color, q.sx*10.6, q.sz*5.2, I);   // 2 x 4 plates
     for (var p = 0; p < (lite ? 0 : 8); p++){
       place('dish', I, mkPlate(q.color),
-            q.sx*10.6 + ((p % 2) - 0.5) * 1.05,
-            q.sz*5.2 + (Math.floor(p/2) - 1.5) * 0.72);
+            q.sx*10.6 + ((p % 2) - 0.5) * 0.95,
+            q.sz*5.2 + (Math.floor(p/2) - 1.5) * 0.95);
     }
     for (var c2 = 0; c2 < (lite ? 0 : 8); c2++){
-      place('dish', I, mkCup(q.color), q.sx*11.5, q.sz*5.2 + (c2 - 3.5) * 0.56);
+      place('dish', I, mkCup(q.color), q.sx*11.6, q.sz*5.2 + (c2 - 3.5) * 0.33);
     }
   });
 
@@ -2748,7 +2756,7 @@ var STATIONS = {
   warm:{ tag:'SCORING AREA', title:'Warming Shelf',
     body:'Along the outside border of the field, next to the driver box. Shelves in adjacent halves share a dividing wall, and each side can hold up to seven plates. A plate must be fully supported by the shelf to score, and you may only use your own designated shelf.',
     meta:[['Bonus','+5 per meal'],['Capacity','7 plates per side, max 7 scoring per team'],['Not allowed','Reaching over the warming shelf divider']],
-    cam:{az:0.05,el:0.34,r:4.4,h:0.8,look:[0,0.4,-10.4]} },
+    cam:{az:0.05,el:0.34,r:6.8,h:1.1,look:[0,0.4,-10.7]} },
   buffet:{ tag:'COLLABORATIVE SCORING', title:'Balance Buffet',
     body:'A rotating platform shared with one team from the opposite half of the field. It counts as balanced only when the 1×4 dividing wall falls fully between the two tape indicators on the support post. If that divider crosses the inner edge of either tape line, nothing on it scores.',
     meta:[['Bonus','+15 per meal, up to 3'],['Catch','Both sides must load it to keep it level'],['Disqualification','Interacting with the other team’s designated shelf']],
@@ -2760,7 +2768,7 @@ var STATIONS = {
   dish:{ tag:'TEAM OWNED', title:'Dish Starting Area',
     body:'Where your eight plates and eight cups begin every match. Plates are grey 10.5″ plastic with a team-coloured PVC stem for stacking; cups are 18-ounce grey tumblers with team-coloured tape inside, level with the lip.',
     meta:[['Count','8 plates and 8 cups per team'],['Penalty','20 seconds for controlling a plate or cup that isn’t your colour'],['Carrying limit','One plate and one cup at a time']],
-    cam:{az:-1.30,el:0.42,r:2.4,h:0.6,look:[-10.7,0.3,-5.2]} }
+    cam:{az:-1.30,el:0.42,r:2.7,h:0.6,look:[-10.65,0.3,-5.2]} }
 };
 var STATION_ORDER = ['intro','garden','veg','fruit','fridge','bread','water','drone','dining','warm','buffet','human','dish'];
 
