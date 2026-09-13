@@ -89,15 +89,16 @@ strong{font-weight:600}
 
 /* ---------- Tabs ---------- */
 .tabbar{position:sticky; top:0; z-index:60; background:var(--white); border-bottom:1px solid var(--steel-line); box-shadow:0 1px 0 rgba(18,33,29,.04)}
-.tabbar-inner{max-width:1120px; margin:0 auto; display:flex; gap:2px; overflow-x:auto; padding:0 12px;
+.tabbar-rail{position:relative; max-width:1120px; margin:0 auto}
+.tabbar-inner{display:flex; gap:2px; overflow-x:auto; padding:0 12px;
   scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain}
 .tabbar-inner::-webkit-scrollbar{display:none}
-/* fades tell you the strip keeps going */
-.tabbar::before,.tabbar::after{content:''; position:absolute; top:0; bottom:3px; width:30px; pointer-events:none; transition:opacity .15s}
-.tabbar::before{left:0; background:linear-gradient(90deg,var(--white),rgba(255,255,255,0))}
-.tabbar::after{right:0; background:linear-gradient(270deg,var(--white),rgba(255,255,255,0))}
-.tabbar.at-start::before{opacity:0}
-.tabbar.at-end::after{opacity:0}
+/* fades tell you the strip keeps going - anchored to the strip, not the window */
+.tabbar-rail::before,.tabbar-rail::after{content:''; position:absolute; top:0; bottom:3px; width:30px; pointer-events:none; transition:opacity .15s; z-index:2}
+.tabbar-rail::before{left:0; background:linear-gradient(90deg,var(--white),rgba(255,255,255,0))}
+.tabbar-rail::after{right:0; background:linear-gradient(270deg,var(--white),rgba(255,255,255,0))}
+.tabbar.at-start .tabbar-rail::before{opacity:0}
+.tabbar.at-end .tabbar-rail::after{opacity:0}
 .tabbtn{
   flex:0 0 auto; background:none; border:0; border-bottom:3px solid transparent;
   font-family:var(--cond); font-size:1.06rem; font-weight:600; color:#5D6E68;
@@ -106,6 +107,46 @@ strong{font-weight:600}
 }
 .tabbtn:hover{color:var(--enamel); background:#F5F8F6}
 .tabbtn[aria-selected="true"]{color:var(--enamel); border-bottom-color:var(--brass)}
+/* strip scroll arrows - the fades say there is more, these let you get to it */
+.tabscroll{
+  position:absolute; top:0; bottom:3px; width:40px; z-index:3; border:0; padding:0;
+  cursor:pointer; display:flex; align-items:center; color:#4A5C55;
+  transition:opacity .15s, color .15s; -webkit-tap-highlight-color:transparent;
+}
+.tabscroll.l{left:0;  justify-content:flex-start; padding-left:5px;
+  background:linear-gradient(90deg,var(--white) 58%,rgba(255,255,255,0))}
+.tabscroll.r{right:0; justify-content:flex-end;   padding-right:5px;
+  background:linear-gradient(270deg,var(--white) 58%,rgba(255,255,255,0))}
+.tabscroll:hover{color:var(--enamel)}
+.tabscroll:focus-visible{outline:2px solid var(--brass); outline-offset:-3px}
+.tabscroll svg{width:19px; height:19px; display:block}
+.tabbar.at-start .tabscroll.l,.tabbar.at-end .tabscroll.r{opacity:0; pointer-events:none}
+
+/* in-tab section nav, only built for the longer tabs */
+.subnav{
+  position:sticky; top:var(--tabbar-h,52px); z-index:55;
+  display:flex; gap:6px; align-items:center; overflow-x:auto;
+  margin:0 -24px 30px; padding:9px 24px;
+  background:rgba(238,241,239,.93); border-bottom:1px solid var(--steel-line);
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+@supports (backdrop-filter:blur(6px)){.subnav{backdrop-filter:blur(6px)}}
+.subnav::-webkit-scrollbar{display:none}
+.subnav.more{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 34px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 34px),transparent)}
+.subnav b{
+  flex:0 0 auto; font-family:var(--cond); font-size:.8rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:.12em; color:var(--steel); padding-right:2px;
+}
+.subnav a{
+  flex:0 0 auto; font-family:var(--cond); font-weight:600; font-size:.97rem;
+  color:#4A5C55; text-decoration:none; padding:5px 12px; border-radius:20px;
+  white-space:nowrap; border:1px solid transparent; transition:background .12s, color .12s;
+}
+.subnav a:hover{background:var(--white); border-color:var(--steel-line); color:var(--enamel)}
+.subnav a.on{background:var(--enamel); border-color:var(--enamel); color:#FFF}
+@media(max-width:560px){.subnav{margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px}}
+
 .panel{display:none; padding:52px 0 84px; animation:fade .22s ease-out}
 .panel.active{display:block}
 @keyframes fade{from{opacity:0}to{opacity:1}}
@@ -341,6 +382,7 @@ footer strong{color:#FFF}
 </header>
 
 <nav class="tabbar" aria-label="Sections">
+  <div class="tabbar-rail">
   <div class="tabbar-inner" role="tablist">
     <button class="tabbtn" role="tab" aria-selected="true" data-tab="overview">Overview</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="field">The Field</button>
@@ -353,6 +395,9 @@ footer strong{color:#FFF}
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="advance">Season &amp; Advancement</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="open">Open Questions</button>
     <button class="tabbtn" role="tab" aria-selected="false" data-tab="sources">Sources &amp; Limits</button>
+  </div>
+  <button class="tabscroll l" type="button" aria-label="Scroll tabs left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+  <button class="tabscroll r" type="button" aria-label="Scroll tabs right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
   </div>
 </nav>
 
@@ -1942,6 +1987,8 @@ function showTab(name){
   if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: jump ? 'auto' : 'smooth' });
   if (history.replaceState) history.replaceState(null, '', '#' + name);
   measureTabs();
+  if (typeof spy === 'function') requestAnimationFrame(spy);
+  if (typeof markOverflow === 'function') markOverflow();
 }
 tabs.forEach(function(t){
   t.addEventListener('click', function(e){ e.preventDefault(); showTab(t.dataset.tab); });
@@ -1953,9 +2000,130 @@ document.addEventListener('click', function(e){
   var name = a.dataset.goto;
   if (document.getElementById('tab-' + name)){ e.preventDefault(); showTab(name); }
 });
+// Keep the sub-nav's sticky offset honest as the tab strip wraps or resizes.
+function measureChrome(){
+  document.documentElement.style.setProperty('--tabbar-h', tabbar.getBoundingClientRect().height + 'px');
+}
+
+/* ---------- tab strip: arrows, wheel, keyboard ---------- */
+function nudgeTabs(dir){
+  tabstrip.scrollBy({ left: dir * Math.max(140, tabstrip.clientWidth * 0.6),
+                      behavior: REDUCED ? 'auto' : 'smooth' });
+}
+[].slice.call(document.querySelectorAll('.tabscroll')).forEach(function(b){
+  b.addEventListener('click', function(){ nudgeTabs(b.classList.contains('l') ? -1 : 1); });
+});
+// a vertical wheel over the strip should move it sideways, not scroll the page past it
+tabstrip.addEventListener('wheel', function(e){
+  if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  if (tabstrip.scrollWidth <= tabstrip.clientWidth) return;
+  var before = tabstrip.scrollLeft;
+  tabstrip.scrollLeft += e.deltaY;
+  if (tabstrip.scrollLeft !== before) e.preventDefault();
+}, {passive:false});
+// standard tablist keyboard behaviour
+tabstrip.addEventListener('keydown', function(e){
+  var i = tabs.indexOf(document.activeElement);
+  if (i === -1) return;
+  var to = null;
+  if (e.key === 'ArrowRight') to = (i + 1) % tabs.length;
+  else if (e.key === 'ArrowLeft') to = (i - 1 + tabs.length) % tabs.length;
+  else if (e.key === 'Home') to = 0;
+  else if (e.key === 'End') to = tabs.length - 1;
+  if (to === null) return;
+  e.preventDefault();
+  tabs[to].focus();
+  showTab(tabs[to].dataset.tab);
+});
+
+/* ---------- 'jump to' nav inside the longer tabs ---------- */
+var SUBNAV_MIN_CHARS = 6000, SUBNAV_MIN_SECS = 3;
+function buildSubnavs(){
+  panels.forEach(function(panel){
+    var wrap = panel.querySelector('.wrap');
+    if (!wrap || wrap.querySelector('.subnav')) return;
+    var secs = [].slice.call(panel.querySelectorAll('.sec')).filter(function(sec){
+      return sec.querySelector('.sec-head h2');
+    });
+    if (secs.length < SUBNAV_MIN_SECS) return;
+    if (panel.textContent.replace(/\s+/g,' ').length < SUBNAV_MIN_CHARS) return;
+
+    var nav = document.createElement('nav');
+    nav.className = 'subnav';
+    nav.setAttribute('aria-label', 'Sections in this tab');
+    var html = '<b>Jump to</b>';
+    secs.forEach(function(sec, i){
+      var id = panel.id + '-s' + i;
+      sec.id = id;
+      html += '<a href="#' + id + '" data-sec="' + id + '">' +
+              sec.querySelector('.sec-head h2').textContent + '</a>';
+    });
+    nav.innerHTML = html;
+    nav.addEventListener('scroll', markOverflow, {passive:true});
+    wrap.insertBefore(nav, wrap.firstChild);
+  });
+}
+function subnavOffset(panel){
+  var nav = panel.querySelector('.subnav');
+  return tabbar.getBoundingClientRect().height + (nav ? nav.getBoundingClientRect().height : 0) + 14;
+}
+// click a chip -> scroll there, without writing the section id into the address bar
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('.subnav a[data-sec]');
+  if (!a) return;
+  e.preventDefault();
+  var panel = a.closest('.panel'), target = document.getElementById(a.dataset.sec);
+  if (!target) return;
+  var y = target.getBoundingClientRect().top + window.scrollY - subnavOffset(panel);
+  window.scrollTo({ top: Math.max(0, y), behavior: REDUCED ? 'auto' : 'smooth' });
+});
+// highlight whichever section you are actually looking at
+var spying = false;
+function spy(){
+  spying = false;
+  var panel = document.querySelector('.panel.active');
+  if (!panel) return;
+  var nav = panel.querySelector('.subnav');
+  if (!nav) return;
+  var line = subnavOffset(panel) + 6, current = null;
+  [].slice.call(panel.querySelectorAll('.sec[id]')).forEach(function(sec){
+    if (sec.getBoundingClientRect().top <= line) current = sec.id;
+  });
+  if (!current){
+    var first = panel.querySelector('.sec[id]');
+    current = first ? first.id : null;
+  }
+  [].slice.call(nav.querySelectorAll('a[data-sec]')).forEach(function(a){
+    var on = a.dataset.sec === current;
+    a.classList.toggle('on', on);
+    if (on && nav.scrollWidth > nav.clientWidth){
+      var r = a.getBoundingClientRect(), nr = nav.getBoundingClientRect();
+      if (r.left < nr.left + 24 || r.right > nr.right - 24){
+        nav.scrollLeft += (r.left - nr.left) - nav.clientWidth / 2 + r.width / 2;
+      }
+    }
+  });
+}
+function markOverflow(){
+  [].slice.call(document.querySelectorAll('.subnav')).forEach(function(n){
+    n.classList.toggle('more', n.scrollWidth - n.scrollLeft - n.clientWidth > 8);
+  });
+}
+window.addEventListener('scroll', function(){
+  if (spying) return;
+  spying = true;
+  requestAnimationFrame(spy);
+}, {passive:true});
+
+buildSubnavs();
+measureChrome();
+markOverflow();
+window.addEventListener('resize', function(){ measureChrome(); spy(); markOverflow(); });
+
 var initial = (location.hash || '').replace('#','');
 if (initial && document.getElementById('tab-' + initial)) showTab(initial);
 measureTabs();
+spy();
 
 /* ============================================================
    3D FIELD — schematic of the Byte to Bite restaurant
