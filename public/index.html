@@ -1268,6 +1268,99 @@ footer strong{color:#FFF}
     </div>
   </div>
 
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>The compliance checklist, item by item</h2>
+      <p>This is the sheet an inspector actually works through, from Appendix A. Several lines on it are not stated anywhere in the written rules &mdash; run your own robot against it before Game Day.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card">
+        <h4>General</h4>
+        <ul style="margin-bottom:0">
+          <li>Weight less than <strong>24 lb</strong>, with battery and detachable parts</li>
+          <li>Size less than a <strong>24&Prime; cube</strong>, unconstrained; it may be powered during the check</li>
+          <li>Team number visible</li>
+          <li>Multiple configurations &mdash; <em>each one</em> is checked separately</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Control system</h4>
+        <p style="margin-bottom:.4rem"><strong>V5 Controller:</strong> no labels, no rubber bands, no tape of any kind.</p>
+        <p style="margin-bottom:0"><strong>V5 Robot Brain:</strong> mounted; no solder (use returnable-kit cables); <strong>on/off switch must be accessible</strong>; <strong>battery secured</strong> in a holder or mount.</p>
+      </div>
+      <div class="card">
+        <h4>General parts check</h4>
+        <ul style="margin-bottom:0">
+          <li>No paint, adhesives or tape on returnable parts &mdash; painters tape is the one exception, and never on the V5 Controller</li>
+          <li>No modified returnable parts, except servo horns and the 3&prime; belt</li>
+          <li>Only allowable parts, materials and quantities &mdash; kit lists plus Section 1.3.2.3</li>
+          <li>Detachable parts are <strong>weighed and measured with the robot</strong></li>
+          <li><strong>All sharp points and edges under the robot are covered with tape</strong> so it is safe to handle</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Team Custom Parts &mdash; 4 allowed</h4>
+        <ul style="margin-bottom:0">
+          <li>Each part could fit within a 2&Prime; &times; 4&Prime; &times; 4&Prime; cuboid</li>
+          <li>Each part is made from a uniform material</li>
+          <li>Raw stock shape is rectangular or cylindrical, where that applies</li>
+        </ul>
+        <p class="muted" style="font-size:.9rem; margin:.7rem 0 0">At check-in an inspector determines four things for your TCPs: number of parts, size, uniform material, and stock shape.</p>
+      </div>
+    </div>
+    <div class="note danger">
+      <strong>Three lines that catch teams out</strong>
+      <p>The brain's <strong>on/off switch has to stay accessible</strong> and the <strong>battery has to be secured</strong> in a holder or mount &mdash; neither appears in Section 1.3. Nor does the requirement that <strong>sharp points and edges underneath the robot be taped over</strong>, which is a handling-safety check rather than a design rule. And detachable parts are not free weight: they go on the scale and into the cube <em>with</em> the machine.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">
+      <h2>What counts as a legal Team Custom Part</h2>
+      <p>Section 1.3.2.4 gives you nine lines. The Team Custom Part Inspection Guide in Appendix A gives you the reasoning and a set of worked examples &mdash; this is what the inspector is going by.</p>
+    </div>
+    <div class="grid g2">
+      <div>
+        <h4>&ldquo;Uniform&rdquo; is judged by eye</h4>
+        <p>The threshold is deliberately low: if it looks uniform to the naked eye, it counts as uniform. Fibre-reinforced plastic passes, because the micro fibres are not visible. Foam rubber passes &mdash; aeration does not make a material non-uniform. Two-part epoxy mixed, poured and set passes, because it becomes one material.</p>
+        <p><strong>Composite materials do not pass.</strong> The example given is fibre and glue &mdash; carbon or glass fibre with epoxy. The one exception is a surface treatment on metal or a magnet: anodising, or the nickel coating on a neodymium magnet.</p>
+        <h4 style="margin-top:1.1rem">Each part may use a different material</h4>
+        <p style="margin-bottom:0">Nothing requires your four parts to match. Magnets, silicone, expanded foam, granite and wood are all fair game alongside the usual plastic and metal.</p>
+      </div>
+      <div>
+        <h4>How it may be made</h4>
+        <ul>
+          <li>Carved from a solid block, or melted and reformed &mdash; so <strong>a 3-D printer is explicitly allowed</strong> for a plastic part</li>
+          <li>Metal may be cast; melted plastic may be injected into a mould</li>
+          <li>A machined &ldquo;hog-out&rdquo; from solid metal or plastic is fine</li>
+          <li><strong>Melting is allowed. Welding is not.</strong> Chemical change is allowed here, unlike everywhere else on the robot</li>
+          <li>An existing <strong>CAD/STEP file may be used</strong>, student-created or publicly available &mdash; but coaches, teachers and mentors may not make those files for students, and the part itself must be fabricated during this season</li>
+        </ul>
+        <h4>Fitting the cuboid</h4>
+        <p style="margin-bottom:0">You may be asked to take the part off the robot to measure it. A flexible part may be temporarily folded, coiled or knotted to fit for verification &mdash; it may flex, but it may not be reformed to meet the limit. &ldquo;Single continuous piece&rdquo; is strict: a normal hinge counts as three parts, and an item with thin ligaments that snap into several pieces in use is not allowed.</p>
+      </div>
+    </div>
+    <div class="tablescroll" style="margin-top:18px">
+      <table>
+        <caption>Worked examples from the inspection guide</caption>
+        <thead><tr><th style="width:88px">Verdict</th><th>Part</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill dq">No</span></td><td>A length of inner tube</td><td>Tubular, which is neither rectangular nor cylindrical stock</td></tr>
+          <tr><td><span class="pill dq">No</span></td><td>A piece of cloth</td><td>Made from many individual threads, so not a uniform material</td></tr>
+          <tr><td><span class="pill dq">No</span></td><td>Anything formed from glass</td><td>Glass is treated as a hazardous material</td></tr>
+          <tr><td><span class="pill dq">No</span></td><td>A purchased horse-shoe magnet</td><td>Neither rectangular nor cylindrical, and the team did not form it</td></tr>
+          <tr><td><span class="pill ok">Yes</span></td><td>A flat piece of rubber cut from an inner tube</td><td>Cut to a rectangular shape &mdash; a compliant start can be made from a non-compliant one</td></tr>
+          <tr><td><span class="pill ok">Yes</span></td><td>A length of monofilament fishing line</td><td>Cylindrical stock; being flexible is not a problem</td></tr>
+          <tr><td><span class="pill ok">Yes</span></td><td>Two-part epoxy mixed, poured and set</td><td>It becomes a uniform material</td></tr>
+          <tr><td><span class="pill ok">Yes</span></td><td>Foam rubber</td><td>Air cells do not make the material non-uniform</td></tr>
+          <tr><td><span class="pill ok">Yes</span></td><td>A magnet</td><td>Allowed, but must be rectangular or cylindrical if bought and used as is</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:.9rem; margin-top:10px">No kit part may be embedded in a TCP, for a practical reason: inspectors must be able to see every part to confirm it is legal, and embedding one hides it.</p>
+  </div>
+
   <div class="sec">
     <div class="sec-head">
       <h2>Other machine rules</h2>
@@ -1482,6 +1575,11 @@ footer strong{color:#FFF}
       </table>
     </div>
     <p class="muted" style="font-size:.9rem; margin-top:10px">Every scoresheet also bands the total: for a 100-point component, Superlative is 90&ndash;100, Excellent 70&ndash;89, Meets 30&ndash;69 and Needs Revision 0&ndash;29. The notebook uses the same percentages on its 300-point scale &mdash; Superlative 270&ndash;300, Excellent 210&ndash;269, Meets 90&ndash;209, Needs Revision 0&ndash;89.</p>
+
+    <div class="note">
+      <strong>What teams put on the trifold</strong>
+      <p>Appendix I shows three example layouts, captioned &ldquo;concept, not the requirement&rdquo; &mdash; so treat these as a menu rather than a checklist. Across the three, the panels used are: the problem being addressed and the game theme; robot specification, description and unique features; a 3D isometric CAD rendering or other artwork; an explanatory schematic; a simulation still; a prototype photo; product differentiation; a specification and trade matrix; statistical or raw data and a data collage; a prose paragraph; and the company business plan &mdash; broken out as <strong>cost</strong> (unit&nbsp;#1 versus #100), <strong>training</strong> (availability and price) and <strong>warranty</strong> (terms and cost).</p>
+    </div>
 
     <div class="note">
       <strong>Rules common to the presentations</strong>
