@@ -2534,9 +2534,13 @@ function buildField(lite){
   QUADS.forEach(function(q){
     var I = q.key === 'yellow' ? 'a' : 'b';
     add('human', box(3.2, 0.06, 3.2, q.color, q.sx*9.9, 0.04, q.sz*9.9, {opacity:0.8}), true, I);
-    outline('human', 6.2, 3.0, q.color, q.sx*6.0, q.sz*14.0, I);
-    outline('human', 3.0, 6.2, q.color, q.sx*14.0, q.sz*6.0, I);
-    outline('human', 3.0, 3.0, q.color, q.sx*13.6, q.sz*13.6, I);   // 8 plates flat
+    // Figure 3.2: the three human areas tile around the quadrant's corner.
+    // The spotter box runs along the edge beside the Robot Start Area, the
+    // Quality Check Area adjoins it just outside the corner (3.3.1.3), and the
+    // driver box runs along the other edge.
+    outline('human', 8.0, 3.0, q.color, q.sx*8.0,  q.sz*14.0, I);   // driver box
+    outline('human', 3.0, 8.0, q.color, q.sx*14.0, q.sz*8.0,  I);   // spotter box
+    outline('human', 3.0, 3.0, q.color, q.sx*13.6, q.sz*13.6, I);   // quality check, 8 plates flat
 
     // Figure 3.16 — taped bay of 8 plates, with 8 cups in a row on the border
     outline('dish', 1.95, 3.85, q.color, q.sx*10.6, q.sz*5.2, I);   // 2 x 4 plates
