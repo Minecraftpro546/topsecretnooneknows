@@ -2300,24 +2300,27 @@ function mkBreadbox(lite){
 // climbing out over the fruit vines, holding eight tennis balls.
 function mkWaterStation(lite, dir){
   var g = new THREE.Group();
-  g.add(box(0.10, 2.0, 0.62, C.ply, -0.30, 1.0, 0));             // tall back panel
+  g.add(box(0.10, 2.1, 0.62, C.ply, -0.30, 1.05, 0));            // tall back panel
   g.add(box(0.62, 0.95, 0.62, C.ply, 0, 0.48, 0));               // cabinet
   g.add(box(0.05, 0.42, 0.34, C.dark, 0.32, 0.42, 0));           // outlet
   g.add(box(0.06, 0.12, 0.30, C.steel, 0.33, 0.13, 0));          // sill plate
   g.add(box(0.52, 0.10, 0.10, C.red, 0.30, 0.72, 0));            // T-handle
   g.add(cyl(0.05,0.05,0.16, C.steel, 0.24, 0.72, 0, 8).rotateZ(Math.PI/2));
 
-  var LEN = 3.3, RISE = 0.55, ang = Math.atan(RISE/LEN);
-  var mz = dir * (0.35 + LEN/2), my = 1.02 + RISE/2;
+  // The track runs above the fruit vines (3.3.2.1.E), which top out at 1.63,
+  // so BASE keeps its underside clear of them instead of passing through.
+  var LEN = 2.85, RISE = 0.55, BASE = 1.86, ang = Math.atan(RISE/LEN);
+  var mz = dir * (0.35 + LEN/2), my = BASE + RISE/2;
   var bed = box(0.34, 0.07, LEN, C.pvc, 0, my, mz); bed.rotation.x = -dir*ang; g.add(bed);
   [-1,1].forEach(function(s){
     var rail = cyl(0.05,0.05,LEN, C.pvc, s*0.17, my + 0.07, mz, 8);
     rail.rotation.x = Math.PI/2 - dir*ang; g.add(rail);
   });
-  g.add(box(0.30, 0.09, 0.24, C.ply, 0, 1.02 + RISE, dir*(0.35 + LEN)));  // far bracket
+  g.add(box(0.58, 0.09, 0.24, C.ply, -0.18, BASE + RISE, dir*(0.35 + LEN)));  // far bracket
+  g.add(box(0.12, BASE + RISE, 0.12, C.ply, -0.40, (BASE + RISE)/2, dir*(0.35 + LEN)));  // and its post
   for (var w = 0; w < (lite ? 3 : 8); w++){
     var t = 0.45 + w*0.27;
-    g.add(ball(0.135, C.water, 0, 1.10 + t*Math.tan(ang), dir*t));
+    g.add(ball(0.135, C.water, 0, BASE + 0.08 + t*Math.tan(ang), dir*t));
   }
   return g;
 }
@@ -2326,13 +2329,13 @@ function mkWaterStation(lite, dir){
 // out over the garden, and a four-rotor drone riding on them.
 function mkDrone(lite, dir){
   var g = new THREE.Group();
-  g.add(box(0.14, 2.25, 0.14, C.woodMid, 0, 1.12, 0));           // post
+  g.add(box(0.14, 2.70, 0.14, C.woodMid, 0, 1.35, 0));           // post
   g.add(box(0.26, 0.34, 0.26, C.woodMid, 0, 0.17, 0));           // base block
   g.add(box(0.10, 0.20, 0.20, C.dark, 0.14, 0.17, 0));
   g.add(box(0.50, 0.09, 0.09, C.woodDark, 0.22, 0.34, 0));       // T-handle
   var LEN = 5.2, RISE = 0.45, ang = Math.atan(RISE/LEN);
   [-1,1].forEach(function(s){
-    var rope = cyl(0.018,0.018,LEN, C.white, s*0.13, 2.25 + RISE/2, dir*LEN/2, 6);
+    var rope = cyl(0.018,0.018,LEN, C.white, s*0.13, 2.70 + RISE/2, dir*LEN/2, 6);
     rope.rotation.x = Math.PI/2 - dir*ang; g.add(rope);
   });
   var d = new THREE.Group();
@@ -2347,7 +2350,7 @@ function mkDrone(lite, dir){
       d.add(blade);
     }
   });
-  d.position.set(0, 2.32, dir*0.75);
+  d.position.set(0, 2.77, dir*0.75);
   g.add(d);
   return g;
 }
@@ -2452,14 +2455,16 @@ function buildField(lite){
   }
 
   // ---------- garden runs (Figure 3.5) ----------
-  var STOPS = { water:1.5, veg:2.7, fruit:3.9, fridge:5.0, bread:5.95 };
+  // Spacing derived from each model's measured depth so the stations along a
+  // garden run cannot overlap; the water track passes overhead separately.
+  var STOPS = { water:1.3, veg:2.42, fruit:3.94, fridge:5.41, bread:7.23 };
   [-1,1].forEach(function(sx){
-    var wallI = sx < 0 ? 'a' : 'b';
     var face = sx < 0 ? Math.PI : 0;             // stations look away from the dining room
-    add('garden', box(0.5, 1.3, 12.6, C.wood, sx*GX, 0.65, 0), true, wallI);
-    add('garden', box(0.58, 0.09, 12.6, C.woodDark, sx*GX, 1.34, 0), false, wallI);
     [-1,1].forEach(function(sz){
-      add('garden', box(0.62, 0.06, 0.16, C.dark, sx*GX, 1.41, sz*3.2), false, wallI);
+      var wi = (sx < 0 && sz < 0) ? 'a' : 'b';      // matches the station keying
+      add('garden', box(0.5, 1.3, 8.2, C.wood, sx*GX, 0.65, sz*4.1), true, wi);
+      add('garden', box(0.58, 0.09, 8.2, C.woodDark, sx*GX, 1.34, sz*4.1), false, wi);
+      add('garden', box(0.62, 0.06, 0.16, C.dark, sx*GX, 1.41, sz*4.84), false, wi);
     });
 
     [-1,1].forEach(function(sz){
@@ -2711,31 +2716,31 @@ var STATIONS = {
   garden:{ tag:'GARDEN AREA', title:'Garden Area',
     body:'The starting location for nearly every game piece. A Garden Area contains two mirrored halves — 44 pieces each, 88 in total — and every one of them is available to either team on that half of the field regardless of its colour. Each half holds five ingredient stations plus two field tasks.',
     meta:[['Ingredient stations','Vegetable tray, fruit vines, fridge, breadbox, water'],['Field tasks','Crop-tending drone, water irrigation valve'],['Ownership','Task points go to the owning team, whoever does the work']],
-    cam:{az:-1.15,el:0.44,r:6.9,h:2.2,look:[-7.4,1.0,-0.2]} },
+    cam:{az:-1.15,el:0.38,r:6.4,h:2.3,look:[-7.7,0.7,-4.4]} },
   veg:{ tag:'INGREDIENT STATION', title:'Vegetable Tray',
     body:'A slanted hydroponic flood tray. Six green disks load vertically into three rows of two. Release them with the button at the bottom of the tray, or lift them straight out — either method counts for the harvest bonus.',
     meta:[['Count','6 per garden half, 24 per field'],['Harvest bonus','4 points for emptying the tray'],['Reset','Slide the row stop to align with the slots, then reload']],
-    cam:{az:-1.45,el:0.38,r:1.05,h:0.75,look:[-7.75,0.6,-2.7]} },
+    cam:{az:-1.45,el:0.38,r:1.05,h:0.75,look:[-7.75,0.6,-2.42]} },
   fruit:{ tag:'INGREDIENT STATION', title:'Fruit Vines',
     body:'Red balls with a loop-velcro patch, hung on three hook-velcro vines strung across a PVC frame. Three start in a row low on the vines, one starts higher on the centre vine, and two start on the floor in front, touching tape markers.',
     meta:[['Count','6 per garden half, 24 per field'],['Harvest bonus','4 points for clearing the vine'],['Reset','Four rehung on the vines, two on the tape below']],
-    cam:{az:-1.45,el:0.32,r:1.15,h:0.95,look:[-8.0,0.8,-3.9]} },
+    cam:{az:-1.45,el:0.32,r:1.15,h:0.95,look:[-8.0,0.8,-3.94]} },
   fridge:{ tag:'INGREDIENT STATION', title:'Cold Food Storage Fridge',
     body:'Dairy — yellow square slabs — sits in two stacks of three on the lower shelf, handle side. Protein — brown round disks — sits in two stacks of three on the upper shelf, hinge side. The door has to be opened before either can be pulled out.',
     meta:[['Count','6 dairy + 6 protein per garden half'],['Harvest bonus','8 points for emptying both'],['Reset','Two stacks of three on each shelf, door closed']],
-    cam:{az:-1.50,el:0.34,r:1.15,h:0.85,look:[-8.05,0.65,-5.0]} },
+    cam:{az:-1.50,el:0.34,r:1.25,h:0.85,look:[-8.05,0.65,-5.41]} },
   bread:{ tag:'INGREDIENT STATION', title:'Breadbox',
     body:'White bread-shaped grain squares, the most numerous ingredient on the field, stored along the dining room wall at the outer end of the garden. Two slices start on top of the box.',
     meta:[['Count','12 per garden half, 48 per field'],['Harvest bonus','8 points — the slices on top must go too'],['Watch out','Grain resting on the breadbox does not score']],
-    cam:{az:-1.40,el:0.40,r:1.0,h:0.6,look:[-8.0,0.5,-5.95]} },
+    cam:{az:-1.40,el:0.40,r:1.0,h:0.6,look:[-8.0,0.5,-7.23]} },
   water:{ tag:'FIELD TASK', title:'Water Station and Irrigation Valve',
     body:'Eight blue tennis balls sit in an angled track above the fruit vines. Rotate the T-handle near the centre of the field a quarter turn in either direction, horizontal to vertical, and the water releases from the opening at the front.',
     meta:[['Count','8 per garden half, 32 per field'],['Valve','4 points to the owning team once at least one ball is released'],['Disqualification','Reaching into the station or irrigation pipe for water']],
-    cam:{az:-1.20,el:0.32,r:2.6,h:1.3,look:[-7.75,1.2,-3.0]} },
+    cam:{az:-1.20,el:0.32,r:2.8,h:1.7,look:[-7.75,1.5,-2.9]} },
   drone:{ tag:'FIELD TASK', title:'Crop-Tending Drone',
     body:'Rotate the T-handle on the drone post — either direction — to drag the drone along its support rope. It scores once the front edge of the wooden body crosses the line marked on the top of the garden wall.',
     meta:[['Points','8 — the highest-value field task'],['Not allowed','Touching the drone, support rope or pull rope directly'],['Reset','Back to the side above the water dispenser, handle horizontal']],
-    cam:{az:-1.05,el:0.34,r:3.2,h:1.5,look:[-7.35,1.5,-2.7]} },
+    cam:{az:-1.05,el:0.34,r:3.4,h:2.0,look:[-7.35,2.0,-2.7]} },
   dining:{ tag:'AUTONOMOUS ZONE', title:'The Dining Room',
     body:'Nine tables in a 3×3 array behind four pinwheeled walls, with a doorway at each corner. A robot may only enter under autonomous control while the driver is hands-free, and every scoring task inside must be done autonomously. AprilTag Circle21h7 fiducials on the walls and table tops guide the AI Vision Sensor.',
     meta:[['Bonus','+50 per meal placed autonomously'],['Table rule','One meal per table; the plate must cover the centre 4¼″ white square'],['Exit','Only through a doorway leading to your own half']],
